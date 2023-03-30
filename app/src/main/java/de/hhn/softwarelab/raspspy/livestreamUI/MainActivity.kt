@@ -44,19 +44,7 @@ class MainActivity : ComponentActivity() {
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                Row(modifier = Modifier.padding(top = 100.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    MediaScreen()
-                                }
-                                Row(modifier = Modifier.padding(top = 60.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    ElevatedButtons(text = "Picture saved!", imageVector = Icons.Default.CameraAlt, "Save picture")
-                                    ElevatedButtons(text = "Voice activated!", imageVector = Icons.Default.KeyboardVoice, "Activate voice")
-                                }
+
                             }
                         }
                     )
@@ -65,43 +53,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MediaScreen() {
-    val sampleVideo =
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-    val context = LocalContext.current
-    val player = ExoPlayer.Builder(context).build()
-    val playerView = PlayerView(context)
-    val mediaItem = MediaItem.fromUri(sampleVideo)
-    val playWhenReady by rememberSaveable {
-        mutableStateOf(true)
-    }
-    player.setMediaItem(mediaItem)
-    playerView.player = player
-    LaunchedEffect(player) {
-        player.prepare()
-        player.playWhenReady = playWhenReady
-    }
-    AndroidView(factory = {
-        playerView
-    })
-}
 
-@Composable
-fun ElevatedButtons(text: String, imageVector: ImageVector, contentDescriptor: String){
-    val contextForToast = LocalContext.current.applicationContext
-    ElevatedButton(
-        modifier = Modifier
-            .padding(15.dp)
-            .size(size = 100.dp),
-        onClick = {
-            Toast.makeText(contextForToast, text, Toast.LENGTH_SHORT).show()
-        }
-    ) {
-        Icon(
-            modifier = Modifier.size(size = 100.dp),
-            imageVector = imageVector,
-            contentDescription = contentDescriptor
-        )
-    }
-}
