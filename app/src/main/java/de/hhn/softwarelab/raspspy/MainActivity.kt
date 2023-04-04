@@ -1,16 +1,15 @@
 package de.hhn.softwarelab.raspspy
 
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,7 +33,13 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.Util
+import de.hhn.softwarelab.raspspy.backend.RetrofitClient
+import de.hhn.softwarelab.raspspy.backend.Services.SettingsService
+import de.hhn.softwarelab.raspspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspspy.backend.interfaces.SettingsApi
 import de.hhn.softwarelab.raspspy.ui.theme.RaspSPYTheme
+import kotlinx.coroutines.*
+import java.net.ConnectException
 
 
 class MainActivity : ComponentActivity() {
@@ -43,6 +48,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RaspSPYTheme {
+                //LivePlayer()
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -60,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         StandardButton(text = "Logs ansehen")
                     }
                 }
-                
+
             }
         }
     }
@@ -109,7 +115,7 @@ fun StandardButton(
     Button(
         modifier = Modifier
             .padding(horizontal = 5.dp),
-        onClick = { /*TODO*/ }) {
+        onClick = { settingsUpdate() }) {
         Text(text = text)
     }
 }
@@ -120,7 +126,7 @@ fun LivePlayer(){
 
         val mContext = LocalContext.current
 
-        val hlsUri = "http://192.168.196.209:8000/livestream.m3u8"
+        val hlsUri = "http:/192.168.196.209:5000/"
         val ipUri = "http:/192.168.196.209:5000/video_stream"
         val dashUri = ""
 
@@ -141,8 +147,8 @@ fun LivePlayer(){
                 val dataSourceFactory = DefaultDataSourceFactory(mContext, Util.getUserAgent(mContext, mContext.packageName))
             }
         }
-        mExoPlayer.setMediaSource(mediaSourceDash)
-
+        //mExoPlayer.setMediaSource(mediaSourceDash)
+        mExoPlayer.setMediaSource(ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse("http:/192.168.196.209:5000/")))
         // Implementing ExoPlayer
         AndroidView(factory = { context ->
             PlayerView(context).apply {
@@ -152,6 +158,7 @@ fun LivePlayer(){
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
@@ -159,3 +166,22 @@ fun DefaultPreview() {
 
     }
 }
+
+
+ fun settingsUpdate() {
+     Thread(Runnable {
+         try {
+             val settingsService = SettingsService()
+             settingsService.body
+         }catch (e: ConnectException){
+             println("Connection Error")
+         }
+     }).start()
+}
+
+fun disableButtons(){
+}
+
+
+
+
