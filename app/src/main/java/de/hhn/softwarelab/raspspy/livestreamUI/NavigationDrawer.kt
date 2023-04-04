@@ -44,7 +44,7 @@ fun DrawerHeader() {
 fun DrawerBody(
     items: List<MenuItem>,
     modifier: Modifier = Modifier,
-    itemTextStyle: TextStyle = TextStyle(fontSize = 21.sp),
+    itemTextStyle: TextStyle = TextStyle(fontSize = 20.sp),
     onItemClick: (MenuItem) -> Unit
 ) {
     LazyColumn(modifier) {
@@ -69,7 +69,7 @@ fun DrawerBody(
                     style = itemTextStyle,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(top = 11.dp)
+                        .padding(top = 10.dp)
                 )
             }
         }
