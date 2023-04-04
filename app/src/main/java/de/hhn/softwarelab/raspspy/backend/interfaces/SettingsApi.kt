@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import de.hhn.softwarelab.raspspy.backend.dataclasses.Settings
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface SettingsApi {
     @GET("settings")

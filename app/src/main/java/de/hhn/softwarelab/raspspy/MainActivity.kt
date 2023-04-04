@@ -115,7 +115,10 @@ fun StandardButton(
     Button(
         modifier = Modifier
             .padding(horizontal = 5.dp),
-        onClick = { settingsUpdate() }) {
+        onClick = {
+            postSettings()
+            settingsUpdate()
+        }) {
         Text(text = text)
     }
 }
@@ -172,14 +175,29 @@ fun DefaultPreview() {
      Thread(Runnable {
          try {
              val settingsService = SettingsService()
-             settingsService.body
+             println("Body: " + settingsService.body)
+             println("StatusMessage: " + settingsService.httpStatusMessage)
+             println("settingsResponse: " + settingsService.settingsResponse)
+             println("StatusCode: " + settingsService.httpStatusCode)
+             println("successful: " + settingsService.successful)
+
          }catch (e: ConnectException){
              println("Connection Error")
          }
      }).start()
 }
 
-fun disableButtons(){
+fun postSettings(){
+    Thread(Runnable {
+        try {
+            val settingsService = SettingsService()
+            val response = settingsService.settingsApi.postSettings(Settings(3,5, false, true)).execute()
+            println(response)
+            println("post done")
+        }catch (e: ConnectException){
+            println(e.stackTrace)
+        }
+    }).start()
 }
 
 
