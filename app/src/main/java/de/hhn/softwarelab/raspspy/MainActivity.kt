@@ -1,10 +1,13 @@
 package de.hhn.softwarelab.raspspy
 
+import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.MainThread
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -32,6 +35,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
 import de.hhn.softwarelab.raspspy.backend.RetrofitClient
 import de.hhn.softwarelab.raspspy.backend.Services.SettingsService
@@ -117,7 +121,7 @@ fun StandardButton(
             .padding(horizontal = 5.dp),
         onClick = {
             postSettings()
-            settingsUpdate()
+            //getSettings()
         }) {
         Text(text = text)
     }
@@ -171,34 +175,63 @@ fun DefaultPreview() {
 }
 
 
- fun settingsUpdate() {
-     Thread(Runnable {
-         try {
-             val settingsService = SettingsService()
-             println("Body: " + settingsService.body)
-             println("StatusMessage: " + settingsService.httpStatusMessage)
-             println("settingsResponse: " + settingsService.settingsResponse)
-             println("StatusCode: " + settingsService.httpStatusCode)
-             println("successful: " + settingsService.successful)
+fun getSettings(context: Context) {
+    Thread(Runnable {
+        try {
+            val settingsService = SettingsService()
+            settingsService.getSettings()
 
-         }catch (e: ConnectException){
-             println("Connection Error")
-         }
-     }).start()
+            //Successfully connected to REST API
+            if (settingsService.getSuccessful == true) {
+                println("postMessage: " + settingsService.getHttpStatusMessage)
+                println("postCode: " + settingsService.getHttpStatusCode)
+
+                settingsService.getBody?.forEach { setting ->
+                    println(setting.id)
+                    println(setting.cameraActive)
+                    println(setting.systemActive)
+                    println(setting.deleteInterval)
+                }
+            //Error while connecting to REST API
+            } else {
+                if (settingsService.getHttpStatusCode == 404) {
+                    (context as? Activity)?.runOnUiThread {
+                        Log.e("Rest Connection", "404 Not Found")
+                    }
+                } else if (settingsService.getHttpStatusCode == 400) {
+                    (context as? Activity)?.runOnUiThread {
+                        Log.e("Rest Connection", "400 Bad Request")
+                    }
+                }
+            }
+        //Error while connecting to REST API
+        } catch (e: ConnectException) {
+            (context as? Activity)?.runOnUiThread {
+                Log.e("Rest Connection", "Connection Error")
+            }
+        } catch (e: Exception){
+            Log.e("Rest Connection", e.message.toString())
+        }
+    }).start()
 }
+
 
 fun postSettings(){
     Thread(Runnable {
         try {
             val settingsService = SettingsService()
-            val response = settingsService.settingsApi.postSettings(Settings(3,5, false, true)).execute()
-            println(response)
-            println("post done")
+            settingsService.postSettings(Settings(3,5,true,true))
+            println("postBody: " + settingsService.postBody)
+            println("postSuccessful: " + settingsService.postSuccessful)
+            println("postMessage: " + settingsService.postHttpStatusMessage)
+            println("postCode: " + settingsService.postHttpStatusCode)
+
         }catch (e: ConnectException){
-            println(e.stackTrace)
+            println(e.message)
         }
     }).start()
 }
+
 
 
 
