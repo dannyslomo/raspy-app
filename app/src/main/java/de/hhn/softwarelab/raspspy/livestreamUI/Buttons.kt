@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.wear.tiles.material.Text
 
 @Composable
 fun ElevatedButtons(text: String, imageVector: ImageVector, contentDescriptor: String){
@@ -39,7 +38,43 @@ fun ElevatedButtons(text: String, imageVector: ImageVector, contentDescriptor: S
 }
 
 @Composable
-fun InitButton(){
+fun InitButtonHorizontal(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            MediaScreen()
+        }
+        Spacer(modifier = Modifier.height(160.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            ElevatedButtons(
+                text = "Picture saved!",
+                imageVector = Icons.Default.CameraAlt,
+                "Save picture"
+            )
+            Spacer(modifier = Modifier.width(30.dp))
+            ElevatedButtons(
+                text = "Voice activated!",
+                imageVector = Icons.Default.KeyboardVoice,
+                "Activate voice"
+            )
+        }
+    }
+}
+
+
+@Composable
+fun InitButtonVertical(){
     Column(
         modifier = Modifier
             .fillMaxSize()
