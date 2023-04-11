@@ -1,22 +1,28 @@
 package de.hhn.softwarelab.raspspy
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import de.hhn.softwarelab.raspspy.notification.NotificationModel
+import de.hhn.softwarelab.raspspy.notification.NotificationUtils
 import de.hhn.softwarelab.raspspy.ui.theme.RaspSPYTheme
 
+
 class MainActivity : ComponentActivity() {
-    var notificationModel = NotificationModel()
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Access the system service in onCreate()
+        val notificationUtils = NotificationUtils()
+        notificationUtils.checkNotificationPermission(this)
+        notificationUtils.getNotification(1, this)
+
         setContent {
             RaspSPYTheme {
                 // A surface container using the 'background' color from the theme
@@ -24,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Text(text = "hallo")
                 }
             }
         }
