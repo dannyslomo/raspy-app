@@ -12,6 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.google.android.exoplayer2.util.Log
+import com.google.android.exoplayer2.util.Log.LOG_LEVEL_OFF
 import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
@@ -20,6 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PushNotificationService.subscribePushNotifications("log",applicationContext)
+        Log.setLogLevel(LOG_LEVEL_OFF)
         setContent {
             RaspSPYTheme(darkTheme = false) {
                  Scaffold(
