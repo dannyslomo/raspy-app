@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy.ui.theme
+package de.hhn.softwarelab.raspy.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

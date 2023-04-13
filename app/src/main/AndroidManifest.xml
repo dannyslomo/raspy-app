@@ -16,15 +16,21 @@
         <activity
             android:name=".livestreamUI.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY"
             android:configChanges="orientation|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".notifications.PushNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT">
+                </action>
+            </intent-filter>
+        </service>
     </application>
-
 </manifest>

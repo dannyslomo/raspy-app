@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "159259491564",
+    "project_id": "raspy-0",
+    "storage_bucket": "raspy-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159259491564:android:fcdea81a4b87f81249f9c9",
+        "android_client_info": {
+          "package_name": "de.hhn.softwarelab.raspy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159259491564-0meghp2561jac9ue2vv9bgvfnljn9jfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoF3Eh764gDlApKqK53YD6_JdMFNd7wsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159259491564-0meghp2561jac9ue2vv9bgvfnljn9jfn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI
 
 import android.widget.Toast
 import androidx.compose.foundation.background

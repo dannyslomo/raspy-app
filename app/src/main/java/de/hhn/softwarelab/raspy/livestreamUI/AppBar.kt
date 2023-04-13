@@ -1,6 +1,5 @@
-package de.hhn.softwarelab.raspspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -10,9 +9,8 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import de.hhn.softwarelab.raspspy.R
+import de.hhn.softwarelab.raspy.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

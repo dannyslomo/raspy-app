@@ -1,9 +1,8 @@
 @file:Suppress("DEPRECATION")
 
-package de.hhn.softwarelab.raspspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -13,12 +12,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import de.hhn.softwarelab.raspspy.ui.theme.RaspSPYTheme
+import de.hhn.softwarelab.raspy.notifications.PushNotificationService
+import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PushNotificationService.subscribePushNotifications("log",applicationContext)
         setContent {
             RaspSPYTheme(darkTheme = false) {
                  Scaffold(
