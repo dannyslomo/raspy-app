@@ -4,23 +4,29 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.MainThread
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Camera
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.RingVolume
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,13 +43,15 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
-import de.hhn.softwarelab.raspspy.backend.RetrofitClient
 import de.hhn.softwarelab.raspspy.backend.Services.SettingsService
+import de.hhn.softwarelab.raspspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspspy.backend.dataclasses.Settings
-import de.hhn.softwarelab.raspspy.backend.interfaces.SettingsApi
 import de.hhn.softwarelab.raspspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
 import java.net.ConnectException
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class MainActivity : ComponentActivity() {
@@ -66,8 +74,8 @@ class MainActivity : ComponentActivity() {
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                         ){
-                        StandardButton(text = "Bild machen")
-                        StandardButton(text = "Logs ansehen")
+                        StandardButton(text = "Get", onClick = { getSettings() })
+                        StandardButton(text = "Post",onClick = { postSettings() })
                     }
                 }
 
@@ -115,14 +123,13 @@ fun StreamCard(
 @Composable
 fun StandardButton(
     text: String,
+    onClick: () -> Unit = {}
 ){
     Button(
         modifier = Modifier
             .padding(horizontal = 5.dp),
-        onClick = {
-            postSettings()
-            //getSettings()
-        }) {
+        onClick = onClick
+    ) {
         Text(text = text)
     }
 }
@@ -170,12 +177,10 @@ fun LivePlayer(){
 @Composable
 fun DefaultPreview() {
     RaspSPYTheme {
-
     }
 }
 
-
-fun getSettings(context: Context) {
+fun getSettings() {
     Thread(Runnable {
         try {
             val settingsService = SettingsService()
@@ -195,20 +200,14 @@ fun getSettings(context: Context) {
             //Error while connecting to REST API
             } else {
                 if (settingsService.getHttpStatusCode == 404) {
-                    (context as? Activity)?.runOnUiThread {
-                        Log.e("Rest Connection", "404 Not Found")
-                    }
+                    Log.e("Rest Connection", "404 Not Found")
                 } else if (settingsService.getHttpStatusCode == 400) {
-                    (context as? Activity)?.runOnUiThread {
-                        Log.e("Rest Connection", "400 Bad Request")
-                    }
+                    Log.e("Rest Connection", "400 Bad Request")
                 }
             }
         //Error while connecting to REST API
         } catch (e: ConnectException) {
-            (context as? Activity)?.runOnUiThread {
-                Log.e("Rest Connection", "Connection Error")
-            }
+            Log.e("Rest Connection", "Connection Error")
         } catch (e: Exception){
             Log.e("Rest Connection", e.message.toString())
         }
@@ -221,13 +220,22 @@ fun postSettings(){
         try {
             val settingsService = SettingsService()
             settingsService.postSettings(Settings(3,5,true,true))
-            println("postBody: " + settingsService.postBody)
-            println("postSuccessful: " + settingsService.postSuccessful)
-            println("postMessage: " + settingsService.postHttpStatusMessage)
-            println("postCode: " + settingsService.postHttpStatusCode)
-
-        }catch (e: ConnectException){
-            println(e.message)
+            if(settingsService.postSuccessful == true) {
+                println("postBody: " + settingsService.postBody)
+                println("postSuccessful: " + settingsService.postSuccessful)
+                println("postMessage: " + settingsService.postHttpStatusMessage)
+                println("postCode: " + settingsService.postHttpStatusCode)
+            }else{
+                if(settingsService.postHttpStatusCode == 404){
+                    Log.e("Rest Connection", "404 Not Found")
+                }else if(settingsService.postHttpStatusCode == 400){
+                    Log.e("Rest Connection", "400 Bad Request")
+                }
+            }
+        } catch (e: ConnectException) {
+            Log.e("Rest Connection", "Connection Error")
+        } catch (e: Exception){
+            Log.e("Rest Connection", e.message.toString())
         }
     }).start()
 }
