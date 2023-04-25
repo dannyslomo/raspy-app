@@ -43,4 +43,12 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="notification_channel_name">Camera detection Notification</string>
+    <string name="permission_title">Enabled Notifications are highly recommended!</string>
+    <string name="permission_message">Permission is needed to inform you if camera detects strange activity \n \n please consider again</string>
+    <string name="notification_Dialog_ButtonPos">Okey, yes</string>
+    <string name="notification_Dialog_ButtonNeg">No, Thanks</string>
+    //Camera Notification Message
+    <string name="notification_camera_detection_message">Camera DETECTED strange activity</string>
+    <string name="notification_camera_detection_title">!!! CHECK NOW !!!</string>
 </resources>

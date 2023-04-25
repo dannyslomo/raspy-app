@@ -1,5 +1,6 @@
 package de.hhn.softwarelab.raspspy
 
+
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
@@ -18,6 +19,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import android.os.Build
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
@@ -47,6 +56,7 @@ import de.hhn.softwarelab.raspspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspspy.notification.NotificationUtils
 import de.hhn.softwarelab.raspspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
 import java.net.ConnectException
@@ -56,25 +66,18 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class MainActivity : ComponentActivity() {
 
+class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Access the system service in onCreate()
+        val notificationUtils = NotificationUtils()
+        notificationUtils.checkNotificationPermission(this)
+        notificationUtils.getNotification(1, this)
+
         setContent {
             RaspSPYTheme {
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                ){
-                    StandardButton(text = "SettingsGet", onClick = { getSettings() })
-                    StandardButton(text = "SettingsPost",onClick = { postSettings() })
-                    StandardButton(text = "SettingsPut",onClick = { putSettings() })
-
-                    StandardButton(text = "LogsGet", onClick = { getLogs() })
-                    StandardButton(text = "LogsPost",onClick = { postLog() })
-                    StandardButton(text = "LogsPut",onClick = { putLog() })
-                }
-            }
         }
     }
 }
