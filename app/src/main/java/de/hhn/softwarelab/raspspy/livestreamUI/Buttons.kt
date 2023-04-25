@@ -1,5 +1,6 @@
 package de.hhn.softwarelab.raspspy.livestreamUI
 
+import android.service.autofill.OnClickAction
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,15 +18,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ElevatedButtons(text: String, imageVector: ImageVector, contentDescriptor: String){
+fun ElevatedButtons(imageVector: ImageVector, contentDescriptor: String, onClick: () -> Unit) {
     val contextForToast = LocalContext.current.applicationContext
     ElevatedButton(
         modifier = Modifier
             .padding(15.dp)
             .size(size = 100.dp),
-        onClick = {
-            Toast.makeText(contextForToast, text, Toast.LENGTH_SHORT).show()
-        }
+        onClick = onClick
     )
     {
         Icon(
@@ -33,12 +32,12 @@ fun ElevatedButtons(text: String, imageVector: ImageVector, contentDescriptor: S
             imageVector = imageVector,
             contentDescription = contentDescriptor
         )
-        Text("Test")
     }
 }
 
 @Composable
-fun InitButtonHorizontal(){
+fun InitButtonHorizontal() {
+    val contextForToast = LocalContext.current.applicationContext
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,23 +57,29 @@ fun InitButtonHorizontal(){
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             ElevatedButtons(
-                text = "Picture saved!",
                 imageVector = Icons.Default.CameraAlt,
-                "Save picture"
+                "Save picture",
+                onClick = {
+                    Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
+                }
             )
             Spacer(modifier = Modifier.width(30.dp))
             ElevatedButtons(
-                text = "Voice activated!",
+                onClick = {
+                    Toast.makeText(contextForToast, "Voice activated!", Toast.LENGTH_SHORT).show()
+                },
                 imageVector = Icons.Default.KeyboardVoice,
-                "Activate voice"
+                contentDescriptor = "Activate voice"
+
             )
         }
     }
 }
 
-
+/*
 @Composable
-fun InitButtonVertical(){
+fun InitButtonVertical() {
+    val contextForToast = LocalContext.current.applicationContext
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,15 +100,21 @@ fun InitButtonVertical(){
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             ElevatedButtons(
-                text = "Picture saved!",
                 imageVector = Icons.Default.CameraAlt,
-                "Save picture"
+                "Save picture",
+                onClick = {
+                    Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
+                }
             )
+            Spacer(modifier = Modifier.width(30.dp))
             ElevatedButtons(
-                text = "Voice activated!",
                 imageVector = Icons.Default.KeyboardVoice,
-                "Activate voice"
+                "Activate voice",
+                onClick = {
+                    Toast.makeText(contextForToast, "Voice activated!", Toast.LENGTH_SHORT).show()
+                }
             )
         }
     }
 }
+*/
