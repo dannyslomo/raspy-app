@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'de.hhn.softwarelab.raspspy'
+    namespace 'de.hhn.softwarelab.raspy'
     compileSdk 33
 
     defaultConfig {
-        applicationId "de.hhn.softwarelab.raspspy"
+        applicationId "de.hhn.softwarelab.raspy"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -89,4 +90,10 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:1.4.1"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.1"
     implementation "androidx.media3:media3-exoplayer-rtsp:1.0.0"
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-common-ktx:20.3.2'
+    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

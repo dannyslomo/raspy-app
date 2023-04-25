@@ -18,15 +18,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ImageActivity"
+            android:name="de.hhn.softwarelab.raspy.ImageLogsUI.ImageActivity"
             android:exported="false"
             android:label="@string/title_activity_image"
             android:theme="@style/Theme.RaspSPY" />
         <activity
-            android:name=".ImageLogsUI.LogsMainActivity"
+            android:name="de.hhn.softwarelab.raspy.ImageLogsUI.LogsMainActivity"
             android:exported="false" />
         <activity
-            android:name=".livestreamUI.MainActivity"
+            android:name="de.hhn.softwarelab.raspy.livestreamUI.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY"
@@ -37,6 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name="de.hhn.softwarelab.raspy.notifications.PushNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT">
+                </action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
