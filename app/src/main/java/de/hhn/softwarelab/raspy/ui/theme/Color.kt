@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy.ui.theme
+package de.hhn.softwarelab.raspy.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
