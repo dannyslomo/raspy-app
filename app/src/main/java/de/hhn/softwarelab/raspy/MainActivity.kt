@@ -32,11 +32,6 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Access the system service in onCreate()
-        val notificationUtils = NotificationUtils()
-        notificationUtils.checkNotificationPermission(this)
-        notificationUtils.getNotification(1, this)
-
         setContent {
             RaspSPYTheme {
             }
@@ -59,216 +54,19 @@ class MainActivity : ComponentActivity() {
 
     @Preview(showBackground = true)
     @Composable
-    fun DefaultPreview() {
+    fun SettingsPreview() {
+        val imageLogService = ImageLogService()
+        val settingsService = SettingsService()
         RaspSPYTheme {
+            Column {
+                StandardButton(text = "Get Settings", onClick = { settingsService.getSettings() })
+                StandardButton(text = "Post Settings", onClick = { settingsService.postSettings(Settings(5, true, true)) })
+                StandardButton(text = "Put Settings" , onClick = { settingsService.putSettings(Settings(5, true, true),4)})
+                StandardButton(text = "Get Logs", onClick = { imageLogService.getLogs() })
+                StandardButton(text = "Post Log", onClick = { imageLogService.postLog(ImageLog(LocalDateTime.now(), 2)) })
+                StandardButton(text = "Put Log", onClick = { imageLogService.putLog(ImageLog(LocalDateTime.now(), 2), 2) })
+            }
         }
-    }
-
-    fun getLogs() {
-        Thread(Runnable {
-            try {
-                val logService = ImageLogService()
-                logService.getLogs()
-
-                //Successfully connected to REST API
-                if (logService.successful == true) {
-                    println("postMessage: " + logService.httpStatusMessage)
-                    println("postCode: " + logService.httpStatusCode)
-
-                    logService.getBody?.forEach { log ->
-                        println("" + log.timeStamp + ", " + log.triggerType)
-                    }
-                    //Error while connecting to REST API
-                } else {
-                    when (logService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-                //Error while connecting to REST API
-            } catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            } catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
-
-    fun postLog() {
-        Thread(Runnable {
-            try {
-                val logService = ImageLogService()
-                logService.postLogs(ImageLog(LocalDateTime.now(), 2))
-
-                //Successfully connected to REST API
-                if (logService.successful == true) {
-                    println("postBody: " + logService.postBody)
-                    println("postSuccessful: " + logService.successful)
-                    println("postMessage: " + logService.httpStatusMessage)
-                    println("postCode: " + logService.httpStatusCode)
-                }
-                //Error while connecting to REST API
-                else {
-                    when (logService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-            }
-            //Error while connecting to REST API
-            catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            }
-            //Error while connecting to REST API
-            catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
-
-    fun putLog() {
-        Thread(Runnable {
-            try {
-                val logService = ImageLogService()
-                logService.putLogs(ImageLog(LocalDateTime.now(), 2), "1")
-
-                //Successfully connected to REST API
-                if (logService.successful == true) {
-                    println("postBody: " + logService.postBody)
-                    println("postSuccessful: " + logService.successful)
-                    println("postMessage: " + logService.httpStatusMessage)
-                    println("postCode: " + logService.httpStatusCode)
-                }
-                //Error while connecting to REST API
-                else {
-                    when (logService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-            }
-            //Error while connecting to REST API
-            catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            }
-            //Error while connecting to REST API
-            catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
-
-
-    fun getSettings() {
-        Thread(Runnable {
-            try {
-                val settingsService = SettingsService()
-                settingsService.getSettings()
-
-                //Successfully connected to REST API
-                if (settingsService.successful == true) {
-                    println("postMessage: " + settingsService.httpStatusMessage)
-                    println("postCode: " + settingsService.httpStatusCode)
-
-                    settingsService.getBody?.forEach { setting ->
-                        println("" + setting.cameraActive + ", " + setting.systemActive + ", " + setting.deleteInterval)
-                    }
-                    //Error while connecting to REST API
-                } else {
-                    println(settingsService.getBody)
-                    when (settingsService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-                //Error while connecting to REST API
-            } catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            } catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
-
-
-    fun postSettings() {
-        Thread(Runnable {
-            try {
-                val settingsService = SettingsService()
-                settingsService.postSettings(Settings(5, true, true))
-
-                //Successfully connected to REST API
-                if (settingsService.successful == true) {
-                    println("postMessage: " + settingsService.httpStatusMessage)
-                    println("postCode: " + settingsService.httpStatusCode)
-
-                    settingsService.getBody?.forEach { setting ->
-                        println("" + setting.cameraActive + ", " + setting.systemActive + ", " + setting.deleteInterval)
-                    }
-                }
-                //Error while connecting to REST API
-                else {
-                    when (settingsService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-            }
-            //Error while connecting to REST API
-            catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            }
-            //Error while connecting to REST API
-            catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
-
-    fun putSettings() {
-        Thread(Runnable {
-            try {
-                val settingsService = SettingsService()
-                settingsService.putSettings(Settings(5, true, true), 28)
-
-                //Successfully connected to REST API
-                if (settingsService.successful == true) {
-                    println("postMessage: " + settingsService.httpStatusMessage)
-                    println("postCode: " + settingsService.httpStatusCode)
-
-                    settingsService.getBody?.forEach { setting ->
-                        println("" + setting.cameraActive + ", " + setting.systemActive + ", " + setting.deleteInterval)
-                    }
-                }
-                //Error while connecting to REST API
-                else {
-                    when (settingsService.httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
-            }
-            //Error while connecting to REST API
-            catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
-            }
-            //Error while connecting to REST API
-            catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
     }
 }
 

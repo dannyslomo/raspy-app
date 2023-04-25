@@ -1,12 +1,8 @@
 package de.hhn.softwarelab.raspy.backend.interfaces
 
 import retrofit2.Call
-import retrofit2.http.GET
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface ImageLogApi {
     @GET("image/")
@@ -16,5 +12,5 @@ interface ImageLogApi {
     fun postLog(@Body log: ImageLog): Call<ImageLog>
 
     @PUT("image/update/{logId}/")
-    fun putLog(@Body log: ImageLog, @Url url: String): Call<ImageLog>
+    fun putLog(@Body log: ImageLog, @Path("logId") logId: Int): Call<ImageLog>
 }
