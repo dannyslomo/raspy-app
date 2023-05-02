@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package de.hhn.softwarelab.raspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*
@@ -22,7 +22,7 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
 fun MediaScreen() {
 
     //Video src
-    //val rtspUri = "rtsp://192.168.73.63:5000/video_stream"
+    //val rtspUri by remember { mutableStateOf("rtsp://193.196.55.18:8554/mystream") }
     val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
 
     val mediaSource: MediaSource = RtspMediaSource.Factory().createMediaSource(MediaItem.fromUri(rtspUri))

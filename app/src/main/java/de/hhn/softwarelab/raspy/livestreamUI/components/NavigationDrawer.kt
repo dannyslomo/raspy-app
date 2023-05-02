@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
