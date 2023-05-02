@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy.ui.theme
+package de.hhn.softwarelab.raspy.ui.theme
 
 import android.app.Activity
 import android.os.Build

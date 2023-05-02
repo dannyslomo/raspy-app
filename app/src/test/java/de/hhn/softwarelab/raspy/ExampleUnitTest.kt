@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy
+package de.hhn.softwarelab.raspy
 
 import org.junit.Test
 
