@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'de.hhn.softwarelab.raspspy'
+    namespace 'de.hhn.softwarelab.raspy'
     compileSdk 33
 
     defaultConfig {
-        applicationId "de.hhn.softwarelab.raspspy"
+        applicationId "de.hhn.softwarelab.raspy"
         minSdk 26
         targetSdk 33
         versionCode 1

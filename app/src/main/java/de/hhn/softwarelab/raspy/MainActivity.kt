@@ -15,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.exoplayer2.util.Log
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.notification.NotificationUtils
+import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
 import java.net.ConnectException
@@ -32,6 +35,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
             RaspSPYTheme {
             }

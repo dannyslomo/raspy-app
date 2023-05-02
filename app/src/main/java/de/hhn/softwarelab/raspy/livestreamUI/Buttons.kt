@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
+import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
+import java.time.LocalDateTime
 
 @Composable
 fun ElevatedButtons(imageVector: ImageVector, contentDescriptor: String, onClick: () -> Unit) {
-    val contextForToast = LocalContext.current.applicationContext
     ElevatedButton(
         modifier = Modifier
             .padding(15.dp)
@@ -58,6 +60,8 @@ fun InitButtonHorizontal() {
                 imageVector = Icons.Default.CameraAlt,
                 "Save picture",
                 onClick = {
+                    val imageLogService = ImageLogService()
+                    imageLogService.postLog(ImageLog(LocalDateTime.now(),2))
                     Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
                 }
             )
@@ -68,7 +72,6 @@ fun InitButtonHorizontal() {
                 },
                 imageVector = Icons.Default.KeyboardVoice,
                 contentDescriptor = "Activate voice"
-
             )
         }
     }

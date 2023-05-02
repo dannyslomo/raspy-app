@@ -38,7 +38,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import de.hhn.softwarelab.raspspy.R
+import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class SettingList : ComponentActivity() {
