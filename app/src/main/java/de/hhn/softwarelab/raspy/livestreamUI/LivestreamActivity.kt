@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
-class MainActivity : ComponentActivity() {
+class LivestreamActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

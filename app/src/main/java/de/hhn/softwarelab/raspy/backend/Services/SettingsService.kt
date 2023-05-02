@@ -40,6 +40,7 @@ class SettingsService {
                 } else {
                     println(getBody)
                     when (httpStatusCode) {
+                        403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
@@ -76,6 +77,7 @@ class SettingsService {
                 //Error while connecting to REST API
                 else {
                     when (httpStatusCode) {
+                        403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
@@ -115,6 +117,7 @@ class SettingsService {
                 //Error while connecting to REST API
                 else {
                     when (httpStatusCode) {
+                        403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")

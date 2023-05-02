@@ -1,5 +1,6 @@
 package de.hhn.softwarelab.raspy.livestreamUI
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -9,9 +10,13 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import de.hhn.softwarelab.raspspy.R
-//import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerBody
+import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerHeader
+import de.hhn.softwarelab.raspy.livestreamUI.components.MenuItem
+import de.hhn.softwarelab.raspy.ui.settings.SettingList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,6 +24,7 @@ import kotlinx.coroutines.launch
 fun AppBar() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -44,7 +50,19 @@ fun AppBar() {
                         icon = Icons.Outlined.HelpOutline
                     ),
                 ),
-                    onItemClick = {
+                    onItemClick = { menuItem ->
+                        when (menuItem.id) {
+                            "home" -> {
+                                // navigate to home screen
+                            }
+                            "settings" -> {
+                                val intent = Intent(context, SettingList::class.java)
+                                context.startActivity(intent)
+                            }
+                            "help" -> {
+                                // navigate to help screen
+                            }
+                        }
                         scope.launch { drawerState.close() }
                     }
                 )

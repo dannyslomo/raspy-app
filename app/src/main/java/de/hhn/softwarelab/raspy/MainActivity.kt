@@ -15,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.exoplayer2.util.Log
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.notification.NotificationUtils
+import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
 import java.net.ConnectException
@@ -32,8 +35,9 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
-            RaspSPYTheme {
+            RaspSPYTheme(darkTheme = false) {
             }
         }
     }
@@ -61,16 +65,11 @@ class MainActivity : ComponentActivity() {
             Column {
                 StandardButton(text = "Get Settings", onClick = { settingsService.getSettings() })
                 StandardButton(text = "Post Settings", onClick = { settingsService.postSettings(Settings(5, true, true)) })
-                StandardButton(text = "Put Settings" , onClick = { settingsService.putSettings(Settings(5, true, true),4)})
+                StandardButton(text = "Put Settings" , onClick = { settingsService.putSettings(Settings(12, false, true),32)})
                 StandardButton(text = "Get Logs", onClick = { imageLogService.getLogs() })
-                StandardButton(text = "Post Log", onClick = { imageLogService.postLog(ImageLog(LocalDateTime.now(), 2)) })
-                StandardButton(text = "Put Log", onClick = { imageLogService.putLog(ImageLog(LocalDateTime.now(), 2), 2) })
+                StandardButton(text = "Post Log", onClick = { imageLogService.postLog(ImageLog(LocalDateTime.now().toString(), 2)) })
+                StandardButton(text = "delete Log", onClick = { imageLogService.deleteLog( 27) })
             }
         }
     }
 }
-
-
-
-
-

@@ -14,10 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
+import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
+import java.time.LocalDateTime
+import de.hhn.softwarelab.raspy.livestreamUI.components.MediaScreen
+
 
 @Composable
 fun ElevatedButtons(imageVector: ImageVector, contentDescriptor: String, onClick: () -> Unit) {
-    val contextForToast = LocalContext.current.applicationContext
     ElevatedButton(
         modifier = Modifier
             .padding(15.dp)
@@ -58,6 +62,8 @@ fun InitButtonHorizontal() {
                 imageVector = Icons.Default.CameraAlt,
                 "Save picture",
                 onClick = {
+                    val imageLogService = ImageLogService()
+                    imageLogService.postLog(ImageLog(LocalDateTime.now().toString(), 2))
                     Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
                 }
             )
@@ -68,51 +74,8 @@ fun InitButtonHorizontal() {
                 },
                 imageVector = Icons.Default.KeyboardVoice,
                 contentDescriptor = "Activate voice"
-
             )
         }
     }
 }
 
-/*
-@Composable
-fun InitButtonVertical() {
-    val contextForToast = LocalContext.current.applicationContext
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Row(
-            modifier = Modifier.padding(top = 100.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            MediaScreen()
-        }
-        Row(
-            modifier = Modifier.padding(top = 60.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            ElevatedButtons(
-                imageVector = Icons.Default.CameraAlt,
-                "Save picture",
-                onClick = {
-                    Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
-                }
-            )
-            Spacer(modifier = Modifier.width(30.dp))
-            ElevatedButtons(
-                imageVector = Icons.Default.KeyboardVoice,
-                "Activate voice",
-                onClick = {
-                    Toast.makeText(contextForToast, "Voice activated!", Toast.LENGTH_SHORT).show()
-                }
-            )
-        }
-    }
-}
-*/

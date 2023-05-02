@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.livestreamUI
+package de.hhn.softwarelab.raspy.livestreamUI.components
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

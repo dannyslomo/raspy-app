@@ -1,6 +1,7 @@
 package de.hhn.softwarelab.raspy.ImageLogsUI
 
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,7 +37,7 @@ class LogComposables {
         ) {
             for (log in logs) {
                 LogBox(
-                    text = log.timeStamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy/ HH:mm:ss")),
+                    text = log.timeStamp.toString(),
                     detectionType = log.triggerType
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -47,10 +48,9 @@ class LogComposables {
     // 0 = User, 1 = Automatisch, 2 = Klingel
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun LogBox(text: String, detectionType: Int, onClick: () -> Unit = {}) {
+    fun LogBox(text: String, detectionType: Int) {
         Card(
             shape = MaterialTheme.shapes.extraLarge,
-            onClick = onClick,
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
