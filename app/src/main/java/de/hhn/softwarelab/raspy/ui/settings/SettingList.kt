@@ -3,51 +3,47 @@ package de.hhn.softwarelab.raspy.ui.settings
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.util.Patterns
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.*
 import de.hhn.softwarelab.raspspy.R
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class SettingList : ComponentActivity() {
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             RaspSPYTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorScheme.background
@@ -59,20 +55,19 @@ class SettingList : ComponentActivity() {
     }
 }
 
+/**
+ *
+ */
 @Composable
 fun SettingsScreen(context: Context) {
-    var isSwitchEnabled1 by remember { mutableStateOf(false) }
-    var isSwitchEnabled2 by remember { mutableStateOf(false) }
+    var isSwitchEnabled1 by remember { mutableStateOf(true) }
+    var isSwitchEnabled2 by remember { mutableStateOf(true) }
+    var isSwitchEnabled3 by remember { mutableStateOf(true) }
     Column {
-        //Titel
+        //Title
         HeaderText()
-        //Profil
-        ProfileCardUI("Lui", "UI.Stack.YT@gmail.com")
-        //IP
-        var title by remember { mutableStateOf("Card Title") }
-        EditableCards(title = "Hallo", onSaveClicked = { newTitle ->
-            title = newTitle
-        }) {}
+        //Profile
+        Profile()
         //Activate/Deactivate System with SWITCH
         CardWithSwitch(
             icon = R.drawable.user_profil_icon,
@@ -99,13 +94,22 @@ fun SettingsScreen(context: Context) {
                     Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                 }
             })
-        CardWithNumberPicker(context = context)
+        CardWithSwitch(
+            icon = R.drawable.user_profil_icon,
+            mainText = "Dark Mode",
+            switchState = isSwitchEnabled3,
+            onSwitchStateChanged = { isEnabled ->
+                isSwitchEnabled3 = isEnabled
+                if (isEnabled) {
+                    Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
+                }
+            })
+
     }
 }
-//kamera aktive
-//lösch Intervall
-//darkmode
-//sprache(?)
+
 /**
  * Header Text
  */
@@ -124,10 +128,46 @@ fun HeaderText() {
 }
 
 /**
- * User Profil
+ *
  */
 @Composable
-fun ProfileCardUI(username: String, email: String) {
+fun Profile() {
+    var editedUsername by remember { mutableStateOf("John") }
+    var editedEmail by remember { mutableStateOf("john@example.com") }
+    var isEmailVerified by remember { mutableStateOf(false) }
+    var isEditingProfile by remember { mutableStateOf(false) }
+
+    if (isEditingProfile) {
+        ProfilePanel(
+            onSave = { username, email ->
+                editedUsername = username
+                editedEmail = email
+                isEditingProfile = false
+                isEmailVerified = true
+            },
+            onDismiss = {
+                // Cancel editing
+                isEditingProfile = false
+            }
+        )
+    } else {
+        ProfileCardUI(
+            username = editedUsername,
+            email = editedEmail,
+            onEditClick = { isEditingProfile = true }
+        )
+    }
+}
+
+/**
+ *
+ */
+@Composable
+fun ProfileCardUI(
+    username: String,
+    email: String,
+    onEditClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,7 +196,7 @@ fun ProfileCardUI(username: String, email: String) {
 
                 Button(
                     modifier = Modifier.padding(top = 10.dp),
-                    onClick = {},
+                    onClick = onEditClick,
                     contentPadding = PaddingValues(horizontal = 30.dp),
                     elevation = ButtonDefaults.elevation(
                         defaultElevation = 0.dp,
@@ -165,7 +205,7 @@ fun ProfileCardUI(username: String, email: String) {
                     shape = ShapeDefaults.Medium
                 ) {
                     Text(
-                        text = "View",
+                        text = "Edit",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -185,122 +225,92 @@ fun ProfileCardUI(username: String, email: String) {
 }
 
 /**
- *  Card that expand if click on and show Textfield to edit Text
- *  funtion: edit IP-Address
- *  @param title: name
- *  @param onSaveClicked: save changed text in TextfField
- *  @param onCancelClicked: reset to text before if clicked on "cancle"
+ *
  */
-
-private fun formatIp(input: String): String {
-    // Remove all non-digit characters
-    val digitsOnly = input.replace(Regex("\\D+"), "")
-
-    // Pad the string with zeros if necessary
-    val padded = "000000000".substring(0, 9 - digitsOnly.length) + digitsOnly
-
-    // Insert dots between the groups of three digits
-    return "${padded.substring(0, 3)}.${padded.substring(3, 6)}.${padded.substring(6)}"
-}
-
 @Composable
-fun EditableCards(
-    title: String,
-    onSaveClicked: (String) -> Unit,
-    onCancelClicked: () -> Unit
+fun ProfilePanel(
+    onSave: (String, String) -> Unit,
+    onDismiss: () -> Unit
 ) {
-    var editing by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf(title) }
-    var lastValidText by remember { mutableStateOf(text) }
+    var editedUsername by remember { mutableStateOf("") }
+    var editedEmail by remember { mutableStateOf("") }
+    var isEmailVerified by remember { mutableStateOf(false) }
 
-    Card(
+    fun saveChanges() {
+        isEmailVerified = if (isValidEmail(editedEmail)) {
+            onSave(editedUsername, editedEmail)
+            true
+        } else {
+            false
+        }
+    }
+
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-            .height(if (editing) 200.dp else 80.dp)
-            .clickable { editing = !editing },
-        elevation = CardDefaults.cardElevation(4.dp),
+            .fillMaxSize()
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(modifier = Modifier.padding(30.dp)) {
+        TextField(
+            value = editedUsername,
+            onValueChange = { editedUsername = it },
+            label = { Text("Username") }
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        TextField(
+            value = editedEmail,
+            onValueChange = { editedEmail = it },
+            label = { Text("Email") }
+        )
+        if (!isEmailVerified) {
             Text(
-                text = "IP :   $text",
-                //style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
-                fontSize = 17.sp
+                text = "Please enter a valid email address",
+                color = Color.Red,
+                modifier = Modifier.padding(top = 4.dp)
             )
-            if (editing) {
-                Spacer(modifier = Modifier.height(20.dp))
-                TextField(
-                    value = text,
-                    onValueChange = { newText ->
-                        if (newText.length <= 11) {
-                            lastValidText = newText
-                            text = formatIpAddress(newText)
-                        } else {
-                            Log.d("INPUT ERROR", "DELETE ONE AND TELL IT IS ERROR")
-                            text = lastValidText
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
-                    ),
-                    singleLine = true,
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            onSaveClicked(text)
-                            editing = false
-                        }
-                    ),
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(
-                        onClick = {
-                            onCancelClicked()
-                            editing = false
-                            text = title
-                        }
-                    ) {
-                        Text(text = "Cancel")
-                    }
-                    TextButton(
-                        onClick = {
-                            onSaveClicked(text)
-                            editing = false
-                        }
-                    ) {
-                        Text(text = "Save")
-                    }
-                }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            TextButton(
+                onClick = { saveChanges() },
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                Text("Save")
+            }
+            TextButton(
+                onClick = { onDismiss() },
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text("Cancel")
             }
         }
     }
 }
 
-private fun formatIpAddress(text: String): String {
-    val digits = text.filter { it.isDigit() }
-    return buildAnnotatedString {
-        for (i in 0 until digits.length) {
-            append(digits[i])
-            if (i % 3 == 2 && i != digits.length - 1) {
-                append(".")
-            }
-        }
-    }.toString()
+/**
+ * checks if the email is real
+ * @return Boolean: true means the email is real
+ */
+private fun isValidEmail(email: String): Boolean {
+    return email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
-
 
 /**
  * Card that contains switch that can be triggered
  * @param icon:
  * @param mainText:
+ * @param switchState:
+ * @param onSwitchStateChanged:
  */
 @Composable
 fun CardWithSwitch(
-    icon: Int, mainText: String, switchState: Boolean,
+    icon: Int,
+    mainText: String,
+    switchState: Boolean,
     onSwitchStateChanged: (Boolean) -> Unit
 ) {
 
@@ -308,8 +318,8 @@ fun CardWithSwitch(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
-            .height(80.dp)
-            .background(if (switchState) Color(0xFF4CAF50) else Color.Gray),
+            .height(80.dp),
+        //.background(if (switchState) Color(0xFF4CAF50) else Color.Gray),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = ShapeDefaults.Large,
     ) {
@@ -323,7 +333,6 @@ fun CardWithSwitch(
                     modifier = Modifier
                         .size(34.dp)
                         .clip(shape = ShapeDefaults.Medium)
-                        .background(Color.Red)
                 ) {
                     Icon(
                         painter = painterResource(id = icon),
@@ -336,7 +345,7 @@ fun CardWithSwitch(
                 Column(
                     modifier = Modifier
                         .offset(y = (2).dp)
-                        .width(170.dp)
+                        .width(130.dp)
                 ) {
                     Text(
                         text = mainText,
@@ -345,10 +354,10 @@ fun CardWithSwitch(
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(30.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
                 modifier = Modifier.width(55.dp),
-                text = if (switchState) "active" else "deactive",
+                text = if (switchState) "active" else "deactivate",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = if (switchState) Color(0xFF4CAF50) else Color.Gray
@@ -359,43 +368,5 @@ fun CardWithSwitch(
                 modifier = Modifier.padding(16.dp)
             )
         }
-    }
-}
-
-@Composable
-fun CardWithNumberPicker(
-    context: Context
-
-) {
-    var userValue = 1
-
-    NumberPicker(
-        context
-    ).apply {
-        minValue = 0
-        maxValue = 20000
-        value = userValue
-        setOnValueChangedListener { numberPicker, oldValue, newValue ->
-            userValue = newValue
-        }
-    }
-}
-
-/**
- * function that
- */
-fun onCardClicked(switchState: Boolean, functionNumber: Int) {
-    if (switchState) {
-        Log.d("CardWithSwitchExample", "Switch is true")
-        when (functionNumber) {
-            1 -> print("x == 1")
-            2 -> print("x == 2")
-            3 -> print("x == 3")
-            else -> { // Note the block
-                print("x is neither 1 nor 2")
-            }
-        }
-    } else {
-
     }
 }
