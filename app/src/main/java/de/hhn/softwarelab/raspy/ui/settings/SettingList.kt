@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspspy.ui.settings
+package de.hhn.softwarelab.raspy.ui.settings
 
 import android.content.Context
 import android.os.Build
@@ -24,6 +24,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -223,7 +224,7 @@ fun EditableCards(
         Column(modifier = Modifier.padding(30.dp)) {
             Text(
                 text = "IP :   $text",
-                style = typography.h1,
+                //style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
                 fontSize = 17.sp
             )
             if (editing) {

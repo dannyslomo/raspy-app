@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspspy.R
 
 
 class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallback {

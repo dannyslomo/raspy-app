@@ -10,7 +10,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
-import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspspy.R
+//import de.hhn.softwarelab.raspy.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,12 +1,13 @@
 package de.hhn.softwarelab.raspy.ImageLogsUI
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.android.exoplayer2.util.Log
+//import com.google.android.exoplayer2.util.Log
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
