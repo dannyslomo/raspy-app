@@ -16,7 +16,6 @@ class ImageLogService {
 
     var getBody: List<ImageLog>? = null
     var postBody: ImageLog? = null
-    var putBody: ImageLog? = null
 
     fun getLogs(){
         Thread(Runnable {
@@ -38,6 +37,7 @@ class ImageLogService {
                     //Error while connecting to REST API
                 } else {
                     when (httpStatusCode) {
+                        403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
@@ -72,6 +72,7 @@ class ImageLogService {
                 //Error while connecting to REST API
                 else {
                     when (httpStatusCode) {
+                        403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
@@ -89,39 +90,34 @@ class ImageLogService {
         }).start()
     }
 
-    fun putLog(log: ImageLog, logId: Int){
-        Thread(Runnable {
-            try {
-                val settingsResponse = logApi.putLog(log, logId).execute()
-                successful = settingsResponse.isSuccessful
-                httpStatusCode = settingsResponse.code()
-                httpStatusMessage = settingsResponse.message()
-                putBody = settingsResponse.body()
-                //Successfully connected to REST API
-                if (successful == true) {
-                    println("putBody: " + postBody)
-                    println("putSuccessful: " + successful)
-                    println("putMessage: " + httpStatusMessage)
-                    println("putCode: " + httpStatusCode)
-                }
-                //Error while connecting to REST API
-                else {
-                    when (httpStatusCode) {
-                        404 -> Log.e("Rest Connection", "404 Not Found")
-                        405 -> Log.e("Rest Connection", "405 Method Not Allowed")
-                        400 -> Log.e("Rest Connection", "400 Bad Request")
-                        500 -> Log.e("Rest Connection", "500 Internal Server Error")
-                    }
-                }
+    //TODO: fix response deserialization error
+    fun deleteLog(logId: Int) = Thread(Runnable {
+        try {
+
+            val settingsResponse = logApi.deleteLog(logId).execute()
+            successful = settingsResponse.isSuccessful
+            //Successfully connected to REST API
+            if (successful == true) {
+                println(successful)
             }
             //Error while connecting to REST API
-            catch (e: ConnectException) {
-                Log.e("Rest Connection", "Connection Error")
+            else {
+                when (httpStatusCode) {
+                    403 -> Log.e("Rest Connection", "403 Forbidden")
+                    404 -> Log.e("Rest Connection", "404 Not Found")
+                    405 -> Log.e("Rest Connection", "405 Method Not Allowed")
+                    400 -> Log.e("Rest Connection", "400 Bad Request")
+                    500 -> Log.e("Rest Connection", "500 Internal Server Error")
+                }
             }
-            //Error while connecting to REST API
-            catch (e: Exception) {
-                Log.e("Rest Connection", e.message.toString())
-            }
-        }).start()
-    }
+        }
+        //Error while connecting to REST API
+        catch (e: ConnectException) {
+            Log.e("Rest Connection", "Connection Error")
+        }
+        //Error while connecting to REST API
+        catch (e: Exception) {
+            Log.e("Rest Connection", e.message.toString())
+        }
+    }).start()
 }

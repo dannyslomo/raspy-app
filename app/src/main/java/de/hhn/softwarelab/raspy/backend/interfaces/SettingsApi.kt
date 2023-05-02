@@ -12,7 +12,7 @@ interface SettingsApi {
     @GET("settings/")
     fun getSettings(): Call<List<Settings>>
 
-    @POST("settings/")
+    @POST("settings/post/")
     fun postSettings(@Body settings: Settings): Call<Settings>
 
     @PUT("settings/update/{settingsId}/")

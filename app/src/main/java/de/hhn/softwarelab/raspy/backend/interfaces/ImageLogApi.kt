@@ -8,9 +8,9 @@ interface ImageLogApi {
     @GET("image/")
     fun getLogs(): Call<List<ImageLog>>
 
-    @POST("image/")
+    @POST("image/post/")
     fun postLog(@Body log: ImageLog): Call<ImageLog>
 
-    @PUT("image/update/{logId}/")
-    fun putLog(@Body log: ImageLog, @Path("logId") logId: Int): Call<ImageLog>
+    @DELETE("image/delete/{logId}/")
+    fun deleteLog(@Path("logId") logId: Int): Call<ImageLog>
 }

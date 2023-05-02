@@ -70,7 +70,7 @@ class LogsMainActivity : ComponentActivity() {
     @Composable
     fun LogsPreview() {
 
-
+/*
         val logList = listOf(
             ImageLog( LocalDateTime.of(LocalDate.of(2023,3,25), LocalTime.NOON), 0),
             ImageLog( LocalDateTime.of(LocalDate.of(2023,3,25), LocalTime.MIDNIGHT), 1),
@@ -89,6 +89,7 @@ class LogsMainActivity : ComponentActivity() {
             ImageLog( LocalDateTime.of(LocalDate.of(2023,8,30), LocalTime.MIDNIGHT),1),
             ImageLog( LocalDateTime.of(LocalDate.of(2023,9,30), LocalTime.MIDNIGHT), 1),
         )
+*/
 
         val logComposables = LogComposables()
 
