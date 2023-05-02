@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
-            RaspSPYTheme {
+            RaspSPYTheme(darkTheme = false) {
             }
         }
     }
