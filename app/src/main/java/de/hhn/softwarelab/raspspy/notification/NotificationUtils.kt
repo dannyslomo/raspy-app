@@ -25,7 +25,7 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
      * get post notification
      * type 1 = camera detection
      * type 2 = no network connection
-     * (type 3 = someone familiar got detected)
+     * (type 3 = someone familiar got detected
      */
     fun getNotification(type: Int, context: Context) {
         when {
@@ -46,14 +46,19 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
                         R.drawable.network_icon
                     )
                 }
-            else -> println("x is a positive number with two or more digits")
+            else -> createPostNotification(
+                context,
+                "Camera DETECTED strange activity",
+                "!!! CHECK NOW !!!",
+                R.drawable.notification_icon
+            )
         }
     }
 
     /**
      * creating a post notification that will show on notification bar and lockscreen
      */
-    fun createPostNotification(
+    private fun createPostNotification(
         context: Context,
         postTitle: String,
         postContent: String,
