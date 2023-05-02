@@ -52,7 +52,7 @@ class SettingsService {
             } catch (e: Exception) {
                 Log.e("Rest Connection", e.message.toString())
             }
-        })
+        }).start()
     }
 
     fun postSettings(settings: Settings){
@@ -130,7 +130,7 @@ class SettingsService {
             catch (e: Exception) {
                 Log.e("Rest Connection", e.message.toString())
             }
-        })
+        }).start()
     }
 
 }

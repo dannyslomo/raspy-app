@@ -19,11 +19,7 @@ class ImageActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RaspSPYTheme {
-                Image(
-                    painter = rememberAsyncImagePainter("https://picsum.photos/id/237/200/300"),
-                    contentDescription = null,
-                    modifier = Modifier.size(128.dp)
-                )
+
             }
         }
     }
