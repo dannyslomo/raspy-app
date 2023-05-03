@@ -4,22 +4,18 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
-import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -34,21 +30,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
-import de.hhn.softwarelab.raspspy.R
+import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
+
 
 class SettingList : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            RaspSPYTheme {
+            val darkMode = remember { mutableStateOf(false)}
+            RaspSPYTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorScheme.background
                 ) {
-                    SettingsScreen(this)
+                    SettingsScreen(this,darkMode)
                 }
             }
         }
@@ -56,18 +55,18 @@ class SettingList : ComponentActivity() {
 }
 
 /**
- *
+ * @param context
  */
 @Composable
-fun SettingsScreen(context: Context) {
+fun SettingsScreen(context: Context,darkMode: MutableState<Boolean>) {
     var isSwitchEnabled1 by remember { mutableStateOf(true) }
     var isSwitchEnabled2 by remember { mutableStateOf(true) }
-    var isSwitchEnabled3 by remember { mutableStateOf(true) }
+
     Column {
         //Title
-        HeaderText()
+        HeaderText(darkMode.value)
         //Profile
-        Profile()
+        Profile(darkMode.value)
         //Activate/Deactivate System with SWITCH
         CardWithSwitch(
             icon = R.drawable.user_profil_icon,
@@ -80,7 +79,9 @@ fun SettingsScreen(context: Context) {
                 } else {
                     Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
                 }
-            })
+            },
+            darkMode = darkMode.value
+        )
         //Activate/Deactivate Camera with SWITCH
         CardWithSwitch(
             icon = R.drawable.user_profil_icon,
@@ -93,19 +94,25 @@ fun SettingsScreen(context: Context) {
                 } else {
                     Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                 }
-            })
+            },
+            darkMode = darkMode.value
+        )
         CardWithSwitch(
             icon = R.drawable.user_profil_icon,
             mainText = "Dark Mode",
-            switchState = isSwitchEnabled3,
+            switchState = darkMode.value,
             onSwitchStateChanged = { isEnabled ->
-                isSwitchEnabled3 = isEnabled
+                darkMode.value = isEnabled
                 if (isEnabled) {
-                    Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
+                    darkMode.value = true
+                    checkDarkMode(true)
                 } else {
-                    Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
+                    // Disable dark mode
+                    darkMode.value = false
+                    checkDarkMode(false)
                 }
-            })
+            }, darkMode = darkMode.value
+        )
 
     }
 }
@@ -114,10 +121,10 @@ fun SettingsScreen(context: Context) {
  * Header Text
  */
 @Composable
-fun HeaderText() {
+fun HeaderText(darkMode: Boolean) {
     Text(
         text = "Settings",
-        color = Color.Gray,
+        color = if (darkMode) Color.White else Color.Gray,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .fillMaxWidth()
@@ -128,10 +135,11 @@ fun HeaderText() {
 }
 
 /**
- *
+ * Profile card with username and email address
+ * @param: check if darkMode and changes text colors
  */
 @Composable
-fun Profile() {
+fun Profile(darkMode: Boolean) {
     var editedUsername by remember { mutableStateOf("John") }
     var editedEmail by remember { mutableStateOf("john@example.com") }
     var isEmailVerified by remember { mutableStateOf(false) }
@@ -148,25 +156,32 @@ fun Profile() {
             onDismiss = {
                 // Cancel editing
                 isEditingProfile = false
-            }
-        )
+            }, darkMode = darkMode)
     } else {
         ProfileCardUI(
             username = editedUsername,
             email = editedEmail,
-            onEditClick = { isEditingProfile = true }
+            onEditClick = { isEditingProfile = true },
+            darkMode = darkMode
         )
     }
 }
 
 /**
- *
+ * Profile Card that displays Profile Picture , Username and Email
+ * User can change email which also gets validated
+ * User can change name (does not affect registration)
+ * @param username:
+ * @param email:
+ * @param onEditClick:
+ * @param darkMode: check if darkMode and changes text colors
  */
 @Composable
 fun ProfileCardUI(
     username: String,
     email: String,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    darkMode: Boolean
 ) {
     Card(
         modifier = Modifier
@@ -185,13 +200,14 @@ fun ProfileCardUI(
                     text = "Hello $username",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
+                    color = if (darkMode) Color.White else Color.Black
                 )
 
                 Text(
                     text = email,
-                    color = Color.Gray,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold,
+                    color = if (darkMode) Color.White else Color.Gray
                 )
 
                 Button(
@@ -230,7 +246,8 @@ fun ProfileCardUI(
 @Composable
 fun ProfilePanel(
     onSave: (String, String) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    darkMode: Boolean
 ) {
     var editedUsername by remember { mutableStateOf("") }
     var editedEmail by remember { mutableStateOf("") }
@@ -255,7 +272,7 @@ fun ProfilePanel(
         TextField(
             value = editedUsername,
             onValueChange = { editedUsername = it },
-            label = { Text("Username") }
+            label = { Text("Username") },
         )
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
@@ -299,6 +316,10 @@ private fun isValidEmail(email: String): Boolean {
     return email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
+private fun checkDarkMode(darkMode: Boolean): Boolean {
+    return darkMode
+}
+
 /**
  * Card that contains switch that can be triggered
  * @param icon:
@@ -311,7 +332,8 @@ fun CardWithSwitch(
     icon: Int,
     mainText: String,
     switchState: Boolean,
-    onSwitchStateChanged: (Boolean) -> Unit
+    onSwitchStateChanged: (Boolean) -> Unit,
+    darkMode: Boolean
 ) {
 
     Card(
@@ -345,22 +367,23 @@ fun CardWithSwitch(
                 Column(
                     modifier = Modifier
                         .offset(y = (2).dp)
-                        .width(130.dp)
+                        .width(120.dp)
                 ) {
                     Text(
                         text = mainText,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
+                        color = if (darkMode) Color.White else Color.Black
                     )
                 }
             }
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                modifier = Modifier.width(55.dp),
+                modifier = Modifier.width(70.dp),
                 text = if (switchState) "active" else "deactivate",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (switchState) Color(0xFF4CAF50) else Color.Gray
+                color = if (switchState) Color(0xFF4CAF50) else if (!switchState && !darkMode) Color.Gray else Color.Gray,
             )
             Switch(
                 checked = switchState,

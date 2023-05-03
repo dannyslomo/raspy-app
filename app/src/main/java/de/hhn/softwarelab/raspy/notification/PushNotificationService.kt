@@ -17,7 +17,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 
-class PushNotificationService: FirebaseMessagingService() {
+class PushNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -63,8 +63,8 @@ class PushNotificationService: FirebaseMessagingService() {
         // -----------------
     }
 
-    companion object{
-        fun subscribePushNotifications(topic: String, context: Context){
+    companion object {
+        fun subscribePushNotifications(topic: String, context: Context) {
             FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener { task ->
                     var msg = "Subscribed to Notifications: $topic"

@@ -6,13 +6,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 //import com.google.android.exoplayer2.util.Log
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import java.net.ConnectException
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -26,9 +27,9 @@ class LogsMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val logComposables = LogComposables()
         getLogs()
-
         setContent {
-            RaspSPYTheme {
+            val darkMode = remember { mutableStateOf(false) }
+            RaspSPYTheme (darkTheme = darkMode){
                 Column(){
                     logComposables.ScrollableLogs(logList)
                 }
@@ -94,8 +95,8 @@ class LogsMainActivity : ComponentActivity() {
         val logComposables = LogComposables()
 
         getLogs()
-
-        RaspSPYTheme {
+        val darkMode = remember { mutableStateOf(false)}
+        RaspSPYTheme (darkTheme = darkMode){
             Column(){
                 logComposables.ScrollableLogs(logList)
             }
