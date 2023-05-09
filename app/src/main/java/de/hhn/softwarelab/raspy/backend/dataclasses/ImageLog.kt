@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 
 data class ImageLog(
     @JsonDeserialize(using = LocalDateTimeDeserializer::class)
-    @JsonProperty("timeStamp") val timeStamp: String,
-    @JsonProperty("triggerType") val triggerType: Int,
+    @JsonProperty("timeStamp") val timeStamp: LocalDateTime?,
+    @JsonProperty("triggerType") val triggerType: Int?,
+    @JsonProperty("image") val image: String?
 )

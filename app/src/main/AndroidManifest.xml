@@ -23,9 +23,7 @@
             android:exported="false"
             android:label="@string/title_activity_image"
             android:theme="@style/Theme.RaspSPY" />
-        <activity
-            android:name="de.hhn.softwarelab.raspy.ImageLogsUI.LogsMainActivity"
-            android:exported="false" />
+
         <activity
             android:name="de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity"
             android:exported="true"
