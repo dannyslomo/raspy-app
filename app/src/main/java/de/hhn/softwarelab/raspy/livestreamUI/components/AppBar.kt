@@ -4,8 +4,11 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.BrowseGallery
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
@@ -13,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import de.hhn.softwarelab.raspy.ImageLogsUI.ImageActivity
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerBody
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerHeader
@@ -40,6 +44,12 @@ fun AppBar() {
                         icon = Icons.Outlined.Home
                     ),
                     MenuItem(
+                        id = "gallery",
+                        title = "Gallery",
+                        contentDescription = "Go to gallery screen",
+                        icon = Icons.Outlined.Image
+                    ),
+                    MenuItem(
                         id = "settings",
                         title = "Settings",
                         contentDescription = "Go to settings screen",
@@ -61,8 +71,7 @@ fun AppBar() {
                     onItemClick = { menuItem ->
                         when (menuItem.id) {
                             "home" -> {
-                                val intent = Intent(context, LoginActivity::class.java)
-                                context.startActivity(intent)
+
                             }
                             "settings" -> {
                                 val intent = Intent(context, SettingList::class.java)
@@ -75,6 +84,11 @@ fun AppBar() {
                                 val intent = Intent(context, LoginActivity::class.java)
                                 context.startActivity(intent)
                             }
+                            "gallery" -> {
+                                val intent = Intent(context, ImageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+
                         }
                         scope.launch { drawerState.close() }
                     }
