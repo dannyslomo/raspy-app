@@ -39,27 +39,42 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
+import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
+import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
 import de.hhn.softwarelab.raspy.ui.theme.PurpleGrey80
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
+import kotlinx.coroutines.delay
 
 
 class SettingList : ComponentActivity() {
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val darkMode = remember { mutableStateOf(false) }
+
             val settingService = SettingsService()
+            var body by remember {
+                mutableStateOf(emptyList<Settings>())
+            }
+
+            LaunchedEffect(Unit) {
+                settingService.getSettings()
+                while (settingService.getBody == null) {
+                    delay(100)
+                }
+                body = settingService.getBody!!
+            }
+
             RaspSPYTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorScheme.background,
                 )
                 {
-                    SettingsScreen(this, darkMode)
+                    SettingsScreen(this, darkMode, body)
                 }
             }
         }
@@ -72,9 +87,23 @@ class SettingList : ComponentActivity() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>) {
+fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List<Settings>) {
+    val settingService = SettingsService()
+    val settingID = 1;
+    var currentDeleteInterval = 0
+    var currentCameraActive = true
+    var currentSystemActive = true
+
+    body.forEach {
+        currentDeleteInterval = it.deleteInterval!!
+        currentSystemActive = it.systemActive!!
+        currentCameraActive = it.cameraActive!!
+    }
+
+
     var isSwitchEnabled1 by remember { mutableStateOf(true) }
     var isSwitchEnabled2 by remember { mutableStateOf(true) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -103,8 +132,13 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>) {
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled1 = isEnabled
                         if (isEnabled) {
+                            settingService.putSettings(Settings(currentDeleteInterval, true, currentCameraActive) ,settingID)
+                            currentSystemActive = true
                             Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
                         } else {
+                            //TODO deleteInterval und cameraActive gleich lassen
+                            settingService.putSettings(Settings(currentDeleteInterval, false, currentCameraActive) ,settingID)
+                            currentCameraActive = false
                             Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
@@ -118,8 +152,12 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>) {
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled2 = isEnabled
                         if (isEnabled) {
+                            settingService.putSettings(Settings(currentDeleteInterval, currentSystemActive, true) ,settingID)
+                            currentCameraActive = true
                             Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
                         } else {
+                            settingService.putSettings(Settings(currentDeleteInterval, currentSystemActive, false) ,settingID)
+                            currentSystemActive = false
                             Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },

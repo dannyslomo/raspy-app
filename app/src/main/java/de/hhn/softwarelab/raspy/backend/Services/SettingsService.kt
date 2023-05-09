@@ -137,5 +137,4 @@ class SettingsService {
             }
         }).start()
     }
-
 }
