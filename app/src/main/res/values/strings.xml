@@ -51,4 +51,14 @@
     //Camera Notification Message
     <string name="notification_camera_detection_message">Camera DETECTED strange activity</string>
     <string name="notification_camera_detection_title">!!! CHECK NOW !!!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="notRegistered">Not registered!</string>
+    <string name="alreadyRegistered">Already registered!</string>
+    <string name="invalid_login">Invalid login</string>
+    <string name="unkown_error">Unknown error\n</string>
+    <string name="new_user_success">New user success</string>
+    <string name="new_user_exists">New user exists\n</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

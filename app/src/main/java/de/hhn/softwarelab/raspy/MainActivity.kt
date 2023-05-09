@@ -21,6 +21,7 @@ import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspy.loginUI.LoginActivity
 import de.hhn.softwarelab.raspy.notification.NotificationUtils
 import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
             RaspSPYTheme(darkTheme = false) {
+
             }
         }
     }
