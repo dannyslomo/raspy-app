@@ -1,6 +1,8 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -16,6 +18,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -31,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 
@@ -39,15 +44,15 @@ class SettingList : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            val darkMode = remember { mutableStateOf(false)}
+            val darkMode = remember { mutableStateOf(false) }
             RaspSPYTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = colorScheme.background
-                ) {
-                    SettingsScreen(this,darkMode)
+                    color = colorScheme.background,
+                )
+                {
+                    SettingsScreen(this, darkMode)
                 }
             }
         }
@@ -57,64 +62,90 @@ class SettingList : ComponentActivity() {
 /**
  * @param context
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(context: Context,darkMode: MutableState<Boolean>) {
+fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>) {
     var isSwitchEnabled1 by remember { mutableStateOf(true) }
     var isSwitchEnabled2 by remember { mutableStateOf(true) }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Settings") },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressed(context) }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                backgroundColor = if (darkMode.value) Color.Gray else Color.White
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier.padding(paddingValues),
+            ) {
+                //Title
+                HeaderText(darkMode.value)
+                //Profile
+                Profile(darkMode.value)
+                //Activate/Deactivate System with SWITCH
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Security System ",
+                    switchState = isSwitchEnabled1,
+                    onSwitchStateChanged = { isEnabled ->
+                        isSwitchEnabled1 = isEnabled
+                        if (isEnabled) {
+                            Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    darkMode = darkMode.value
+                )
+                //Activate/Deactivate Camera with SWITCH
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Camera",
+                    switchState = isSwitchEnabled2,
+                    onSwitchStateChanged = { isEnabled ->
+                        isSwitchEnabled2 = isEnabled
+                        if (isEnabled) {
+                            Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    darkMode = darkMode.value
+                )
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Dark Mode",
+                    switchState = darkMode.value,
+                    onSwitchStateChanged = { isEnabled ->
+                        darkMode.value = isEnabled
+                        if (isEnabled) {
+                            darkMode.value = true
+                            checkDarkMode(true)
+                        } else {
+                            // Disable dark mode
+                            darkMode.value = false
+                            checkDarkMode(false)
+                        }
+                    }, darkMode = darkMode.value
+                )
+            }
+        }
+    )
+}
 
-    Column {
-        //Title
-        HeaderText(darkMode.value)
-        //Profile
-        Profile(darkMode.value)
-        //Activate/Deactivate System with SWITCH
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Security System ",
-            switchState = isSwitchEnabled1,
-            onSwitchStateChanged = { isEnabled ->
-                isSwitchEnabled1 = isEnabled
-                if (isEnabled) {
-                    Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
-                }
-            },
-            darkMode = darkMode.value
-        )
-        //Activate/Deactivate Camera with SWITCH
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Camera",
-            switchState = isSwitchEnabled2,
-            onSwitchStateChanged = { isEnabled ->
-                isSwitchEnabled2 = isEnabled
-                if (isEnabled) {
-                    Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
-                }
-            },
-            darkMode = darkMode.value
-        )
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Dark Mode",
-            switchState = darkMode.value,
-            onSwitchStateChanged = { isEnabled ->
-                darkMode.value = isEnabled
-                if (isEnabled) {
-                    darkMode.value = true
-                    checkDarkMode(true)
-                } else {
-                    // Disable dark mode
-                    darkMode.value = false
-                    checkDarkMode(false)
-                }
-            }, darkMode = darkMode.value
-        )
 
-    }
+/**
+ * press to go back to LiveStreamActivity
+ */
+private fun onBackPressed(context: Context) {
+    val intent = Intent(context, LivestreamActivity::class.java)
+    context.startActivity(intent)
+    (context as? Activity)?.finish()
 }
 
 /**
@@ -156,7 +187,8 @@ fun Profile(darkMode: Boolean) {
             onDismiss = {
                 // Cancel editing
                 isEditingProfile = false
-            }, darkMode = darkMode)
+            }, darkMode = darkMode
+        )
     } else {
         ProfileCardUI(
             username = editedUsername,
