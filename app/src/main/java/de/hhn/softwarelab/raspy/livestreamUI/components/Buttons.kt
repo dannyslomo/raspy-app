@@ -63,7 +63,7 @@ fun InitButtonHorizontal() {
                 "Save picture",
                 onClick = {
                     val imageLogService = ImageLogService()
-                    imageLogService.postLog(ImageLog(LocalDateTime.now().toString(), 2))
+                    imageLogService.postImage(ImageLog(LocalDateTime.now(), 2, null))
                     Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
                 }
             )

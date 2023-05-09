@@ -22,7 +22,9 @@ class LivestreamActivity : ComponentActivity() {
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
             val darkMode = remember { mutableStateOf(false)}
-            RaspSPYTheme(darkTheme = darkMode) {
+            RaspSPYTheme(
+                darkTheme = darkMode
+            ) {
                  Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         topBar = {

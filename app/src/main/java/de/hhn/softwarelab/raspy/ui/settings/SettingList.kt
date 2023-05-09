@@ -42,7 +42,7 @@ class SettingList : ComponentActivity() {
 
         setContent {
             val darkMode = remember { mutableStateOf(false)}
-            RaspSPYTheme(darkTheme = darkMode) {
+            RaspSPYTheme (darkTheme = darkMode){
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorScheme.background

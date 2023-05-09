@@ -18,11 +18,15 @@ class ImageActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         super.onCreate(savedInstanceState)
         val logComposables = ImageComposables()
 
         setContent {
-            RaspSPYTheme {
+            val darkMode = remember { mutableStateOf(false) }
+            RaspSPYTheme(
+                darkTheme = darkMode
+            ) {
                 Column(){
                     logComposables.ScrollableLogs(logList)
                 }
@@ -61,8 +65,10 @@ class ImageActivity : ComponentActivity() {
             }
             body = service.getBody!!
         }
-
-        RaspSPYTheme {
+        val darkMode = remember { mutableStateOf(false) }
+        RaspSPYTheme(
+            darkTheme = darkMode
+        ) {
             Column() {
                 logComposables.ScrollableLogs(body)
             }

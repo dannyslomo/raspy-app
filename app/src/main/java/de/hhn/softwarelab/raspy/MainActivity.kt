@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
-            RaspSPYTheme {
+            val darkMode = remember { mutableStateOf(false) }
+            RaspSPYTheme(darkTheme = darkMode) {
             }
         }
     }
@@ -54,9 +55,10 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun SettingsPreview() {
+        val darkMode = remember { mutableStateOf(false) }
         val imageLogService = ImageLogService()
         val settingsService = SettingsService()
-        RaspSPYTheme {
+        RaspSPYTheme(darkTheme = darkMode) {
             Column {
                 StandardButton(text = "Get Settings", onClick = { settingsService.getSettings() })
                 StandardButton(text = "Post Settings", onClick = { settingsService.postSettings(Settings(5, true, true)) })

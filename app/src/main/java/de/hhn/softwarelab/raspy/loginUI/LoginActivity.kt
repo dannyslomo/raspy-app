@@ -1,12 +1,8 @@
 package de.hhn.softwarelab.raspy.loginUI
 
 import AuthenticationScreen
-import android.app.AlertDialog
 import android.content.Intent
-import android.location.LocationManager
 import android.os.Bundle
-import android.service.autofill.UserData
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,8 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
@@ -28,7 +22,7 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val darkMode = remember { mutableStateOf(false) }
-            RaspSPYTheme(darkTheme = darkMode) {
+            RaspSPYTheme(darkTheme = darkMode){
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -74,7 +68,7 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginPreview() {
     val darkMode = remember { mutableStateOf(false)}
-    RaspSPYTheme(darkTheme = darkMode){
+    RaspSPYTheme(darkTheme = darkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
