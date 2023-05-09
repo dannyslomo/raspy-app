@@ -173,7 +173,8 @@ fun AuthenticationSwitchButton(formType: FormType, switchAuthentication: () -> U
 @Preview(showBackground = true, device = Devices.DEFAULT)
 @Composable
 fun AuthenticationPreview() {
-    RaspSPYTheme() {
+    val darkMode = remember { mutableStateOf(false)}
+    RaspSPYTheme(darkTheme = darkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
         ) {
