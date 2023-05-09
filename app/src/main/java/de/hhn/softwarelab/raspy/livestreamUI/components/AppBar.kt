@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerBody
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerHeader
 import de.hhn.softwarelab.raspy.livestreamUI.components.MenuItem
+import de.hhn.softwarelab.raspy.loginUI.LoginActivity
 import de.hhn.softwarelab.raspy.ui.settings.SettingList
 import kotlinx.coroutines.launch
 
@@ -49,11 +51,18 @@ fun AppBar() {
                         contentDescription = "Get help",
                         icon = Icons.Outlined.HelpOutline
                     ),
+                    MenuItem(
+                        id = "logout",
+                        title = "Logout",
+                        contentDescription = "Go to login screen",
+                        icon = Icons.Outlined.Logout
+                    )
                 ),
                     onItemClick = { menuItem ->
                         when (menuItem.id) {
                             "home" -> {
-                                // navigate to home screen
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
                             }
                             "settings" -> {
                                 val intent = Intent(context, SettingList::class.java)
@@ -61,6 +70,10 @@ fun AppBar() {
                             }
                             "help" -> {
                                 // navigate to help screen
+                            }
+                            "logout" -> {
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
                             }
                         }
                         scope.launch { drawerState.close() }
