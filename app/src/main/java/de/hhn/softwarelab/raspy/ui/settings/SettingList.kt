@@ -39,15 +39,15 @@ class SettingList : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            val darkMode = remember { mutableStateOf(false)}
-            RaspSPYTheme (darkTheme = darkMode){
+            val darkMode = remember { mutableStateOf(false) }
+            RaspSPYTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = colorScheme.background
-                ) {
-                    SettingsScreen(this,darkMode)
+                    color = colorScheme.background,
+                )
+                {
+                    SettingsScreen(this, darkMode)
                 }
             }
         }
