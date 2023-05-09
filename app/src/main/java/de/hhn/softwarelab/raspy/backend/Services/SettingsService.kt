@@ -82,6 +82,7 @@ class SettingsService {
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
                         500 -> Log.e("Rest Connection", "500 Internal Server Error")
+                        else -> Log.e("Rest Connection", httpStatusCode.toString())
                     }
                 }
             }
@@ -122,6 +123,7 @@ class SettingsService {
                         405 -> Log.e("Rest Connection", "405 Method Not Allowed")
                         400 -> Log.e("Rest Connection", "400 Bad Request")
                         500 -> Log.e("Rest Connection", "500 Internal Server Error")
+                        else -> Log.e("Rest Connection", httpStatusCode.toString())
                     }
                 }
             }
