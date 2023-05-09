@@ -51,6 +51,7 @@ import kotlinx.coroutines.delay
 class SettingList : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             val darkMode = remember { mutableStateOf(false) }
