@@ -3,9 +3,6 @@ package de.hhn.softwarelab.raspy.ui.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.content.res.Resources.Theme
-import android.graphics.LightingColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -23,7 +20,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -42,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
 import de.hhn.softwarelab.raspy.ui.theme.PurpleGrey80
@@ -55,6 +52,7 @@ class SettingList : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val darkMode = remember { mutableStateOf(false) }
+            val settingService = SettingsService()
             RaspSPYTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -210,7 +208,8 @@ fun Profile(darkMode: Boolean) {
                         // Cancel editing
                         isEditingProfile = false
                     },
-                darkMode = darkMode)
+                    darkMode = darkMode
+                )
             }
         }
     } else {
@@ -370,7 +369,8 @@ fun ProfilePanel(
                 onClick = { saveChanges() },
                 modifier = Modifier.padding(end = 8.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = if (darkMode) PurpleGrey80 else Purple40)
+                    contentColor = if (darkMode) PurpleGrey80 else Purple40
+                )
             ) {
                 Text("Save")
             }
@@ -378,7 +378,8 @@ fun ProfilePanel(
                 onClick = { onDismiss() },
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = if (darkMode) PurpleGrey80 else Purple40)
+                    contentColor = if (darkMode) PurpleGrey80 else Purple40
+                )
             ) {
                 Text("Cancel")
             }
