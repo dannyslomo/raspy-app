@@ -18,33 +18,34 @@ class ImageActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         super.onCreate(savedInstanceState)
         val logComposables = ImageComposables()
 
         setContent {
-            val darkMode = remember { mutableStateOf(false)}
-            RaspSPYTheme(darkTheme = darkMode){
-                Column(){
-                    logComposables.ScrollableLogs(logList)
+            val logComposables = ImageComposables()
+            val service = ImageLogService()
+            var body by remember {
+                mutableStateOf(emptyList<ImageLog>())
+            }
+
+            LaunchedEffect(Unit) {
+                service.getImages()
+                while (service.getBody == null) {
+                    delay(100)
+                }
+                body = service.getBody!!
+            }
+            val darkMode = remember { mutableStateOf(false) }
+            RaspSPYTheme(
+                darkTheme = darkMode
+            ) {
+                Column() {
+                    logComposables.ScrollableLogs(body)
                 }
             }
         }
     }
-
-    fun getLogs() : List<ImageLog>{
-        val service = ImageLogService()
-        // launch a coroutine to run the getImages() function
-        val job = GlobalScope.launch {
-            service.getImages()
-        }
-
-        // wait for the coroutine to complete before continuing
-        runBlocking {
-            job.join()
-        }
-        return service.getBody!!
-    }
-
 
     @Preview(showBackground = true)
     @Composable
