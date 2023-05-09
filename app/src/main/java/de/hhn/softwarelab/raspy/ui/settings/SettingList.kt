@@ -11,13 +11,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -60,6 +63,7 @@ class SettingList : ComponentActivity() {
 }
 
 /**
+ * SettingActivity Content
  * @param context
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -177,18 +181,32 @@ fun Profile(darkMode: Boolean) {
     var isEditingProfile by remember { mutableStateOf(false) }
 
     if (isEditingProfile) {
-        ProfilePanel(
-            onSave = { username, email ->
-                editedUsername = username
-                editedEmail = email
-                isEditingProfile = false
-                isEmailVerified = true
-            },
-            onDismiss = {
-                // Cancel editing
-                isEditingProfile = false
-            }, darkMode = darkMode
-        )
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(
+                        if (darkMode) Color.DarkGray else Color.LightGray,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+            ) {
+                ProfilePanel(
+                    onSave = { username, email ->
+                        editedUsername = username
+                        editedEmail = email
+                        isEditingProfile = false
+                        isEmailVerified = true
+                    },
+                    onDismiss = {
+                        // Cancel editing
+                        isEditingProfile = false
+                    },
+                darkMode = false)
+            }
+        }
     } else {
         ProfileCardUI(
             username = editedUsername,
@@ -301,16 +319,36 @@ fun ProfilePanel(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            text = "Edit your information",
+            color = if (darkMode) Color.White else Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp, bottom = 10.dp),
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 20.sp
+        )
         TextField(
             value = editedUsername,
             onValueChange = { editedUsername = it },
             label = { Text("Username") },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = if (darkMode) Color.LightGray else Color.White,
+                textColor = if (darkMode) Color.Black else Color.Black,
+                cursorColor = if (darkMode) Color.White else Color.Black
+            )
         )
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = editedEmail,
             onValueChange = { editedEmail = it },
-            label = { Text("Email") }
+            label = { Text("Email") },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = if (darkMode) Color.LightGray else Color.White,
+                textColor = if (darkMode) Color.Black else Color.DarkGray,
+                cursorColor = if (darkMode) Color.Black else Color.White
+            )
         )
         if (!isEmailVerified) {
             Text(
@@ -339,6 +377,7 @@ fun ProfilePanel(
         }
     }
 }
+
 
 /**
  * checks if the email is real
@@ -415,7 +454,7 @@ fun CardWithSwitch(
                 text = if (switchState) "active" else "deactivate",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (switchState) Color(0xFF4CAF50) else if (!switchState && !darkMode) Color.Gray else Color.Gray,
+                color = if (switchState) Color(0xFF4CAF50) else Color.Gray,
             )
             Switch(
                 checked = switchState,
