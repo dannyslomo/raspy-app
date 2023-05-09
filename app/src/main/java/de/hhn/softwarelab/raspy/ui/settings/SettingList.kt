@@ -1,6 +1,11 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.res.Resources
+import android.content.res.Resources.Theme
+import android.graphics.LightingColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -9,13 +14,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldColors
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
@@ -31,6 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.theme.Purple40
+import de.hhn.softwarelab.raspy.ui.theme.PurpleGrey80
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 
@@ -55,66 +69,93 @@ class SettingList : ComponentActivity() {
 }
 
 /**
+ * SettingActivity Content
  * @param context
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(context: Context,darkMode: MutableState<Boolean>) {
+fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>) {
     var isSwitchEnabled1 by remember { mutableStateOf(true) }
     var isSwitchEnabled2 by remember { mutableStateOf(true) }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Settings") },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressed(context) }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                backgroundColor = if (darkMode.value) Color.Gray else Color.White
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier.padding(paddingValues),
+            ) {
+                //Title
+                HeaderText(darkMode.value)
+                //Profile
+                Profile(darkMode.value)
+                //Activate/Deactivate System with SWITCH
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Security System ",
+                    switchState = isSwitchEnabled1,
+                    onSwitchStateChanged = { isEnabled ->
+                        isSwitchEnabled1 = isEnabled
+                        if (isEnabled) {
+                            Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    darkMode = darkMode.value
+                )
+                //Activate/Deactivate Camera with SWITCH
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Camera",
+                    switchState = isSwitchEnabled2,
+                    onSwitchStateChanged = { isEnabled ->
+                        isSwitchEnabled2 = isEnabled
+                        if (isEnabled) {
+                            Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    darkMode = darkMode.value
+                )
+                CardWithSwitch(
+                    icon = R.drawable.user_profil_icon,
+                    mainText = "Dark Mode",
+                    switchState = darkMode.value,
+                    onSwitchStateChanged = { isEnabled ->
+                        darkMode.value = isEnabled
+                        if (isEnabled) {
+                            darkMode.value = true
+                            checkDarkMode(true)
+                        } else {
+                            // Disable dark mode
+                            darkMode.value = false
+                            checkDarkMode(false)
+                        }
+                    }, darkMode = darkMode.value
+                )
+            }
+        }
+    )
+}
 
-    Column {
-        //Title
-        HeaderText(darkMode.value)
-        //Profile
-        Profile(darkMode.value)
-        //Activate/Deactivate System with SWITCH
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Security System ",
-            switchState = isSwitchEnabled1,
-            onSwitchStateChanged = { isEnabled ->
-                isSwitchEnabled1 = isEnabled
-                if (isEnabled) {
-                    Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
-                }
-            },
-            darkMode = darkMode.value
-        )
-        //Activate/Deactivate Camera with SWITCH
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Camera",
-            switchState = isSwitchEnabled2,
-            onSwitchStateChanged = { isEnabled ->
-                isSwitchEnabled2 = isEnabled
-                if (isEnabled) {
-                    Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
-                }
-            },
-            darkMode = darkMode.value
-        )
-        CardWithSwitch(
-            icon = R.drawable.user_profil_icon,
-            mainText = "Dark Mode",
-            switchState = darkMode.value,
-            onSwitchStateChanged = { isEnabled ->
-                darkMode.value = isEnabled
-                if (isEnabled) {
-                    darkMode.value = true
-                    checkDarkMode(true)
-                } else {
-                    // Disable dark mode
-                    darkMode.value = false
-                    checkDarkMode(false)
-                }
-            }, darkMode = darkMode.value
-        )
 
-    }
+/**
+ * press to go back to LiveStreamActivity
+ */
+private fun onBackPressed(context: Context) {
+    val intent = Intent(context, LivestreamActivity::class.java)
+    context.startActivity(intent)
+    (context as? Activity)?.finish()
 }
 
 /**
@@ -146,17 +187,32 @@ fun Profile(darkMode: Boolean) {
     var isEditingProfile by remember { mutableStateOf(false) }
 
     if (isEditingProfile) {
-        ProfilePanel(
-            onSave = { username, email ->
-                editedUsername = username
-                editedEmail = email
-                isEditingProfile = false
-                isEmailVerified = true
-            },
-            onDismiss = {
-                // Cancel editing
-                isEditingProfile = false
-            }, darkMode = darkMode)
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(
+                        if (darkMode) Color.DarkGray else Color.LightGray,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+            ) {
+                ProfilePanel(
+                    onSave = { username, email ->
+                        editedUsername = username
+                        editedEmail = email
+                        isEditingProfile = false
+                        isEmailVerified = true
+                    },
+                    onDismiss = {
+                        // Cancel editing
+                        isEditingProfile = false
+                    },
+                darkMode = darkMode)
+            }
+        }
     } else {
         ProfileCardUI(
             username = editedUsername,
@@ -269,16 +325,34 @@ fun ProfilePanel(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            text = "Edit your information",
+            color = if (darkMode) Color.White else Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp, bottom = 10.dp),
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 20.sp
+        )
         TextField(
             value = editedUsername,
             onValueChange = { editedUsername = it },
             label = { Text("Username") },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = if (darkMode) Color.LightGray else Color.White,
+                textColor = if (darkMode) Color.Black else Color.DarkGray
+            )
         )
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = editedEmail,
             onValueChange = { editedEmail = it },
-            label = { Text("Email") }
+            label = { Text("Email") },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = if (darkMode) Color.LightGray else Color.White,
+                textColor = if (darkMode) Color.Black else Color.DarkGray
+            )
         )
         if (!isEmailVerified) {
             Text(
@@ -294,19 +368,24 @@ fun ProfilePanel(
         ) {
             TextButton(
                 onClick = { saveChanges() },
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier.padding(end = 8.dp),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = if (darkMode) PurpleGrey80 else Purple40)
             ) {
                 Text("Save")
             }
             TextButton(
                 onClick = { onDismiss() },
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 8.dp),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = if (darkMode) PurpleGrey80 else Purple40)
             ) {
                 Text("Cancel")
             }
         }
     }
 }
+
 
 /**
  * checks if the email is real
@@ -383,7 +462,7 @@ fun CardWithSwitch(
                 text = if (switchState) "active" else "deactivate",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (switchState) Color(0xFF4CAF50) else if (!switchState && !darkMode) Color.Gray else Color.Gray,
+                color = if (switchState) Color(0xFF4CAF50) else Color.Gray,
             )
             Switch(
                 checked = switchState,
