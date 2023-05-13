@@ -22,8 +22,8 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
 fun MediaScreen() {
 
     //Video src
-    //val rtspUri by remember { mutableStateOf("rtsp://192.168.109.209:8000/raspy") }
-    val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
+    val rtspUri by remember { mutableStateOf("rtsp://192.168.109.88:8554/video_stream") }
+    //val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
 
     val mediaSource: MediaSource = RtspMediaSource.Factory().createMediaSource(MediaItem.fromUri(rtspUri))
     val context = LocalContext.current

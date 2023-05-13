@@ -20,7 +20,7 @@ import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerBody
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerHeader
 import de.hhn.softwarelab.raspy.livestreamUI.components.MenuItem
 import de.hhn.softwarelab.raspy.loginUI.LoginActivity
-import de.hhn.softwarelab.raspy.ui.settings.SettingList
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +72,7 @@ fun AppBar() {
 
                             }
                             "settings" -> {
-                                val intent = Intent(context, SettingList::class.java)
+                                val intent = Intent(context, SettingUI::class.java)
                                 context.startActivity(intent)
                             }
                             "help" -> {
@@ -94,7 +94,7 @@ fun AppBar() {
             }
         },
         content = {
-            InitButton()
+            InitButtonHorizontal()
         }
     )
     CenterAlignedTopAppBar(
@@ -118,3 +118,5 @@ fun AppBar() {
         }
     )
 }
+
+
