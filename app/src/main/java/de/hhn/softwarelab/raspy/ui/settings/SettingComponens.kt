@@ -1,7 +1,5 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.Card
@@ -17,8 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.backend.Services.SettingsService
-import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
 
 
@@ -95,8 +91,14 @@ fun CardWithSwitch(
     }
 }
 
+/**
+ *
+ * @param darkMode: check if DarkMode
+ * @param currentVal: Current Value from Backend
+ * @param onSave: save picked Number
+ */
 @Composable
-fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
+fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .padding(10.dp)
@@ -106,9 +108,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
         elevation = CardDefaults.cardElevation(0.dp),
         shape = ShapeDefaults.Large,
     ) {
-        var number by remember {
-            if (currentVal == 0) mutableStateOf(30) else mutableStateOf(currentVal)
-        }
+        var number by remember { mutableStateOf(currentVal)}
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.user_profil_icon),
@@ -134,7 +134,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
             horizontalAlignment = Alignment.Start,
         ) {
             Text(
-                text = number.toString(),
+                text = number.value.toString(),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -146,8 +146,8 @@ fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
             ) {
                 Spacer(modifier = Modifier.width(70.dp))
                 TextButton(
-                    onClick = { number-- },
-                    enabled = number > 0,
+                    onClick = { number.value-- },
+                    enabled = number.value > 0,
                     modifier = Modifier.padding(8.dp),
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
                         contentColor = Purple40
@@ -156,7 +156,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
                     Text(text = "-", fontSize = 20.sp)
                 }
                 TextButton(
-                    onClick = { number++ },
+                    onClick = { number.value++ },
                     modifier = Modifier.padding(8.dp),
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
                         contentColor = Purple40
@@ -165,7 +165,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: Int, onSave: (Int) -> Unit) {
                     Text(text = "+", fontSize = 20.sp)
                 }
                 TextButton(
-                    onClick = { onSave(number) }
+                    onClick = { onSave(number.value) }
                 ) {
                     Text(text = "save")
                 }

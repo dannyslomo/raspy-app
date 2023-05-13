@@ -36,7 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import de.hhn.softwarelab.raspy.livestreamUI.AppBar
 import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
-import de.hhn.softwarelab.raspy.ui.settings.SettingList
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 
 class ImageComposables {
     val BASE_URL = "http://"

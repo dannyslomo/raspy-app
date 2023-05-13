@@ -166,9 +166,11 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         }
                     }, darkMode = darkMode.value
                 )
-                NumberPicker(darkMode.value, currentDeleteInterval.value, onSave = {settingService.putSettings(
+                NumberPicker(darkMode.value, currentDeleteInterval, onSave = {newNumber ->
+                    var savedNumber = newNumber
+                    settingService.putSettings(
                     Settings(
-                        currentDeleteInterval.value,
+                        savedNumber,
                         currentSystemActive.value,
                         false
                     ), settingID
