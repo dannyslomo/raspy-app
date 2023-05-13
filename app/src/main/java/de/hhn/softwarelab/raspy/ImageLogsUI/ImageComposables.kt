@@ -1,6 +1,7 @@
 package de.hhn.softwarelab.raspy.ImageLogsUI
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -38,9 +39,10 @@ class ImageComposables {
                 ImageCard(
                     text = log.timeStamp!!.toString(),
                     triggerType = log.triggerType!!,
-                    imageUrl = "http://192.168.235.209:8000/media/" + log.image!!
+                    imageUrl = "http://192.168.109.209:8000/media/" + log.image!!
                 )
                 Spacer(modifier = Modifier.height(10.dp))
+                Log.i("image", log.image!!);
             }
         }
     }
