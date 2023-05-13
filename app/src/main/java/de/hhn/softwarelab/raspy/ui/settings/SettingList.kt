@@ -70,6 +70,7 @@ class SettingList : ComponentActivity() {
             }
 
             RaspSPYTheme(darkTheme = darkMode) {
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorScheme.background,
@@ -90,7 +91,7 @@ class SettingList : ComponentActivity() {
 @Composable
 fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List<Settings>) {
     val settingService = SettingsService()
-    val settingID = 1;
+    val settingID = 1
     var currentDeleteInterval = 0
     var currentCameraActive = true
     var currentSystemActive = true
@@ -99,11 +100,15 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
         currentDeleteInterval = it.deleteInterval!!
         currentSystemActive = it.systemActive!!
         currentCameraActive = it.cameraActive!!
+
+        println(currentDeleteInterval)
+        println(currentSystemActive)
+        println(currentCameraActive)
     }
 
 
-    var isSwitchEnabled1 by remember { mutableStateOf(true) }
-    var isSwitchEnabled2 by remember { mutableStateOf(true) }
+    var isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
+    var isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
 
     Scaffold(
         topBar = {
