@@ -75,19 +75,20 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
     val settingService = SettingsService()
     val settingID = 1
     //values
-    var currentDeleteInterval = 0
-    var currentCameraActive = true
-    var currentSystemActive = true
-    //update backend values
+    var currentDeleteInterval = remember { mutableStateOf(0) }
+    var currentCameraActive = remember { mutableStateOf(false) }
+    var currentSystemActive = remember { mutableStateOf(false) }
+
     body.forEach {
-        currentDeleteInterval = it.deleteInterval!!
-        currentSystemActive = it.systemActive!!
-        currentCameraActive = it.cameraActive!!
+        currentDeleteInterval.value = it.deleteInterval!!
+        currentSystemActive.value = it.systemActive!!
+        currentCameraActive.value = it.cameraActive!!
 
         println(currentDeleteInterval)
         println(currentSystemActive)
         println(currentCameraActive)
     }
+
 
     var isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
     var isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
@@ -108,39 +109,23 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
             Column(
                 modifier = Modifier.padding(paddingValues),
             ) {
-                /**
-                 * User-Profile
-                 */
+                // Profile
                 Profile(darkMode.value)
-                /**
-                 * Switch: Activate/Deactivate System
-                 */
+                //Activate/Deactivate System with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.user_profil_icon,
                     mainText = "Security System ",
-                    switchState = isSwitchEnabled1,
+                    switchState = isSwitchEnabled1.value,
                     onSwitchStateChanged = { isEnabled ->
-                        isSwitchEnabled1 = isEnabled
+                        isSwitchEnabled1.value = isEnabled
                         if (isEnabled) {
-                            settingService.putSettings(
-                                Settings(
-                                    currentDeleteInterval,
-                                    true,
-                                    currentCameraActive
-                                ), settingID
-                            )
-                            currentSystemActive = true
+                            settingService.putSettings(Settings(currentDeleteInterval.value, true, currentCameraActive.value) ,settingID)
+                            currentSystemActive.value = true
                             Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
                         } else {
                             //TODO deleteInterval und cameraActive gleich lassen
-                            settingService.putSettings(
-                                Settings(
-                                    currentDeleteInterval,
-                                    false,
-                                    currentCameraActive
-                                ), settingID
-                            )
-                            currentCameraActive = false
+                            settingService.putSettings(Settings(currentDeleteInterval.value, false, currentCameraActive.value) ,settingID)
+                            currentCameraActive.value = false
                             Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
@@ -150,28 +135,16 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 CardWithSwitch(
                     icon = R.drawable.user_profil_icon,
                     mainText = "Camera",
-                    switchState = isSwitchEnabled2,
+                    switchState = isSwitchEnabled2.value,
                     onSwitchStateChanged = { isEnabled ->
-                        isSwitchEnabled2 = isEnabled
+                        isSwitchEnabled2.value = isEnabled
                         if (isEnabled) {
-                            settingService.putSettings(
-                                Settings(
-                                    currentDeleteInterval,
-                                    currentSystemActive,
-                                    true
-                                ), settingID
-                            )
-                            currentCameraActive = true
+                            settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, true) ,settingID)
+                            currentCameraActive.value = true
                             Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
                         } else {
-                            settingService.putSettings(
-                                Settings(
-                                    currentDeleteInterval,
-                                    currentSystemActive,
-                                    false
-                                ), settingID
-                            )
-                            currentSystemActive = false
+                            settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, false) ,settingID)
+                            currentSystemActive.value = false
                             Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
@@ -193,10 +166,10 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         }
                     }, darkMode = darkMode.value
                 )
-                NumberPicker(darkMode.value, currentDeleteInterval, onSave = {settingService.putSettings(
+                NumberPicker(darkMode.value, currentDeleteInterval.value, onSave = {settingService.putSettings(
                     Settings(
-                        currentDeleteInterval,
-                        currentSystemActive,
+                        currentDeleteInterval.value,
+                        currentSystemActive.value,
                         false
                     ), settingID
                 ) })
