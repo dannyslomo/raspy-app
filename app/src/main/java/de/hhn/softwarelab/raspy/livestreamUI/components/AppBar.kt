@@ -4,13 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.BrowseGallery
-import androidx.compose.material.icons.outlined.HelpOutline
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.ImageSearch
-import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,7 +16,7 @@ import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerBody
 import de.hhn.softwarelab.raspy.livestreamUI.components.DrawerHeader
 import de.hhn.softwarelab.raspy.livestreamUI.components.MenuItem
 import de.hhn.softwarelab.raspy.loginUI.LoginActivity
-import de.hhn.softwarelab.raspy.ui.settings.SettingList
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +68,7 @@ fun AppBar() {
 
                             }
                             "settings" -> {
-                                val intent = Intent(context, SettingList::class.java)
+                                val intent = Intent(context, SettingUI::class.java)
                                 context.startActivity(intent)
                             }
                             "help" -> {

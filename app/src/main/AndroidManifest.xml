@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.hhn.softwarelab.raspy.ui.settings.SettingList"
+            android:name="de.hhn.softwarelab.raspy.ui.settings.SettingUI"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY">
