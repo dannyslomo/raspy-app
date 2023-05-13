@@ -23,7 +23,6 @@
             android:exported="false"
             android:label="@string/title_activity_image"
             android:theme="@style/Theme.RaspSPY" />
-
         <activity
             android:name="de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity"
             android:exported="true"
@@ -37,37 +36,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.hhn.softwarelab.raspy.ui.settings.SettingUI"
-            android:exported="true"
+            android:name="de.hhn.softwarelab.raspy.MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.RaspSPY"
+            android:configChanges="orientation|screenSize|layoutDirection">
+        </activity>
+        <activity
+            android:name="de.hhn.softwarelab.raspy.ui.settings.SettingList"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="de.hhn.softwarelab.raspy.loginUI.LoginActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="de.hhn.softwarelab.raspy.loginUI.RegisterActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <service
             android:name="de.hhn.softwarelab.raspy.notifications.PushNotificationService"

@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -37,8 +38,9 @@ fun ElevatedButtons(imageVector: ImageVector, contentDescriptor: String, onClick
     }
 }
 
+
 @Composable
-fun InitButtonHorizontal() {
+fun InitButton() {
     val contextForToast = LocalContext.current.applicationContext
     Column(
         modifier = Modifier
@@ -63,7 +65,7 @@ fun InitButtonHorizontal() {
                 "Save picture",
                 onClick = {
                     val imageLogService = ImageLogService()
-                    imageLogService.postImage(ImageLog(LocalDateTime.now(), 2,null))
+                    imageLogService.postImage(ImageLog(LocalDateTime.now(), 0, null))
                     Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
                 }
             )
