@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.CloseFullscreen
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.HorizontalAlignmentLine
@@ -223,6 +224,19 @@ class ImageComposables {
                             modifier = Modifier.padding(start = 16.dp),
                             color = Color.White
                         )
+                        IconButton(
+                            onClick = {
+
+                            },
+                            modifier = Modifier
+                                .padding(start = 50.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.Delete,
+                                contentDescription = "Close",
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
             }
