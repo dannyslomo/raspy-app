@@ -36,6 +36,7 @@ class SettingUI : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
+            val darkModeDumy = remember { mutableStateOf(false) }
             val darkMode = remember { mutableStateOf(false) }
             val settingService = SettingsService()
             var body by remember {
@@ -50,7 +51,7 @@ class SettingUI : ComponentActivity() {
                 body = settingService.getBody!!
             }
 
-            RaspSPYTheme(darkTheme = darkMode) {
+            RaspSPYTheme(darkTheme = darkModeDumy) {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -120,8 +121,8 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         isSwitchEnabled1.value = isEnabled
                         if (isEnabled) {
                             settingService.putSettings(Settings(currentDeleteInterval.value, true, currentCameraActive.value) ,settingID)
-                            currentSystemActive.value = true
-                            Toast.makeText(context, "1 ON", Toast.LENGTH_SHORT).show()
+                            currentCameraActive.value = true
+
                         } else {
                             //TODO deleteInterval und cameraActive gleich lassen
                             settingService.putSettings(Settings(currentDeleteInterval.value, false, currentCameraActive.value) ,settingID)
@@ -140,7 +141,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         isSwitchEnabled2.value = isEnabled
                         if (isEnabled) {
                             settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, true) ,settingID)
-                            currentCameraActive.value = true
+                            currentSystemActive.value = true
                             Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
                         } else {
                             settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, false) ,settingID)
@@ -150,7 +151,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                     },
                     darkMode = darkMode.value
                 )
-                CardWithSwitch(
+                /*CardWithSwitch(
                     icon = R.drawable.user_profil_icon,
                     mainText = "Dark Mode",
                     switchState = darkMode.value,
@@ -166,13 +167,14 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         }
                     }, darkMode = darkMode.value
                 )
+
+                 */
                 NumberPicker(darkMode.value, currentDeleteInterval, onSave = {newNumber ->
                     var savedNumber = newNumber
                     settingService.putSettings(
                     Settings(
                         savedNumber,
-                        currentSystemActive.value,
-                        false
+                        currentSystemActive.value,currentCameraActive.value
                     ), settingID
                 ) })
             }
