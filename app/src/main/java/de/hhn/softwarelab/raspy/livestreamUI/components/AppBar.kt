@@ -94,7 +94,7 @@ fun AppBar() {
             }
         },
         content = {
-            InitButtonHorizontal()
+            InitButton()
         }
     )
     CenterAlignedTopAppBar(
