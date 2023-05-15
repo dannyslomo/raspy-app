@@ -3,6 +3,7 @@ package de.hhn.softwarelab.raspy.notification
 import android.Manifest
 import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 
 
 class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallback {
@@ -34,8 +36,7 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
                 context,
                 "Camera DETECTED strange activity",
                 "!!! CHECK NOW !!!",
-                R.drawable.notification_icon
-            )
+                R.drawable.notification_icon)
             //no network connection notification
             type == 2 ->
                 if (!isNetworkConnected(context)) {
@@ -44,6 +45,13 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
                         "RaSpy: No Connection",
                         "check your network connection",
                         R.drawable.network_icon
+                    )
+                }else if(isNetworkConnected(context)) run {
+                    createPostNotification(
+                        context,
+                        "RaSpy: Connection",
+                        "RaSpy is connected with Network",
+                        R.drawable.green
                     )
                 }
             else -> createPostNotification(
@@ -64,7 +72,18 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
         postContent: String,
         icon: Int
     ) {
-        val channelId = "post_notification_channel"
+        // Generate a unique channel ID using the base channel ID and a timestamp
+        val channelId = "post_notification_channel_${System.currentTimeMillis()}"
+
+        // Create an intent to open the "SettingUI" activity
+        val intent = Intent(context, SettingUI::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_ONE_SHOT
+        )
 
         // Create a notification builder
         val builder = NotificationCompat.Builder(context, channelId)
@@ -72,6 +91,8 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
             .setContentTitle(postTitle)
             .setContentText(postContent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
 
         // Create a notification manager
         val notificationManager =
@@ -152,7 +173,7 @@ class NotificationUtils : AppCompatActivity(), OnRequestPermissionsResultCallbac
      * Check if device is connected to Network because
      * @return Boolean
      */
-    private fun isNetworkConnected(context: Context): Boolean {
+    public fun isNetworkConnected(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

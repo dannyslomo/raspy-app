@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -70,6 +71,7 @@ class SettingUI : ComponentActivity() {
  * SettingActivity Content
  * @param context
  */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List<Settings>) {
@@ -114,7 +116,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 Profile(darkMode.value)
                 //Activate/Deactivate System with SWITCH
                 CardWithSwitch(
-                    icon = R.drawable.user_profil_icon,
+                    icon = R.drawable.camera_ras,
                     mainText = "Security System ",
                     switchState = isSwitchEnabled1.value,
                     onSwitchStateChanged = { isEnabled ->
@@ -134,7 +136,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 )
                 //Activate/Deactivate Camera with SWITCH
                 CardWithSwitch(
-                    icon = R.drawable.user_profil_icon,
+                    icon = R.drawable.camera_ras,
                     mainText = "Camera",
                     switchState = isSwitchEnabled2.value,
                     onSwitchStateChanged = { isEnabled ->
@@ -177,6 +179,12 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         currentSystemActive.value,currentCameraActive.value
                     ), settingID
                 ) })
+                //für präsi
+                Row {
+                    Button(1,context,"Kamera")
+                    Button(2,context,"Internet")
+                    Button(3,context,"Bewegung")
+                }
             }
         }
     )
