@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import java.time.LocalDateTime
-import de.hhn.softwarelab.raspy.livestreamUI.components.MediaScreen
+import de.hhn.softwarelab.raspy.ui.livestreamUI.components.MediaScreen
 
 
 @Composable

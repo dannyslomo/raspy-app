@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package de.hhn.softwarelab.raspy.livestreamUI.components
+package de.hhn.softwarelab.raspy.ui.livestreamUI.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*

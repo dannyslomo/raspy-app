@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.ImageLogsUI
+package de.hhn.softwarelab.raspy.ui.ImageLogsUI
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

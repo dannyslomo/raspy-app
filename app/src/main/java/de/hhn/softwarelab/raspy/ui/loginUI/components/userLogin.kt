@@ -21,8 +21,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
-import de.hhn.softwarelab.raspy.loginUI.components.FormType
+import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 

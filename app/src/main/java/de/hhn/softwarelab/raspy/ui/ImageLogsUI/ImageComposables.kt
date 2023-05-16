@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.ImageLogsUI
+package de.hhn.softwarelab.raspy.ui.ImageLogsUI
 
 
 import android.content.Intent
@@ -37,7 +37,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import de.hhn.softwarelab.raspy.backend.dataclasses.Url
 import de.hhn.softwarelab.raspy.livestreamUI.AppBar
-import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 
 class ImageComposables {

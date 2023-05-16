@@ -9,6 +9,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface SettingsApi {
+
     @GET("settings/")
     fun getSettings(): Call<List<Settings>>
 

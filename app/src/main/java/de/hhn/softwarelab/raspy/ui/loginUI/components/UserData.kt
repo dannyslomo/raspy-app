@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.loginUI.components
+package de.hhn.softwarelab.raspy.ui.loginUI.components
 
 import android.content.Context
 import android.util.Log
@@ -27,11 +27,11 @@ class UserData {
 
 
         fun setContext(context: Context) {
-            this.SettingContext = context
+            SettingContext = context
         }
 
         fun getContext(): Context {
-            return this.SettingContext
+            return SettingContext
         }
 
         fun getUserDescription(): String {

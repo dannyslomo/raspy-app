@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.loginUI.components
+package de.hhn.softwarelab.raspy.ui.loginUI.components
 
 import de.hhn.softwarelab.raspy.R
 

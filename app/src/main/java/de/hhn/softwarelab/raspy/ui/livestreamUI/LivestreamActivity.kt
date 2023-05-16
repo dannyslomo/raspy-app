@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package de.hhn.softwarelab.raspy.livestreamUI
+package de.hhn.softwarelab.raspy.ui.livestreamUI
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import de.hhn.softwarelab.raspy.livestreamUI.AppBar
 import de.hhn.softwarelab.raspy.notifications.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 

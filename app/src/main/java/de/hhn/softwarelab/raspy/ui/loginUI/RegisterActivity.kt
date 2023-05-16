@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.loginUI
+package de.hhn.softwarelab.raspy.ui.loginUI
 
 import AuthenticationScreen
 import android.content.Intent
@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import de.hhn.softwarelab.raspy.loginUI.components.FormType
+import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class RegisterActivity : ComponentActivity() {

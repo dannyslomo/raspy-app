@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
-import de.hhn.softwarelab.raspy.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.delay
 
@@ -78,9 +78,9 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
     val settingService = SettingsService()
     val settingID = 1
     //values
-    var currentDeleteInterval = remember { mutableStateOf(0) }
-    var currentCameraActive = remember { mutableStateOf(false) }
-    var currentSystemActive = remember { mutableStateOf(false) }
+    val currentDeleteInterval = remember { mutableStateOf(0) }
+    val currentCameraActive = remember { mutableStateOf(false) }
+    val currentSystemActive = remember { mutableStateOf(false) }
 
     body.forEach {
         currentDeleteInterval.value = it.deleteInterval!!
@@ -133,7 +133,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         }
                     },
                     darkMode = darkMode.value
-                )
+                ,"Deactivate face/object detection AND Push-Notifications. \n(Camera is still on)")
                 //Activate/Deactivate Camera with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.camera_ras,
@@ -152,25 +152,9 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         }
                     },
                     darkMode = darkMode.value
-                )
-                /*CardWithSwitch(
-                    icon = R.drawable.user_profil_icon,
-                    mainText = "Dark Mode",
-                    switchState = darkMode.value,
-                    onSwitchStateChanged = { isEnabled ->
-                        darkMode.value = isEnabled
-                        if (isEnabled) {
-                            darkMode.value = true
-                            checkDarkMode(true)
-                        } else {
-                            // Disable dark mode
-                            darkMode.value = false
-                            checkDarkMode(false)
-                        }
-                    }, darkMode = darkMode.value
-                )
+                ,"deactivate Camera")
 
-                 */
+
                 NumberPicker(darkMode.value, currentDeleteInterval, onSave = {newNumber ->
                     var savedNumber = newNumber
                     settingService.putSettings(
@@ -179,12 +163,6 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         currentSystemActive.value,currentCameraActive.value
                     ), settingID
                 ) })
-                //für präsi
-                Row {
-                    Button(1,context,"Kamera")
-                    Button(2,context,"Internet")
-                    Button(3,context,"Bewegung")
-                }
             }
         }
     )

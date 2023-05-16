@@ -8,6 +8,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ShapeDefaults
@@ -40,14 +42,16 @@ fun CardWithSwitch(
     mainText: String,
     switchState: Boolean,
     onSwitchStateChanged: (Boolean) -> Unit,
-    darkMode: Boolean
+    darkMode: Boolean,
+    infoNote: String
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
             .height(80.dp),
-        //.background(if (switchState) Color(0xFF4CAF50) else Color.Gray),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = ShapeDefaults.Large,
     ) {
@@ -73,7 +77,7 @@ fun CardWithSwitch(
                 Column(
                     modifier = Modifier
                         .offset(y = (2).dp)
-                        .width(120.dp)
+                        .width(100.dp)
                 ) {
                     Text(
                         text = mainText,
@@ -83,22 +87,43 @@ fun CardWithSwitch(
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                modifier = Modifier.width(70.dp),
-                text = if (switchState) "active" else "deactivate",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (switchState) Color(0xFF4CAF50) else Color.Gray,
-            )
             Switch(
                 checked = switchState,
                 onCheckedChange = onSwitchStateChanged,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(start = 110.dp)
             )
+            IconButton(
+                onClick = { showDialog = true },
+                modifier = Modifier.size(24.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "Info Icon"
+                )
+            }
         }
     }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = mainText) },
+            text = { Text(text = infoNote) },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFF4CAF50),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = "OK")
+                }
+            }
+        )
+    }
 }
+
+
 
 /**
  *
@@ -206,7 +231,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
 }
 
 
-//Für die Presentation
+//Info Seite?
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun Button(int: Int, context: Context, title:String){
