@@ -1,12 +1,6 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
-import android.content.Context
-import android.os.Build
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -24,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.notification.NotificationUtils
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
-import kotlinx.coroutines.launch
 
 
 /**
@@ -73,7 +65,7 @@ fun CardWithSwitch(
                         modifier = Modifier.padding(8.dp)
                     )
                 }
-                Spacer(modifier = Modifier.width(14.dp))
+                Spacer(modifier = Modifier.width(5.dp))
                 Column(
                     modifier = Modifier
                         .offset(y = (2).dp)
@@ -122,7 +114,6 @@ fun CardWithSwitch(
         )
     }
 }
-
 
 
 /**
@@ -206,12 +197,6 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                     onClick = {
                         onSave(number)
                         originalNumber = number
-                        var notificationUtils = NotificationUtils()
-                        if(notificationUtils.isNetworkConnected(context)){
-                            Toast.makeText(context, "Value saved successfully", Toast.LENGTH_SHORT).show()
-                        }else{
-                            Toast.makeText(context, "saved but no network connection, try later", Toast.LENGTH_SHORT).show()
-                        }
                     },
                     modifier = Modifier.padding(top = 16.dp, end = 8.dp)
                 ) {
@@ -227,23 +212,5 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                 }
             }
         }
-    }
-}
-
-
-//Info Seite?
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@Composable
-fun Button(int: Int, context: Context, title:String){
-    var notificationUtils = NotificationUtils()
-    TextButton(
-        onClick = {
-            notificationUtils.checkNotificationPermission(context)
-            notificationUtils.getNotification(int,context) },
-        modifier = Modifier.padding(16.dp),
-        shape = RoundedCornerShape(4.dp),
-        border = BorderStroke(2.dp, Color.Black)
-    ) {
-        Text(text = title)
     }
 }

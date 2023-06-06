@@ -69,7 +69,6 @@ fun AppBar() {
                     onItemClick = { menuItem ->
                         when (menuItem.id) {
                             "home" -> {
-
                             }
                             "settings" -> {
                                 val intent = Intent(context, SettingUI::class.java)

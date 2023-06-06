@@ -18,7 +18,7 @@ import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
-import de.hhn.softwarelab.raspy.notifications.PushNotificationService
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
 import java.time.LocalDateTime
@@ -30,10 +30,8 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
-            val darkMode = remember { mutableStateOf(false)}
-            RaspSPYTheme(darkTheme = darkMode) {
+            RaspSPYTheme(darkTheme = isDarkMode.value) {
             }
         }
     }
@@ -58,7 +56,7 @@ class MainActivity : ComponentActivity() {
         val imageLogService = ImageLogService()
         val settingsService = SettingsService()
         val darkMode = remember { mutableStateOf(false)}
-        RaspSPYTheme(darkTheme = darkMode) {
+        RaspSPYTheme(darkTheme = isDarkMode.value) {
             Column {
                 StandardButton(text = "Get Settings", onClick = { settingsService.getSettings() })
                 StandardButton(text = "Post Settings", onClick = { settingsService.postSettings(Settings(5, true, true)) })

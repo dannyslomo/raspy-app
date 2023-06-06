@@ -13,19 +13,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.dataStore.StoreUserPreferences
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.email
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.username
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
 import de.hhn.softwarelab.raspy.ui.theme.PurpleGrey80
-import kotlinx.coroutines.launch
-
-//TODO: STOREUSERPREFERENCE : Preferences DataStore in Jetpack Compose | Android | Forget about SharedPreferences
 
 /**
  * Profile card with username and email address
@@ -33,16 +30,7 @@ import kotlinx.coroutines.launch
  */
 @Composable
 fun Profile(darkMode: Boolean) {
-    //for local storing
-    val localContext = LocalContext.current
-    //scope
-    val scope = rememberCoroutineScope()
-    //dataSTore Email
-    val dataStore = StoreUserPreferences(localContext)
-    //get saved email
-    val savedEmail = dataStore.getEmail.collectAsState(initial = "")
-    var editedUsername by remember { mutableStateOf("John") }
-    var editedEmail by remember { mutableStateOf(savedEmail.value.toString()) }
+
     var isEmailVerified by remember { mutableStateOf(false) }
     var isEditingProfile by remember { mutableStateOf(false) }
 
@@ -61,13 +49,12 @@ fun Profile(darkMode: Boolean) {
             ) {
                 ProfilePanel(
                     onSave = { username, email ->
-                        editedUsername = username
-                        editedEmail = email
+
+                        SettingUI.PreferenceState.username.value = username
+                        SettingUI.PreferenceState.email.value = email
                         isEditingProfile = false
                         isEmailVerified = true
-                        scope.launch {
-                            dataStore.saveEmail(editedEmail)
-                        }
+
                     },
                     onDismiss = {
                         // Cancel editing
@@ -79,8 +66,8 @@ fun Profile(darkMode: Boolean) {
         }
     } else {
         ProfileCardUI(
-            username = editedUsername,
-            email = editedEmail,
+            username = username.value,
+            email = email.value,
             onEditClick = { isEditingProfile = true },
             darkMode = darkMode
         )

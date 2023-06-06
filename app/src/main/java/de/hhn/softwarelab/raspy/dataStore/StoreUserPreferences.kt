@@ -14,16 +14,18 @@ import kotlinx.coroutines.flow.map
 
 class StoreUserPreferences(private val context: Context) {
 
-    companion object{
+    companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("UserEmail")
         val USER_EMAIL_KEY = stringPreferencesKey("user_email")
     }
+
     val getEmail: Flow<String?> = context.dataStore.data
         .map { preferences ->
-        preferences[USER_EMAIL_KEY] ?: ""
-            
+            preferences[USER_EMAIL_KEY] ?: ""
+
         }
-    suspend fun saveEmail(name: String){
+
+    suspend fun saveEmail(name: String) {
 
     }
 }

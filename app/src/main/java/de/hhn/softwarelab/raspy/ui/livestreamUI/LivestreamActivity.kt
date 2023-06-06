@@ -2,7 +2,6 @@
 
 package de.hhn.softwarelab.raspy.ui.livestreamUI
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,9 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import de.hhn.softwarelab.raspy.livestreamUI.AppBar
-import de.hhn.softwarelab.raspy.notifications.PushNotificationService
+import de.hhn.softwarelab.raspy.notification.PushNotificationService
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class LivestreamActivity : ComponentActivity() {
@@ -24,20 +23,8 @@ class LivestreamActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
-            val darkMode = remember { mutableStateOf(false) }
-
-            //Für das Ausblenden der AppBar (wird später implementiert)
-            /*
-            val showTopBar = remember { mutableStateOf(true) }
-            val isLandscape =
-                LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-            if (isLandscape) {
-                showTopBar.value = false
-            }
-             */
-
             RaspSPYTheme(
-                darkTheme = darkMode
+                darkTheme = SettingUI.PreferenceState.isDarkMode.value
             ) {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),

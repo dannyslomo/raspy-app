@@ -70,6 +70,10 @@ dependencies {
     implementation 'androidx.compose.material:material:1.4.3'
     implementation 'androidx.compose.material3:material3:1.0.1'
 
+    // Preferences DataStore
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    // Coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -85,8 +89,6 @@ dependencies {
     // Work Manager - Lui
     implementation "androidx.work:work-runtime-ktx:2.8.1"
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'

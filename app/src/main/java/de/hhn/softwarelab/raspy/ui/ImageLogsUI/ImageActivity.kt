@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 //import coil.compose.rememberAsyncImagePainter
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.*
@@ -20,8 +21,11 @@ class ImageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val logComposables = ImageComposables()
-
         setContent {
+            RaspSPYTheme(
+                darkTheme = SettingUI.PreferenceState.isDarkMode.value
+            ) {
+
             val logComposables = ImageComposables()
             val service = ImageLogService()
             var body by remember {
@@ -40,14 +44,6 @@ class ImageActivity : ComponentActivity() {
                 // Assign the service's body to the 'body' variable
                 body = service.getBody!!
             }
-
-            // Create a mutable state for the dark mode flag
-            val darkMode = remember { mutableStateOf(false) }
-
-            // Set the content of the activity using Jetpack Compose
-            RaspSPYTheme(
-                darkTheme = darkMode
-            ) {
                 Column() {
                     // Display the scrollable logs using the provided composable function
                     logComposables.ScrollableLogs(body)
@@ -79,11 +75,7 @@ class ImageActivity : ComponentActivity() {
             body = service.getBody!!
         }
 
-        // Create a mutable state for the dark mode flag
-        val darkMode = remember { mutableStateOf(false) }
-
-        // Set the content of the preview using Jetpack Compose
-        RaspSPYTheme(darkTheme = darkMode) {
+        RaspSPYTheme(darkTheme = SettingUI.PreferenceState.isDarkMode.value) {
             Column() {
                 // Display the scrollable logs using the provided composable function
                 logComposables.ScrollableLogs(body)

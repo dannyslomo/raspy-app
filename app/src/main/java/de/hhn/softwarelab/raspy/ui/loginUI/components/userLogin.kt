@@ -1,7 +1,12 @@
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Resources
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.ExposedDropdownMenuDefaults.outlinedTextFieldColors
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -12,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -23,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 
@@ -33,18 +41,26 @@ fun AuthenticationScreen(
     authenticationAction: (username: String, password: String) -> Unit,
     switchAuthentication: () -> Unit
 ) {
-    Scaffold(topBar = { AuthenticationTopAppBar() }) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
-        ) {
-            AuthenticationHeading(formType = formType)
-            Spacer(modifier = Modifier.padding(14.dp))
-            AuthenticationInputForm(formType = formType, authenticateAction = authenticationAction)
-            Spacer(modifier = Modifier.padding(20.dp))
-            AuthenticationSwitcher(formType = formType, switchAuthentication = switchAuthentication)
+    RaspSPYTheme(darkTheme = isDarkMode.value) {
+        Scaffold(topBar = { AuthenticationTopAppBar() }) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+            ) {
+                AuthenticationHeading(formType = formType)
+                Spacer(modifier = Modifier.padding(14.dp))
+                AuthenticationInputForm(
+                    formType = formType,
+                    authenticateAction = authenticationAction
+                )
+                Spacer(modifier = Modifier.padding(20.dp))
+                AuthenticationSwitcher(
+                    formType = formType,
+                    switchAuthentication = switchAuthentication
+                )
+            }
         }
     }
 }
@@ -112,7 +128,7 @@ fun AuthenticationInputForm(
         singleLine = true,
         visualTransformation =
         if (passwordVisible.value) VisualTransformation.None
-        else PasswordVisualTransformation()
+        else PasswordVisualTransformation(),
     )
     Spacer(modifier = Modifier.padding(8.dp))
     Button(
@@ -172,14 +188,11 @@ fun AuthenticationSwitchButton(formType: FormType, switchAuthentication: () -> U
 @Preview(showBackground = true, device = Devices.DEFAULT)
 @Composable
 fun AuthenticationPreview() {
-    val darkMode = remember { mutableStateOf(false)}
-    RaspSPYTheme(darkTheme = darkMode) {
         Surface(
-            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
+            modifier = Modifier.fillMaxSize()
         ) {
             AuthenticationScreen(formType = FormType.LOGIN,
                 authenticationAction = { username, password -> {} },
                 switchAuthentication = {})
         }
-    }
 }

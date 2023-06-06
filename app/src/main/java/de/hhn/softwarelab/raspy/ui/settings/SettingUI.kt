@@ -10,11 +10,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,17 +25,23 @@ import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.delay
 
+
 class SettingUI : ComponentActivity() {
+    object PreferenceState {
+        var isDarkMode = mutableStateOf(false)
+        var email  = mutableStateOf("John123@Gmail.com")
+        var username  = mutableStateOf("John")
+    }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContent {
-            val darkModeDumy = remember { mutableStateOf(false) }
-            val darkMode = remember { mutableStateOf(false) }
             val settingService = SettingsService()
             var body by remember {
                 mutableStateOf(emptyList<Settings>())
@@ -52,14 +55,13 @@ class SettingUI : ComponentActivity() {
                 body = settingService.getBody!!
             }
 
-            RaspSPYTheme(darkTheme = darkModeDumy) {
-
+            RaspSPYTheme(darkTheme = isDarkMode.value) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 )
                 {
-                    SettingsScreen(this, darkMode, body)
+                    SettingsScreen(this, isDarkMode, body)
                 }
             }
         }
@@ -122,18 +124,30 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled1.value = isEnabled
                         if (isEnabled) {
-                            settingService.putSettings(Settings(currentDeleteInterval.value, true, currentCameraActive.value) ,settingID)
+                            settingService.putSettings(
+                                Settings(
+                                    currentDeleteInterval.value,
+                                    true,
+                                    currentCameraActive.value
+                                ), settingID
+                            )
                             currentCameraActive.value = true
 
                         } else {
-                            //TODO deleteInterval und cameraActive gleich lassen
-                            settingService.putSettings(Settings(currentDeleteInterval.value, false, currentCameraActive.value) ,settingID)
+                            settingService.putSettings(
+                                Settings(
+                                    currentDeleteInterval.value,
+                                    false,
+                                    currentCameraActive.value
+                                ), settingID
+                            )
                             currentCameraActive.value = false
                             Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    darkMode = darkMode.value
-                ,"Deactivate face/object detection AND Push-Notifications. \n(Camera is still on)")
+                    darkMode = isDarkMode.value,
+                    "Deactivate face/object detection AND Push-Notifications. \n(Camera is still on)"
+                )
                 //Activate/Deactivate Camera with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.camera_ras,
@@ -142,32 +156,53 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled2.value = isEnabled
                         if (isEnabled) {
-                            settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, true) ,settingID)
+                            settingService.putSettings(
+                                Settings(
+                                    currentDeleteInterval.value,
+                                    currentSystemActive.value,
+                                    true
+                                ), settingID
+                            )
                             currentSystemActive.value = true
                             Toast.makeText(context, "2 ON", Toast.LENGTH_SHORT).show()
                         } else {
-                            settingService.putSettings(Settings(currentDeleteInterval.value, currentSystemActive.value, false) ,settingID)
+                            settingService.putSettings(
+                                Settings(
+                                    currentDeleteInterval.value,
+                                    currentSystemActive.value,
+                                    false
+                                ), settingID
+                            )
                             currentSystemActive.value = false
                             Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    darkMode = darkMode.value
-                ,"deactivate Camera")
+                    darkMode = isDarkMode.value, "deactivate Camera"
+                )
+                CardWithSwitch(
+                    icon = if (isDarkMode.value)  R.drawable.darkmode else R.drawable.lightmode,
+                    mainText = if (isDarkMode.value) "Dark Mode" else "Light Mode",
+                    switchState = isDarkMode.value,
+                    onSwitchStateChanged = {isEnabled ->
+                        isDarkMode.value = isEnabled
+                    },
+                    darkMode = isDarkMode.value,
+                    infoNote = ""
+                )
 
-
-                NumberPicker(darkMode.value, currentDeleteInterval, onSave = {newNumber ->
+                NumberPicker(darkMode.value, currentDeleteInterval, onSave = { newNumber ->
                     var savedNumber = newNumber
                     settingService.putSettings(
-                    Settings(
-                        savedNumber,
-                        currentSystemActive.value,currentCameraActive.value
-                    ), settingID
-                ) })
+                        Settings(
+                            savedNumber,
+                            currentSystemActive.value, currentCameraActive.value
+                        ), settingID
+                    )
+                })
             }
         }
     )
 }
-
 
 
 /**
@@ -179,25 +214,3 @@ private fun onBackPressed(context: Context) {
     (context as? Activity)?.finish()
 }
 
-private fun checkDarkMode(darkMode: Boolean): Boolean {
-    return darkMode
-}
-
-//TODO: fix Compose Version -> material3 and material error
-/**
- * Update UI when scrolling up
- */
-@Composable
-fun ScrollableUI() {
-    val scrollState = rememberLazyListState()
-
-    LazyColumn(state = scrollState) {
-        items(100) { index ->
-            Text("Item $index")
-        }
-    }
-    // Update the UI when the user scrolls up
-    if (scrollState.firstVisibleItemIndex == 0) {
-        // Add your UI update logic here
-    }
-}
