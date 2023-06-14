@@ -133,7 +133,7 @@ fun AuthenticationInputForm(
     Spacer(modifier = Modifier.padding(8.dp))
     Button(
         onClick = {
-            //authenticateAction(usernameState.value, passwordState.value)
+            authenticateAction(usernameState.value, passwordState.value)
             val intent = Intent(context, LivestreamActivity::class.java)
             context.startActivity(intent)
             },

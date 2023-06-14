@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.rememberAsyncImagePainter
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
-import de.hhn.softwarelab.raspy.backend.dataclasses.Url
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 
 class ImageComposables {
@@ -57,7 +57,7 @@ class ImageComposables {
                 ImageCard(
                     text = log.timeStamp!!.toString(),
                     triggerType = log.triggerType!!,
-                    imageUrl = Url.serverUrl + "media/" + log.image!!
+                    imageUrl = globalValues.serverUrl + "media/" + log.image!!
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }

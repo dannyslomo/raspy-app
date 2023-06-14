@@ -10,8 +10,8 @@ import retrofit2.http.Path
 
 interface SettingsApi {
 
-    @GET("settings/")
-    fun getSettings(): Call<List<Settings>>
+    @GET("settings/{settingsId}/")
+    fun getSettings(@Path("settingsId") settingsId: Int): Call<List<Settings>>
 
     @POST("settings/post/")
     fun postSettings(@Body settings: Settings): Call<Settings>

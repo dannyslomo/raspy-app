@@ -17,7 +17,7 @@ import com.google.android.exoplayer2.source.rtsp.RtspMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
-import de.hhn.softwarelab.raspy.backend.dataclasses.Url
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 
 @Composable
 fun MediaScreen() {

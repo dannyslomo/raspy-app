@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
@@ -78,11 +79,11 @@ class SettingUI : ComponentActivity() {
 @Composable
 fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List<Settings>) {
     val settingService = SettingsService()
-    val settingID = 1
-    //values
-    val currentDeleteInterval = remember { mutableStateOf(0) }
-    val currentCameraActive = remember { mutableStateOf(false) }
-    val currentSystemActive = remember { mutableStateOf(false) }
+    var settingID = globalValues.settingsId
+
+    var currentDeleteInterval = remember { mutableStateOf(0) }
+    var currentCameraActive = remember { mutableStateOf(false) }
+    var currentSystemActive = remember { mutableStateOf(false) }
 
     body.forEach {
         currentDeleteInterval.value = it.deleteInterval!!

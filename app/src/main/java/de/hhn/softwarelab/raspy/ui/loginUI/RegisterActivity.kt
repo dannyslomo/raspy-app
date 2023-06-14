@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import de.hhn.softwarelab.raspy.backend.Services.UserService
+import de.hhn.softwarelab.raspy.backend.dataclasses.User
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
@@ -46,7 +48,8 @@ class RegisterActivity : ComponentActivity() {
      * @param password password od the new user
      */
     private fun registerUser(username: String, password: String) {
-
+        val service =  UserService()
+        service.register(User(null,null, username, password, null, null))
     }
 
     /**

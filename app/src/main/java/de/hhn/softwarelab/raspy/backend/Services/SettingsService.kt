@@ -3,6 +3,7 @@ package de.hhn.softwarelab.raspy.backend.Services
 import com.google.android.exoplayer2.util.Log
 import de.hhn.softwarelab.raspy.backend.RetrofitClient
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.backend.interfaces.SettingsApi
 import java.net.ConnectException
 
@@ -22,7 +23,7 @@ class SettingsService {
     fun getSettings(){
         Thread(Runnable {
             try {
-                val settingsResponse = settingsApi.getSettings().execute()
+                val settingsResponse = settingsApi.getSettings(globalValues.settingsId).execute()
                 successful = settingsResponse.isSuccessful
                 httpStatusCode = settingsResponse.code()
                 httpStatusMessage = settingsResponse.message()

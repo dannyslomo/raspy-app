@@ -88,11 +88,11 @@ import java.net.ConnectException
     }
 
     //TODO: fix response deserialization error
-    fun deleteImage(logId: Int) {
+    fun deleteImage(imageName: String) {
         Thread(Runnable {
             try {
 
-                val settingsResponse = logApi.deleteLog(logId).execute()
+                val settingsResponse = logApi.deleteLog(imageName).execute()
                 successful = settingsResponse.isSuccessful
                 //Successfully connected to REST API
                 if (successful == true) {
