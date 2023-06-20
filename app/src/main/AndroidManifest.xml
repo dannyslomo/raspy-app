@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="de.hhn.softwarelab.raspy.ui.imageLogsUI.ImageActivity"
+            android:name="de.hhn.softwarelab.raspy.ui.ImageLogsUI.ImageActivity"
             android:exported="false"
             android:label="@string/title_activity_image"
             android:theme="@style/Theme.RaspSPY" />

@@ -11,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.ui.imageLogsUI.ImageActivity
+import de.hhn.softwarelab.raspy.ui.ImageLogsUI.ImageActivity
 import de.hhn.softwarelab.raspy.ui.infoUI.InfoActivity
 import de.hhn.softwarelab.raspy.ui.languageUI.LanguageActivity
 import de.hhn.softwarelab.raspy.ui.livestreamUI.components.DrawerBody
