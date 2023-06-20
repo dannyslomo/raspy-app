@@ -66,7 +66,7 @@ class RegisterActivity : ComponentActivity() {
 @Preview(showBackground = true, device = Devices.DEFAULT)
 @Composable
 fun RegisterPreview() {
-    RaspSPYTheme(darkTheme = SettingUI.PreferenceState.isDarkMode.value) {
+    RaspSPYTheme(darkTheme = SettingUI.currentDarkModeState.value) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             //color = MaterialTheme.colors.background

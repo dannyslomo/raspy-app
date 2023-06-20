@@ -1,6 +1,5 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,19 +19,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
-import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.email
-import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.username
 import de.hhn.softwarelab.raspy.ui.theme.Purple40
 import de.hhn.softwarelab.raspy.ui.theme.PurpleGrey80
 
 /**
- * Profile card with username and email address
+ * Profile card with username
  * @param: check if darkMode and changes text colors
  */
 @Composable
 fun Profile(darkMode: Boolean) {
 
-    var isEmailVerified by remember { mutableStateOf(false) }
     var isEditingProfile by remember { mutableStateOf(false) }
 
     if (isEditingProfile) {
@@ -49,12 +45,10 @@ fun Profile(darkMode: Boolean) {
                     )
             ) {
                 ProfilePanel(
-                    onSave = { username, email ->
-
-                        SettingUI.PreferenceState.username.value = username
-                        SettingUI.PreferenceState.email.value = email
+                    onSave = { username ->
+                        //TODO
+                        //SettingUI.PreferenceState.username.value = username
                         isEditingProfile = false
-                        isEmailVerified = true
 
                     },
                     onDismiss = {
@@ -67,8 +61,8 @@ fun Profile(darkMode: Boolean) {
         }
     } else {
         ProfileCardUI(
-            username = username.value,
-            email = email.value,
+            //TODO
+            username = "username.value",
             onEditClick = { isEditingProfile = true },
             darkMode = darkMode
         )
@@ -76,25 +70,22 @@ fun Profile(darkMode: Boolean) {
 }
 
 /**
- * Profile Card that displays Profile Picture , Username and Email
- * User can change email which also gets validated
+ * Profile Card that displays Profile Picture and Username
  * User can change name (does not affect registration)
  * @param username:
- * @param email:
  * @param onEditClick:
  * @param darkMode: check if darkMode and changes text colors
  */
 @Composable
 fun ProfileCardUI(
     username: String,
-    email: String,
     onEditClick: () -> Unit,
     darkMode: Boolean
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(120.dp)
             .padding(10.dp),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = ShapeDefaults.Large,
@@ -109,13 +100,6 @@ fun ProfileCardUI(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = if (darkMode) Color.White else Color.Black
-                )
-
-                Text(
-                    text = email,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (darkMode) Color.White else Color.Gray
                 )
 
                 Button(
@@ -153,22 +137,15 @@ fun ProfileCardUI(
  */
 @Composable
 fun ProfilePanel(
-    onSave: (String, String) -> Unit,
+    onSave: (String) -> Unit,
     onDismiss: () -> Unit,
     darkMode: Boolean
 ) {
 
     var editedUsername by remember { mutableStateOf("") }
-    var editedEmail by remember { mutableStateOf("") }
-    var isEmailVerified by remember { mutableStateOf(false) }
 
     fun saveChanges() {
-        isEmailVerified = if (isValidEmail(editedEmail)) {
-            onSave(editedUsername, editedEmail)
-            true
-        } else {
-            false
-        }
+        onSave(editedUsername)
     }
 
     Column(
@@ -179,7 +156,7 @@ fun ProfilePanel(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Edit your information",
+            text = stringResource(R.string.edit_username),
             color = if (darkMode) Color.White else Color.Gray,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -197,23 +174,7 @@ fun ProfilePanel(
                 textColor = if (darkMode) Color.Black else Color.DarkGray
             )
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextField(
-            value = editedEmail,
-            onValueChange = { editedEmail = it },
-            label = { Text(stringResource(id = R.string.email)) },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = if (darkMode) Color.LightGray else Color.White,
-                textColor = if (darkMode) Color.Black else Color.DarkGray
-            )
-        )
-        if (!isEmailVerified) {
-            Text(
-                text = stringResource(R.string.email_valid_text),
-                color = Color.Red,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
+
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -235,16 +196,9 @@ fun ProfilePanel(
                     contentColor = if (darkMode) PurpleGrey80 else Purple40
                 )
             ) {
-                Text(stringResource(id = R.string.cancle_button))
+                Text(stringResource(id = R.string.cancel_button))
             }
         }
     }
 }
 
-/**
- * checks if the email is real
- * @return Boolean: true means the email is real
- */
-fun isValidEmail(email: String): Boolean {
-    return email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}

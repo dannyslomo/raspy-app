@@ -30,7 +30,6 @@ import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
-import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 
@@ -41,7 +40,7 @@ fun AuthenticationScreen(
     authenticationAction: (username: String, password: String) -> Unit,
     switchAuthentication: () -> Unit
 ) {
-    RaspSPYTheme(darkTheme = isDarkMode.value) {
+    RaspSPYTheme(darkTheme = SettingUI.currentDarkModeState.value) {
         Scaffold(topBar = { AuthenticationTopAppBar() }) {
             Column(
                 modifier = Modifier

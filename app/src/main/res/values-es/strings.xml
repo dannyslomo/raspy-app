@@ -24,11 +24,11 @@
     <string name="security_system">Sistema de seguridad</string>
     <string name="security_info_note">Desactivar detección facial/objetos y notificaciones push.\n(La cámara seguirá activa)</string>
     <string name="camera">Cámara</string>
-    <string name="deactivete_camera">Desactivar cámara</string>
+    <string name="deactivate_camera">Desactivar cámara</string>
     <string name="darkmode_info_note">Modo oscuro: Un tema visualmente atractivo con un esquema de colores oscuros.\nModo claro: Un tema predeterminado con un esquema de colores claros.</string>
     <string name="delete_interval">Intervalo de eliminación en días</string>
     <string name="save_button">Guardar</string>
-    <string name="cancle_button">Cancelar</string>
+    <string name="cancel_button">Cancelar</string>
     <string name="email">Correo electrónico</string>
     <string name="email_valid_text">Por favor, introduce una dirección de correo electrónico válida</string>
     <!-- Info Activity -->
@@ -76,4 +76,5 @@
     <string name="logout">Cerrar sesión</string>
     <string name="language_selection_text">Seleccionar idioma:</string>
     <string name="edit">Editar</string>
+    <string name="edit_username">Edita tu nombre de usuario</string>
 </resources>

@@ -41,7 +41,7 @@ class InfoActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            RaspSPYTheme(darkTheme = SettingUI.PreferenceState.isDarkMode.value) {
+            RaspSPYTheme(darkTheme = SettingUI.currentDarkModeState.value) {
                 val scrollState = rememberScrollState()
 
                 Scaffold(
@@ -55,7 +55,7 @@ class InfoActivity : ComponentActivity() {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                                 }
                             },
-                            backgroundColor = if (SettingUI.PreferenceState.isDarkMode.value) Color.Gray else Color.White
+                            backgroundColor = if (SettingUI.currentDarkModeState.value) Color.Gray else Color.White
                         )
                     },
                     content = { paddingValues ->
@@ -64,7 +64,7 @@ class InfoActivity : ComponentActivity() {
                                 .padding(paddingValues)
                                 .verticalScroll(scrollState)
                                 .background(
-                                    if (SettingUI.PreferenceState.isDarkMode.value) Color.Gray else Color(
+                                    if (SettingUI.currentDarkModeState.value) Color.Gray else Color(
                                         0xFFd2bfd6
                                     )
                                 )

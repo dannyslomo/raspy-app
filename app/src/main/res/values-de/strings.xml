@@ -23,7 +23,7 @@
     <string name="settings">Einstellungen</string>
     <string name="security_info_note">Deaktivieren Sie die Gesichts-/Objekterkennung und Push-Benachrichtigungen.\n(Die Kamera bleibt aktiviert.)</string>
     <string name="camera">Kamera</string>
-    <string name="deactivete_camera">Kamera deaktivieren</string>
+    <string name="deactivate_camera">Kamera deaktivieren</string>
     <string name="darkmode_info_note">Dark-Modus: Ein optisch ansprechendes Design mit dunkler Farbgestaltung.\n Hell-Modus: Ein Standard-Design mit heller Farbgestaltung.</string>
     <string name="privacy_policy_title">Datenschutzerklärung</string>
     <!-- Info Activity -->
@@ -67,8 +67,9 @@
     <string name="language_selection_text">Sprache auswählen:</string>
     <string name="delete_interval">Löschintervall in Tagen</string>
     <string name="save_button">Speichern</string>
-    <string name="cancle_button">Abbrechen</string>
+    <string name="cancel_button">Abbrechen</string>
     <string name="email">"E-mail "</string>
     <string name="email_valid_text">Bitte geben Sie eine gültige E-Mail-Adresse ein</string>
     <string name="edit">Bearbeiten</string>
+    <string name="edit_username">Bearbeite deinen Nutzernamen</string>
 </resources>

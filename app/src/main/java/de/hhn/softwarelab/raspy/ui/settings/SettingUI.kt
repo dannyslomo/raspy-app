@@ -27,16 +27,14 @@ import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
-import de.hhn.softwarelab.raspy.ui.settings.SettingUI.PreferenceState.isDarkMode
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.Companion.currentDarkModeState
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.delay
 
 
 class SettingUI : ComponentActivity() {
-    object PreferenceState {
-        var isDarkMode = mutableStateOf(false)
-        var email = mutableStateOf("John123@Gmail.com")
-        var username = mutableStateOf("John")
+    companion object {
+        var currentDarkModeState = mutableStateOf(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -57,13 +55,13 @@ class SettingUI : ComponentActivity() {
                 body = settingService.getBody!!
             }
 
-            RaspSPYTheme(darkTheme = isDarkMode.value) {
+            RaspSPYTheme(darkTheme = currentDarkModeState.value) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 )
                 {
-                    SettingsScreen(this, isDarkMode, body)
+                    SettingsScreen(this, body)
                 }
             }
         }
@@ -78,27 +76,36 @@ class SettingUI : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List<Settings>) {
+fun SettingsScreen(context: Context, body: List<Settings>) {
     val settingService = SettingsService()
     var settingID = globalValues.settingsId
 
     var currentDeleteInterval = remember { mutableStateOf(0) }
     var currentCameraActive = remember { mutableStateOf(false) }
     var currentSystemActive = remember { mutableStateOf(false) }
+    var currentLanguageState = remember { mutableStateOf("en") }
+    var currentPolicyState = remember { mutableStateOf(false) }
 
     body.forEach {
         currentDeleteInterval.value = it.deleteInterval!!
         currentSystemActive.value = it.systemActive!!
         currentCameraActive.value = it.cameraActive!!
+        currentDarkModeState.value = it.darkMode!!
+        currentLanguageState.value = it.language!!
+        currentPolicyState.value = it.policy!!
 
         println(currentDeleteInterval)
         println(currentSystemActive)
         println(currentCameraActive)
+        println(currentDarkModeState)
+        println(currentLanguageState)
+        println(currentPolicyState)
     }
 
 
     val isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
     val isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
+    val isSwitchEnabled3 by remember { mutableStateOf(currentDarkModeState) }
 
     Scaffold(
         topBar = {
@@ -109,7 +116,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                backgroundColor = if (darkMode.value) Color.Gray else Color.White
+                backgroundColor = if (currentDarkModeState.value) Color.Gray else Color.White
             )
         },
         content = { paddingValues ->
@@ -117,7 +124,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 modifier = Modifier.padding(paddingValues),
             ) {
                 // Profile
-                Profile(darkMode.value)
+                Profile(currentDarkModeState.value)
                 //Activate/Deactivate System with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.camera_ras,
@@ -130,7 +137,10 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                                 Settings(
                                     currentDeleteInterval.value,
                                     true,
-                                    currentCameraActive.value
+                                    currentCameraActive.value,
+                                    currentDarkModeState.value,
+                                    currentLanguageState.value,
+                                    currentPolicyState.value
                                 ), settingID
                             )
                             currentCameraActive.value = true
@@ -140,14 +150,17 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                                 Settings(
                                     currentDeleteInterval.value,
                                     false,
-                                    currentCameraActive.value
+                                    currentCameraActive.value,
+                                    currentDarkModeState.value,
+                                    currentLanguageState.value,
+                                    currentPolicyState.value
                                 ), settingID
                             )
                             currentCameraActive.value = false
                             Toast.makeText(context, "1 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    darkMode = isDarkMode.value,
+                    darkMode = currentDarkModeState.value,
                     "Deactivate face/object detection AND Push-Notifications. \n(Camera is still on)"
                 )
                 //Activate/Deactivate Camera with SWITCH
@@ -162,7 +175,10 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                                 Settings(
                                     currentDeleteInterval.value,
                                     currentSystemActive.value,
-                                    true
+                                    true,
+                                    currentDarkModeState.value,
+                                    currentLanguageState.value,
+                                    currentPolicyState.value
                                 ), settingID
                             )
                             currentSystemActive.value = true
@@ -172,33 +188,41 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                                 Settings(
                                     currentDeleteInterval.value,
                                     currentSystemActive.value,
-                                    false
+                                    false,
+                                    currentDarkModeState.value,
+                                    currentLanguageState.value,
+                                    currentPolicyState.value
                                 ), settingID
                             )
                             currentSystemActive.value = false
                             Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    darkMode = isDarkMode.value, stringResource(R.string.deactivete_camera)
+                    darkMode = currentDarkModeState.value, stringResource(R.string.deactivate_camera)
                 )
                 CardWithSwitch(
-                    icon = if (isDarkMode.value) R.drawable.darkmode else R.drawable.lightmode,
-                    mainText = if (isDarkMode.value) "Dark Mode" else "Light Mode",
-                    switchState = isDarkMode.value,
+                    icon = if (currentDarkModeState.value) R.drawable.darkmode else R.drawable.lightmode,
+                    mainText = if (currentDarkModeState.value) "Dark Mode" else "Light Mode",
+                    switchState = isSwitchEnabled3.value,
                     onSwitchStateChanged = { isEnabled ->
-                        isDarkMode.value = isEnabled
+                        currentDarkModeState.value = isEnabled
                     },
-                    darkMode = isDarkMode.value,
+                    darkMode = currentDarkModeState.value,
                     infoNote = stringResource(id = R.string.darkmode_info_note)
                 )
 
-                NumberPicker(darkMode.value, currentDeleteInterval, onSave = { newNumber ->
+                NumberPicker(currentDarkModeState.value, currentDeleteInterval, onSave = { newNumber ->
                     settingService.putSettings(
                         Settings(
                             newNumber,
-                            currentSystemActive.value, currentCameraActive.value
+                            currentSystemActive.value,
+                            currentCameraActive.value,
+                            true,
+                            currentLanguageState.value,
+                            currentPolicyState.value
                         ), settingID
                     )
+                    currentDarkModeState.value = true
                 })
             }
         }

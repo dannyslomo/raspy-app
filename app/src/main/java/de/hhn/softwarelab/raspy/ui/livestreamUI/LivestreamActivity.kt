@@ -26,7 +26,7 @@ class LivestreamActivity : ComponentActivity() {
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
             RaspSPYTheme(
-                darkTheme = SettingUI.PreferenceState.isDarkMode.value
+                darkTheme = SettingUI.currentDarkModeState.value
             ) {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),

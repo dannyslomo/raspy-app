@@ -25,8 +25,11 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.backend.Services.SettingsService
+import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
+import kotlinx.coroutines.delay
 
 class LanguageActivity : ComponentActivity() {
     private var selectedLanguage: String = ""
@@ -35,7 +38,20 @@ class LanguageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RaspSPYTheme(darkTheme = SettingUI.PreferenceState.isDarkMode.value) {
+            val settingService = SettingsService()
+            var body by remember {
+                mutableStateOf(emptyList<Settings>())
+            }
+            //getting Backend values
+            LaunchedEffect(Unit) {
+                settingService.getSettings()
+                while (settingService.getBody == null) {
+                    delay(100)
+                }
+                body = settingService.getBody!!
+            }
+
+            RaspSPYTheme(darkTheme = SettingUI.currentDarkModeState.value) {
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -47,7 +63,7 @@ class LanguageActivity : ComponentActivity() {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                                 }
                             },
-                            backgroundColor = if (SettingUI.PreferenceState.isDarkMode.value) Color.Gray else Color.White
+                            backgroundColor = if (SettingUI.currentDarkModeState.value) Color.Gray else Color.White
                         )
                     },
                     content = { paddingValues ->
@@ -55,7 +71,7 @@ class LanguageActivity : ComponentActivity() {
                             modifier = Modifier
                                 .padding(paddingValues)
                                 .background(
-                                    if (SettingUI.PreferenceState.isDarkMode.value) Color.Gray else Color(
+                                    if (SettingUI.currentDarkModeState.value) Color.Gray else Color(
                                         0xFFd2bfd6
                                     )
                                 )

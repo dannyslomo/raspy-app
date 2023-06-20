@@ -207,7 +207,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                     },
                     modifier = Modifier.padding(top = 16.dp, start = 8.dp)
                 ) {
-                    Text(text = stringResource(R.string.cancle_button))
+                    Text(text = stringResource(R.string.cancel_button))
                 }
             }
         }

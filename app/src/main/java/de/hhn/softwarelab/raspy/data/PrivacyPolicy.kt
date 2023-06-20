@@ -10,22 +10,59 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.hhn.softwarelab.raspy.backend.Services.SettingsService
+import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.LoginActivity
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI
+import kotlinx.coroutines.delay
 
-//TODO: get from Backend if policy got already accepted
 @Composable
-fun PrivacyPolicyScreen(context: Context, permission: Boolean) {
-    if(permission){
+fun PrivacyPolicyScreen(context: Context) {
+    val settingService = SettingsService()
+    var body by remember {
+        mutableStateOf(emptyList<Settings>())
+    }
+    //getting Backend values
+    LaunchedEffect(Unit) {
+        settingService.getSettings()
+        while (settingService.getBody == null) {
+            delay(100)
+        }
+        body = settingService.getBody!!
+    }
+    var currentDeleteInterval = remember { mutableStateOf(0) }
+    var currentCameraActive = remember { mutableStateOf(false) }
+    var currentSystemActive = remember { mutableStateOf(false) }
+    var currentLanguageState = remember { mutableStateOf("en") }
+    var currentPolicyState = remember { mutableStateOf(false) }
+    var settingID = globalValues.settingsId
+
+    body.forEach {
+        currentDeleteInterval.value = it.deleteInterval!!
+        currentSystemActive.value = it.systemActive!!
+        currentCameraActive.value = it.cameraActive!!
+        SettingUI.currentDarkModeState.value = it.darkMode!!
+        currentLanguageState.value = it.language!!
+        currentPolicyState.value = it.policy!!
+
+        println(currentDeleteInterval)
+        println(currentSystemActive)
+        println(currentCameraActive)
+        println(SettingUI.currentDarkModeState)
+        println(currentLanguageState)
+        println(currentPolicyState)
+    }
+
+    if(!currentPolicyState.value){
         val scrollState = rememberScrollState()
 
         Card(modifier = Modifier.padding(30.dp), shape = RoundedCornerShape(30.dp)) {
@@ -74,8 +111,17 @@ fun PrivacyPolicyScreen(context: Context, permission: Boolean) {
                                 context.startActivity(intent)
                             }) {
                                 Text("Accept")
-                                permission == true
-                                //TODO: Send Backend true
+                                currentPolicyState.value = true
+                                settingService.putSettings(
+                                    Settings(
+                                        currentDeleteInterval.value,
+                                        true,
+                                        currentCameraActive.value,
+                                        SettingUI.currentDarkModeState.value,
+                                        currentLanguageState.value,
+                                        true
+                                    ), settingID
+                                )
                             }
                             Button(onClick = {
                                 val intent = Intent(context, LoginActivity::class.java)
