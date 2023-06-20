@@ -68,6 +68,8 @@ class UserService {
 
                 //Successfully connected to REST API
                 if (successful == true) {
+                    globalValues.login_successful = httpStatusCode!!
+
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
 
@@ -75,6 +77,8 @@ class UserService {
                     globalValues.settingsId = getBody?.settingsId?.toInt()!!
                 } else {
                     println(getBody)
+                    globalValues.login_successful = httpStatusCode!!
+                    println(globalValues.login_successful)
                     when (httpStatusCode) {
                         403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")

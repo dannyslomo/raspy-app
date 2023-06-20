@@ -1,12 +1,8 @@
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Resources
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.ExposedDropdownMenuDefaults.outlinedTextFieldColors
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -17,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -27,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
@@ -133,8 +129,16 @@ fun AuthenticationInputForm(
     Button(
         onClick = {
             authenticateAction(usernameState.value, passwordState.value)
-            val intent = Intent(context, LivestreamActivity::class.java)
-            context.startActivity(intent)
+
+            while (globalValues.login_successful == 0){}
+
+            if(globalValues.login_successful == 200){
+                val intent = Intent(context, LivestreamActivity::class.java)
+                context.startActivity(intent)
+            }else{
+                Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+            }
+            globalValues.login_successful = 0
             },
         modifier = Modifier
             .size(200.dp, 48.dp)

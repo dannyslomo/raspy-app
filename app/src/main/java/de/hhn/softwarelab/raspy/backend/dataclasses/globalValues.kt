@@ -6,5 +6,6 @@ class globalValues {
         const val  livestreamUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         const val serverUrl = "http://192.168.106.209:8000/"
         var settingsId = 0
+        var login_successful = 0
     }
 }
