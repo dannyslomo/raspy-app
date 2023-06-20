@@ -100,7 +100,6 @@ class ImageActivity : ComponentActivity() {
 
 
 
-
     // Preview function for Composable UI preview
     @Preview(showBackground = true)
     @Composable
@@ -129,7 +128,7 @@ class ImageActivity : ComponentActivity() {
             body = service.getBody!!
         }
 
-        RaspSPYTheme(darkTheme = SettingUI.PreferenceState.isDarkMode.value) {
+        RaspSPYTheme(darkTheme = SettingUI.currentDarkModeState.value) {
             Column() {
                 // Display the scrollable logs using the provided composable function
                 logComposables.ScrollableLogs(body)
