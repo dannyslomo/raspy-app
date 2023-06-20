@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
@@ -34,8 +35,8 @@ import kotlinx.coroutines.delay
 class SettingUI : ComponentActivity() {
     object PreferenceState {
         var isDarkMode = mutableStateOf(false)
-        var email  = mutableStateOf("John123@Gmail.com")
-        var username  = mutableStateOf("John")
+        var email = mutableStateOf("John123@Gmail.com")
+        var username = mutableStateOf("John")
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -118,13 +119,13 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
     }
 
 
-    var isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
-    var isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
+    val isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
+    val isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Settings") },
+                title = { Text(text = stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed(context) }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -142,7 +143,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 //Activate/Deactivate System with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.camera_ras,
-                    mainText = "Security System ",
+                    mainText = stringResource(R.string.security_system),
                     switchState = isSwitchEnabled1.value,
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled1.value = isEnabled
@@ -174,7 +175,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                 //Activate/Deactivate Camera with SWITCH
                 CardWithSwitch(
                     icon = R.drawable.camera_ras,
-                    mainText = "Camera",
+                    mainText = stringResource(R.string.camera),
                     switchState = isSwitchEnabled2.value,
                     onSwitchStateChanged = { isEnabled ->
                         isSwitchEnabled2.value = isEnabled
@@ -200,24 +201,23 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
                             Toast.makeText(context, "2 OFF", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    darkMode = isDarkMode.value, "deactivate Camera"
+                    darkMode = isDarkMode.value, stringResource(R.string.deactivete_camera)
                 )
                 CardWithSwitch(
-                    icon = if (isDarkMode.value)  R.drawable.darkmode else R.drawable.lightmode,
+                    icon = if (isDarkMode.value) R.drawable.darkmode else R.drawable.lightmode,
                     mainText = if (isDarkMode.value) "Dark Mode" else "Light Mode",
                     switchState = isDarkMode.value,
-                    onSwitchStateChanged = {isEnabled ->
+                    onSwitchStateChanged = { isEnabled ->
                         isDarkMode.value = isEnabled
                     },
                     darkMode = isDarkMode.value,
-                    infoNote = ""
+                    infoNote = stringResource(id = R.string.darkmode_info_note)
                 )
 
                 NumberPicker(darkMode.value, currentDeleteInterval, onSave = { newNumber ->
-                    var savedNumber = newNumber
                     settingService.putSettings(
                         Settings(
-                            savedNumber,
+                            newNumber,
                             currentSystemActive.value, currentCameraActive.value
                         ), settingID
                     )
@@ -231,7 +231,7 @@ fun SettingsScreen(context: Context, darkMode: MutableState<Boolean>, body: List
 /**
  * press to go back to LiveStreamActivity
  */
-private fun onBackPressed(context: Context) {
+fun onBackPressed(context: Context) {
     val intent = Intent(context, LivestreamActivity::class.java)
     context.startActivity(intent)
     (context as? Activity)?.finish()

@@ -4,18 +4,16 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.HelpOutline
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Logout
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import de.hhn.softwarelab.raspy.ui.ImageLogsUI.ImageActivity
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.ui.imageLogsUI.ImageActivity
+import de.hhn.softwarelab.raspy.ui.infoUI.InfoActivity
+import de.hhn.softwarelab.raspy.ui.languageUI.LanguageActivity
 import de.hhn.softwarelab.raspy.ui.livestreamUI.components.DrawerBody
 import de.hhn.softwarelab.raspy.ui.livestreamUI.components.DrawerHeader
 import de.hhn.softwarelab.raspy.ui.livestreamUI.components.MenuItem
@@ -43,25 +41,31 @@ fun AppBar() {
                     ),
                     MenuItem(
                         id = "gallery",
-                        title = "Gallery",
+                        title = stringResource(R.string.gallery),
                         contentDescription = "Go to gallery screen",
                         icon = Icons.Outlined.Image
                     ),
                     MenuItem(
                         id = "settings",
-                        title = "Settings",
+                        title = stringResource(R.string.settings),
                         contentDescription = "Go to settings screen",
                         icon = Icons.Outlined.Settings
                     ),
                     MenuItem(
-                        id = "help",
-                        title = "Help",
-                        contentDescription = "Get help",
+                        id = "info",
+                        title = "Info",
+                        contentDescription = "Get info",
                         icon = Icons.Outlined.HelpOutline
                     ),
                     MenuItem(
+                        id = "language",
+                        title = stringResource(R.string.language),
+                        contentDescription = "change language",
+                        icon = Icons.Outlined.Language
+                    ),
+                    MenuItem(
                         id = "logout",
-                        title = "Logout",
+                        title = stringResource(R.string.logout),
                         contentDescription = "Go to login screen",
                         icon = Icons.Outlined.Logout
                     )
@@ -74,8 +78,13 @@ fun AppBar() {
                                 val intent = Intent(context, SettingUI::class.java)
                                 context.startActivity(intent)
                             }
-                            "help" -> {
-                                // navigate to help screen
+                            "info" -> {
+                                val intent = Intent(context, InfoActivity()::class.java)
+                                context.startActivity(intent)
+                            }
+                            "language" -> {
+                                val intent = Intent(context, LanguageActivity()::class.java)
+                                context.startActivity(intent)
                             }
                             "logout" -> {
                                 val intent = Intent(context, LoginActivity::class.java)

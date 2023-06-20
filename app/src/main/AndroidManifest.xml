@@ -19,16 +19,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="de.hhn.softwarelab.raspy.ui.ImageLogsUI.ImageActivity"
+            android:name="de.hhn.softwarelab.raspy.ui.imageLogsUI.ImageActivity"
             android:exported="false"
             android:label="@string/title_activity_image"
             android:theme="@style/Theme.RaspSPY" />
         <activity
             android:name="de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY"
-            android:configChanges="orientation|screenSize|layoutDirection">
+            android:theme="@style/Theme.RaspSPY">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,37 +37,37 @@
         </activity>
         <activity
             android:name="de.hhn.softwarelab.raspy.MainActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="false"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY"
-            android:configChanges="orientation|screenSize|layoutDirection">
-        </activity>
+            android:theme="@style/Theme.RaspSPY" />
         <activity
             android:name="de.hhn.softwarelab.raspy.ui.settings.SettingUI"
+            android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:theme="@style/Theme.RaspSPY" />
 
         <activity
             android:name="de.hhn.softwarelab.raspy.ui.loginUI.LoginActivity"
             android:exported="false"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY">
-        </activity>
+            android:theme="@style/Theme.RaspSPY" />
         <activity
             android:name="de.hhn.softwarelab.raspy.ui.loginUI.RegisterActivity"
             android:exported="false"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY">
-        </activity>
+            android:theme="@style/Theme.RaspSPY" />
+        <activity
+            android:name="de.hhn.softwarelab.raspy.ui.infoUI.InfoActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.RaspSPY" />
+        <activity
+            android:name="de.hhn.softwarelab.raspy.ui.languageUI.LanguageActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.RaspSPY" />
+
         <service
             android:name="de.hhn.softwarelab.raspy.notification.PushNotificationService"
             android:exported="false">

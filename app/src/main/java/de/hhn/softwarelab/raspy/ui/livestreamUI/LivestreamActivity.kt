@@ -18,9 +18,11 @@ import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class LivestreamActivity : ComponentActivity() {
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         PushNotificationService.subscribePushNotifications("log", applicationContext)
         setContent {
             RaspSPYTheme(
@@ -40,7 +42,6 @@ class LivestreamActivity : ComponentActivity() {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-
                         }
                     }
                 )
