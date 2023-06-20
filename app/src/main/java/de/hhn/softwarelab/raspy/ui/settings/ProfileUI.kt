@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -128,7 +129,7 @@ fun ProfileCardUI(
                     shape = ShapeDefaults.Medium
                 ) {
                     Text(
-                        text = "Edit",
+                        text = stringResource(R.string.edit),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -190,7 +191,7 @@ fun ProfilePanel(
         TextField(
             value = editedUsername,
             onValueChange = { editedUsername = it },
-            label = { Text("Username") },
+            label = { Text(stringResource(id = R.string.username)) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = if (darkMode) Color.LightGray else Color.White,
                 textColor = if (darkMode) Color.Black else Color.DarkGray
@@ -200,7 +201,7 @@ fun ProfilePanel(
         TextField(
             value = editedEmail,
             onValueChange = { editedEmail = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(id = R.string.email)) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = if (darkMode) Color.LightGray else Color.White,
                 textColor = if (darkMode) Color.Black else Color.DarkGray
@@ -208,7 +209,7 @@ fun ProfilePanel(
         )
         if (!isEmailVerified) {
             Text(
-                text = "Please enter a valid email address",
+                text = stringResource(R.string.email_valid_text),
                 color = Color.Red,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -225,7 +226,7 @@ fun ProfilePanel(
                     contentColor = if (darkMode) PurpleGrey80 else Purple40
                 )
             ) {
-                Text("Save")
+                Text(stringResource(id = R.string.save_button))
             }
             TextButton(
                 onClick = { onDismiss() },
@@ -234,7 +235,7 @@ fun ProfilePanel(
                     contentColor = if (darkMode) PurpleGrey80 else Purple40
                 )
             ) {
-                Text("Cancel")
+                Text(stringResource(id = R.string.cancle_button))
             }
         }
     }

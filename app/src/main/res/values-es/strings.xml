@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Language Activity -->
+    <string name="change_language">Cambiar idioma</string>
+    <string name="german">Alemán</string>
+    <string name="english">Inglés</string>
+    <string name="app_name">RaSpy</string>
+    <!-- Image Activity -->
+    <string name="title_activity_image">Actividad de imagen</string>
+    <!-- Login Activity -->
+    <string name="login">Iniciar sesión</string>
+    <!-- Register Activity -->
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="notRegistered">¡No registrado!</string>
+    <string name="alreadyRegistered">¡Ya registrado!</string>
+    <string name="invalid_login">Inicio de sesión inválido</string>
+    <string name="unkown_error">Error desconocido\n</string>
+    <string name="new_user_success">Nuevo usuario registrado con éxito</string>
+    <string name="new_user_exists">El usuario ya existe\n</string>
+    <string name="register">Registrar</string>
+    <!-- Settings Activity -->
+    <string name="settings">Configuración</string>
+    <string name="security_system">Sistema de seguridad</string>
+    <string name="security_info_note">Desactivar detección facial/objetos y notificaciones push.\n(La cámara seguirá activa)</string>
+    <string name="camera">Cámara</string>
+    <string name="deactivete_camera">Desactivar cámara</string>
+    <string name="darkmode_info_note">Modo oscuro: Un tema visualmente atractivo con un esquema de colores oscuros.\nModo claro: Un tema predeterminado con un esquema de colores claros.</string>
+    <string name="delete_interval">Intervalo de eliminación en días</string>
+    <string name="save_button">Guardar</string>
+    <string name="cancle_button">Cancelar</string>
+    <string name="email">Correo electrónico</string>
+    <string name="email_valid_text">Por favor, introduce una dirección de correo electrónico válida</string>
+    <!-- Info Activity -->
+    <string name="info_title">Información de RaSpy</string>
+    <string name="about_us_header">Sobre nosotros</string>
+    <string name="about_us_text">¡Bienvenido a nuestra innovadora aplicación de vigilancia! Utilice nuestras cámaras de alta calidad con reconocimiento facial y de objetos para garantizar la máxima seguridad. Monitoree su entorno en tiempo real y responda rápidamente a posibles amenazas. ¡Descargue la aplicación ahora y experimente un nuevo nivel de seguridad!</string>
+    <string name="Info_text_1">Nosotros, Hochschule Heilbronn Sontheim, somos los proveedores y operadores de la aplicación de cámaras de vigilancia. A continuación, le informamos sobre la recopilación, el procesamiento y el uso de sus datos personales en relación con el uso de nuestra aplicación.\n\n</string>
+    <string name="Info_text_2">Datos de contacto del proveedor:\n</string>
+    <string name="Info_text_3">Hochschule Heilbronn Sontheim\n</string>
+    <string name="Info_text_4">Max-Planck-Straße 39\n</string>
+    <string name="Info_text_5">74081 Heilbronn\n</string>
+    <string name="Info_text_6">Teléfono: 07131 5040\n</string>
+    <string name="Info_text_7">Horario de atención:\n</string>
+    <string name="Info_text_8">Martes: 07:00–22:00\n</string>
+    <string name="Info_text_9">Miércoles: 07:00–22:00\n</string>
+    <string name="Info_text_10">Jueves: 07:00–22:00\n</string>
+    <string name="Info_text_11">Viernes: 07:00–22:00\n</string>
+    <string name="Info_text_12">Sábado: 07:30–13:00\n</string>
+    <string name="Info_text_13">Domingo: Cerrado\n</string>
+    <string name="Info_text_14">Lunes: 07:00–22:00\n\n</string>
+    <string name="Info_text_15">Derechos de acceso y uso de datos:\n</string>
+    <string name="Info_text_16">Nuestra aplicación de cámaras de vigilancia requiere ciertos derechos de acceso para proporcionarle todas las funciones. Se requieren los siguientes derechos de acceso y datos:\n\n</string>
+    <string name="Info_text_17">Notificaciones push:\n</string>
+    <string name="Info_text_18">La aplicación requiere acceso a las notificaciones push para enviarle notificaciones importantes sobre actividades o eventos capturados por la cámara de vigilancia.\n</string>
+    <string name="Info_text_19">Función de vibración:\n</string>
+    <string name="Info_text_20">La aplicación requiere acceso a la función de vibración de su dispositivo para proporcionarle retroalimentación háptica para las notificaciones entrantes.\n</string>
+    <string name="Info_text_21">Sonido para notificaciones push:\n</string>
+    <string name="Info_text_22">La aplicación requiere acceso al sonido de su dispositivo para mostrar notificaciones audibles para eventos capturados.\n</string>
+    <string name="Info_text_23">Período de retención de datos:\n</string>
+    <string name="Info_text_24">Los datos recopilados por la aplicación se almacenan de la siguiente manera:\n\n</string>
+    <string name="Info_text_25">Dirección IP: La dirección IP se almacena en los archivos de registro de MediaMTX con el fin de establecer la conexión.\n\n</string>
+    <string name="Info_text_26">Dirección de correo electrónico, nombre y apellido: Estos datos se almacenan durante el proceso de registro/inicio de sesión en la aplicación con fines de autorización.\n\n</string>
+    <string name="Info_text_27">No se realiza una evaluación del comportamiento del usuario o de los datos mediante herramientas de seguimiento como Apptrace, Apptrace, Adeven, App Annie o Google Analytics para aplicaciones.\n\n</string>
+    <string name="Info_text_28">Transmisión de datos a terceros:\n</string>
+    <string name="Info_text_29">Sus datos no se transmitirán a terceros.\n\n</string>
+    <string name="Info_text_30">Derechos del usuario:\n</string>
+    <string name="Info_text_31">Usted tiene derecho a acceder, rectificar, bloquear o eliminar sus datos personales. Las imágenes capturadas por la cámara de vigilancia se almacenan en un servidor Django y se eliminan automáticamente después de un período de tiempo configurable. Además, tiene la opción de eliminar imágenes a través de la propia aplicación.\n\n</string>
+    <string name="Info_text_32">Opciones de objeción:\n</string>
+    <string name="Info_text_33">Si tiene alguna pregunta o desea ejercer sus derechos, puede comunicarse con nosotros utilizando los datos de contacto proporcionados anteriormente. Estamos a su disposición.\n\n</string>
+    <string name="Info_text_34">Tenga en cuenta que la política de privacidad se ha creado de acuerdo con las leyes aplicables de protección de datos y está sujeta a cambios y actualizaciones. Le informaremos sobre cualquier cambio si es necesario.</string>
+    <string name="privacy_policy_title">Política de privacidad</string>
+    <!-- Drawer -->
+    <string name="gallery">Galería</string>
+    <string name="language">Idioma</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="language_selection_text">Seleccionar idioma:</string>
+    <string name="edit">Editar</string>
+</resources>

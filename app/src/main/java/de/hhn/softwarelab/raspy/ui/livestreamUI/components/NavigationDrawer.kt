@@ -32,7 +32,6 @@ fun DrawerHeader() {
             modifier = Modifier
                 .fillMaxWidth()
                 .size(102.dp)
-
         )
     }
 }
