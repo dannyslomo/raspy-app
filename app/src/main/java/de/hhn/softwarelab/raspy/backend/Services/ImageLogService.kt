@@ -17,7 +17,7 @@ import java.net.ConnectException
         var getBody: List<ImageLog>? = null
         var postBody: ImageLog? = null
 
-        fun getImages(){
+        fun getImages(connectionCallback: (Boolean) -> Unit){
             Thread(Runnable {
                 try {
                     val settingsResponse = logApi.getLogs().execute()
@@ -30,19 +30,23 @@ import java.net.ConnectException
                     if (successful == true) {
                         println("postMessage: " + httpStatusMessage)
                         println("postCode: " + httpStatusCode)
-
+                        connectionCallback(true)
                     } else {
+                        connectionCallback(false)
                         when (httpStatusCode) {
                             403 -> Log.e("Rest Connection", "403 Forbidden")
                             404 -> Log.e("Rest Connection", "404 Not Found")
                             405 -> Log.e("Rest Connection", "405 Method Not Allowed")
+                            408 -> Log.e("Rest Connection", "408 Request Timeout")
                             400 -> Log.e("Rest Connection", "400 Bad Request")
                             500 -> Log.e("Rest Connection", "500 Internal Server Error")
                         }
                     }
                 } catch (e: ConnectException) {
+                    connectionCallback(false)
                     Log.e("Rest Connection", "Connection Error")
                 } catch (e: Exception) {
+                    connectionCallback(false)
                     Log.e("Rest Connection", e.message.toString())
                 }
             }).start()

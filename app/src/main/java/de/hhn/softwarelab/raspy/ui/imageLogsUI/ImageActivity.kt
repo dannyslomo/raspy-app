@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,11 +37,16 @@ class ImageActivity : ComponentActivity() {
             var isLoading by remember {
                 mutableStateOf(true)
             }
+            var isConnected by remember {
+                mutableStateOf(true)
+            }
 
             // Launch a coroutine to retrieve image logs from a service
             LaunchedEffect(Unit) {
-                service.getImages()
 
+                service.getImages { connected ->
+                    isConnected = connected
+                }
                 // Wait until the service's body property is not null
                 while (service.getBody == null) {
                     delay(100)
@@ -73,6 +79,16 @@ class ImageActivity : ComponentActivity() {
                                 .padding(16.dp),
                             color = Color.Green
                         )
+                        if(!isConnected){
+                            // Display the loading animation while waiting for data
+                            Text(
+                                text = "No Connection",
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .padding(16.dp),
+                                color = Color.Red
+                            )
+                        }
                     } else {
                         // Display the scrollable logs using the provided composable function
                         logComposables.ScrollableLogs(body)
@@ -81,6 +97,7 @@ class ImageActivity : ComponentActivity() {
             }
         }
     }
+
 
 
 
@@ -93,10 +110,15 @@ class ImageActivity : ComponentActivity() {
         var body by remember {
             mutableStateOf(emptyList<ImageLog>())
         }
+        var isConnected by remember {
+            mutableStateOf(true)
+        }
 
         // Launch a coroutine to retrieve image logs from a service
         LaunchedEffect(Unit) {
-            service.getImages()
+            service.getImages { connected ->
+                isConnected = connected
+            }
 
             // Wait until the service's body property is not null
             while (service.getBody == null) {

@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                 StandardButton(text = "Get Settings", onClick = { settingsService.getSettings() })
                 //StandardButton(text = "Post Settings", onClick = { settingsService.postSettings(Settings(5, true, true, null)) })
                 //StandardButton(text = "Put Settings" , onClick = { settingsService.putSettings(Settings(12, false, true),32)})
-                StandardButton(text = "Get Logs", onClick = { imageLogService.getImages() })
+                //StandardButton(text = "Get Logs", onClick = { imageLogService.getImages() })
                 StandardButton(text = "Post Log", onClick = { imageLogService.postImage(ImageLog(LocalDateTime.now(), 0, null)) })
                 //StandardButton(text = "delete Log", onClick = { imageLogService.deleteImage( 27) })
 

@@ -31,6 +31,7 @@ class SettingsService {
 
                 //Successfully connected to REST API
                 if (successful == true) {
+                    
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
 
