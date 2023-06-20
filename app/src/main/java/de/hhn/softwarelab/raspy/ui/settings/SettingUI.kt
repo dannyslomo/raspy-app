@@ -9,9 +9,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -19,8 +17,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
@@ -43,26 +43,48 @@ class SettingUI : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            val settingService = SettingsService()
+            val service = SettingsService()
             var body by remember {
                 mutableStateOf(emptyList<Settings>())
             }
+            var isLoading by remember {
+                mutableStateOf(true)
+            }
+            val context = remember { this }
             //getting Backend values
             LaunchedEffect(Unit) {
-                settingService.getSettings()
-                while (settingService.getBody == null) {
+                service.getSettings()
+
+                // Wait until the service's body property is not null
+                while (service.getBody == null) {
                     delay(100)
                 }
-                body = settingService.getBody!!
+
+                // Assign the service's body to the 'body' variable
+                body = service.getBody!!
+
+                // Set isLoading to false once the body is retrieved
+                isLoading = false
             }
 
             RaspSPYTheme(darkTheme = isDarkMode.value) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                )
-                {
-                    SettingsScreen(this, isDarkMode, body)
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    if (isLoading) {
+                        // Display the loading animation while waiting for data
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(120.dp)
+                                .padding(16.dp),
+                            color = Color.Green
+                        )
+                    } else {
+                        // Display the scrollable logs using the provided composable function
+                        SettingsScreen(context, isDarkMode, body)
+                    }
                 }
             }
         }
