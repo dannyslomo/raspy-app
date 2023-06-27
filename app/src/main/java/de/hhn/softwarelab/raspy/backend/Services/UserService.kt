@@ -31,11 +31,11 @@ class UserService {
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
 
-                    println(postBody?.settingsId)
                     globalValues.settingsId = postBody?.settingsId?.toInt()!!
                 }
                 //Error while connecting to REST API
                 else {
+                    globalValues.login_successful = httpStatusCode!!
                     when (httpStatusCode) {
                         403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
@@ -48,10 +48,12 @@ class UserService {
             }
             //Error while connecting to REST API
             catch (e: ConnectException) {
+                globalValues.login_successful = globalValues.login_failed
                 Log.e("Rest Connection", "Connection Error")
             }
             //Error while connecting to REST API
             catch (e: Exception) {
+                globalValues.login_successful = globalValues.login_failed
                 Log.e("Rest Connection", e.message.toString())
             }
         }).start()
@@ -72,13 +74,9 @@ class UserService {
 
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
-
-                    println(getBody?.settingsId)
                     globalValues.settingsId = getBody?.settingsId?.toInt()!!
                 } else {
-                    println(getBody)
                     globalValues.login_successful = httpStatusCode!!
-                    println(globalValues.login_successful)
                     when (httpStatusCode) {
                         403 -> Log.e("Rest Connection", "403 Forbidden")
                         404 -> Log.e("Rest Connection", "404 Not Found")
