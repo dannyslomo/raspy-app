@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
+import retrofit2.http.Url
 
 @Composable
 fun MediaScreen() {
@@ -26,7 +27,7 @@ fun MediaScreen() {
     //val rtspUri by remember { mutableStateOf(Url.livestreamUrl) }
     val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
 
-    val mediaSource: MediaSource = RtspMediaSource.Factory().createMediaSource(MediaItem.fromUri(rtspUri))
+    val mediaSource: MediaSource = RtspMediaSource.Factory().setDebugLoggingEnabled(true).setTimeoutMs(10000).createMediaSource(MediaItem.fromUri(rtspUri))
     val context = LocalContext.current
 
     //Error handling
