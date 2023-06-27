@@ -12,7 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import de.hhn.softwarelab.raspy.livestreamUI.AppBar
+import de.hhn.softwarelab.raspy.ui.livestreamUI.components.AppBar
 import de.hhn.softwarelab.raspy.notification.PushNotificationService
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme

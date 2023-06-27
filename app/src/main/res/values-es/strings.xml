@@ -77,4 +77,8 @@
     <string name="language_selection_text">Seleccionar idioma:</string>
     <string name="edit">Editar</string>
     <string name="edit_username">Edita tu nombre de usuario</string>
+    <string name="home">Inicio</string>
+    <string name="info">Info</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="light_mode">Modo claro</string>
 </resources>

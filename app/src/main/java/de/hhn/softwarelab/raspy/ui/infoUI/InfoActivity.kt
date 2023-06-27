@@ -24,7 +24,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.R
@@ -36,6 +35,17 @@ import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
  */
 class InfoActivity : ComponentActivity() {
 
+    /**
+     *
+     * Overrides the onCreate method of the activity.
+     * Sets the content view of the activity using the setContent function.
+     * Initializes a scroll state for vertical scrolling.
+     * Constructs and displays a scaffold with a top app bar and content.
+     * The top app bar includes a title, a navigation icon, and a background color based on the dark mode state.
+     * The content consists of a column with padding, vertical scrolling, and a background color based on the dark mode state.
+     * The column contains the header and text sections for the About Us and Privacy Policy information.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +90,9 @@ class InfoActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Composable function for displaying the headline for the "About Us" Text.
+     */
     @Composable
     fun AboutUsHeader() {
         val text = stringResource(R.string.about_us_header)
@@ -97,6 +110,9 @@ class InfoActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Composable function for displaying the description about us as creators.
+     */
     @Composable
     fun AboutUsText() {
         val text = stringResource(R.string.about_us_text)
@@ -113,6 +129,9 @@ class InfoActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Composable function for displaying the header text of the privacy policy.
+     */
     @Composable
     fun PolicyHeaderText() {
         val text = stringResource(R.string.privacy_policy_title)
@@ -129,7 +148,11 @@ class InfoActivity : ComponentActivity() {
         }
     }
 
-
+    /**
+     * Composable function for displaying policy text.
+     * This function builds an annotated string with multiple resource strings to create the policy text.
+     * The text is displayed in a box with justified alignment.
+     */
     @Composable
     fun PolicyText() {
         val text = buildAnnotatedString {
@@ -203,10 +226,4 @@ class InfoActivity : ComponentActivity() {
         }
     }
 
-
-    @Preview
-    @Composable
-    fun PreviewInformationActivity() {
-        InfoActivity()
-    }
 }

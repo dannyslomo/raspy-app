@@ -72,4 +72,8 @@
     <string name="email_valid_text">Bitte geben Sie eine gültige E-Mail-Adresse ein</string>
     <string name="edit">Bearbeiten</string>
     <string name="edit_username">Bearbeite deinen Nutzernamen</string>
+    <string name="home">Home</string>
+    <string name="info">Info</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
 </resources>
