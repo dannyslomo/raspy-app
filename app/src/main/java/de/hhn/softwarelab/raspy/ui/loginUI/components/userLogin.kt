@@ -1,5 +1,6 @@
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -27,6 +28,7 @@ import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
+import kotlinx.coroutines.delay
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -128,18 +130,35 @@ fun AuthenticationInputForm(
     Spacer(modifier = Modifier.padding(8.dp))
     Button(
         onClick = {
-            authenticateAction(usernameState.value, passwordState.value)
+            val username = usernameState.value
+            val password = passwordState.value
 
-            while (globalValues.login_successful == 0){}
+            if (username.isNotEmpty() && password.isNotEmpty()) {
+                authenticateAction(username, password)
 
-            if(globalValues.login_successful == 200){
-                val intent = Intent(context, LivestreamActivity::class.java)
-                context.startActivity(intent)
-            }else{
-                Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+                while(globalValues.login_successful == 0){
+                    Log.i("Login", "Waiting Server...")
+                    Thread.sleep(500)
+                }
+
+                if (globalValues.login_successful >= 400) {
+                    Toast.makeText(context, "Login failed check wifi-connection", Toast.LENGTH_LONG).show()
+                }
+
+                if (globalValues.login_successful == 200) {
+                    val intent = Intent(context, LivestreamActivity::class.java)
+                    context.startActivity(intent)
+                }
+                globalValues.login_successful = 0
+            } else {
+                if (username.isEmpty()) {
+                    Toast.makeText(context, "Please enter username", Toast.LENGTH_SHORT).show()
+                }
+                if (password.isEmpty()) {
+                    Toast.makeText(context, "Please enter password", Toast.LENGTH_SHORT).show()
+                }
             }
-            globalValues.login_successful = 0
-            },
+        },
         modifier = Modifier
             .size(200.dp, 48.dp)
             .testTag("loginButton")

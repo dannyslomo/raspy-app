@@ -89,8 +89,10 @@ class UserService {
                 }
                 //Error while connecting to REST API
             } catch (e: ConnectException) {
+                globalValues.login_successful = globalValues.login_failed
                 Log.e("Rest Connection", "Connection Error")
             } catch (e: Exception) {
+                globalValues.login_successful = globalValues.login_failed
                 Log.e("Rest Connection", e.message.toString())
             }
         }).start()
