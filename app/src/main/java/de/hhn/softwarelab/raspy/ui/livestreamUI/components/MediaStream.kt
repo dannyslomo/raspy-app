@@ -24,7 +24,7 @@ import retrofit2.http.Url
 fun MediaScreen() {
 
     //Video src
-    //val rtspUri by remember { mutableStateOf(Url.livestreamUrl) }
+    //val rtspUri by remember { mutableStateOf(globalValues.livestreamUrl) }
     val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
 
     val mediaSource: MediaSource = RtspMediaSource.Factory().setDebugLoggingEnabled(true).setTimeoutMs(10000).createMediaSource(MediaItem.fromUri(rtspUri))
