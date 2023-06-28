@@ -15,9 +15,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import de.hhn.softwarelab.raspy.backend.Services.UserService
 import de.hhn.softwarelab.raspy.backend.dataclasses.User
-import de.hhn.softwarelab.raspy.policy.PrivacyPolicy.Companion.policyAccept
-import de.hhn.softwarelab.raspy.policy.PrivacyPolicyScreen
-import de.hhn.softwarelab.raspy.policy.ShowAlertDialog
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
@@ -27,49 +24,20 @@ class LoginActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         setContent {
-            if(!policyAccept.value){
-                PrivacyPolicyScreen { policyAccepted ->
-                    if (policyAccepted) {
-                        policyAccept.value = true
-                        setContent {
-                            Surface(
-                                modifier = Modifier.fillMaxSize(),
-                                color = MaterialTheme.colorScheme.background,
-                            ) {
-                                AuthenticationScreen(
-                                    formType = FormType.LOGIN,
-                                    authenticationAction = { username, password ->
-                                        loginUser(
-                                            username,
-                                            password
-                                        )
-                                    },
-                                    switchAuthentication = { switchToRegister() }
-                                )
-                            }
-                        }
-                    } else {
-                        Toast.makeText(this,"You Cannot use App if you don´t accept our policy, Sorry!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }else{
-                setContent {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background,
-                    ) {
-                        AuthenticationScreen(
-                            formType = FormType.LOGIN,
-                            authenticationAction = { username, password ->
-                                loginUser(
-                                    username,
-                                    password
-                                )
-                            },
-                            switchAuthentication = { switchToRegister() }
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                AuthenticationScreen(
+                    formType = FormType.LOGIN,
+                    authenticationAction = { username, password ->
+                        loginUser(
+                            username,
+                            password
                         )
-                    }
-                }
+                    },
+                    switchAuthentication = { switchToRegister() }
+                )
             }
         }
     }
