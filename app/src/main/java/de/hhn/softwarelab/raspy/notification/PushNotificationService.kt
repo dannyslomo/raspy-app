@@ -22,15 +22,28 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 
-
+/**
+ * Service for handling push notifications using Firebase Cloud Messaging.
+ */
 class PushNotificationService : FirebaseMessagingService() {
-
+    /**
+     * Called when a new message is received.
+     *
+     * @param message The received remote message.
+     */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val type = message.data["type"]?.toIntOrNull() ?: return
         getNotification(type, applicationContext)
     }
-
+    /**
+     * Gets the appropriate notification based on the given type.
+     *
+     * @param type The type of notification.
+     * @param context The application context.
+     */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun getNotification(type: Int, context: Context) {
         when (type) {
             1 -> {
@@ -60,7 +73,15 @@ class PushNotificationService : FirebaseMessagingService() {
             }
         }
     }
-
+    /**
+     * Creates and displays a post notification.
+     *
+     * @param context The application context.
+     * @param postTitle The title of the notification.
+     * @param postContent The content of the notification.
+     * @param icon The icon resource ID for the notification.
+     * @param channelId The ID of the notification channel.
+     */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun createPostNotification(
         context: Context,
@@ -101,7 +122,12 @@ class PushNotificationService : FirebaseMessagingService() {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
     }
-
+    /**
+     * Gets the name of the channel based on the channel ID.
+     *
+     * @param channelId The ID of the notification channel.
+     * @return The name of the channel.
+     */
     private fun getChannelName(channelId: String): String {
         return when (channelId) {
             CHANNEL_CAMERA_DETECTION -> "Camera Detection"
@@ -109,7 +135,12 @@ class PushNotificationService : FirebaseMessagingService() {
             else -> "Default Channel"
         }
     }
-
+    /**
+     * Checks if the device has a network connection.
+     *
+     * @param context The application context.
+     * @return `true` if the device has a network connection, `false` otherwise.
+     */
     fun isNetworkConnected(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -118,7 +149,11 @@ class PushNotificationService : FirebaseMessagingService() {
             connectivityManager.getNetworkCapabilities(network) ?: return false
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
-
+    /**
+     * Called when a new FCM token is generated.
+     *
+     * @param token The new FCM token.
+     */
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "Refreshed token: $token")
