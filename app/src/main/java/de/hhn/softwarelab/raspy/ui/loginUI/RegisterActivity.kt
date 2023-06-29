@@ -2,6 +2,7 @@ package de.hhn.softwarelab.raspy.ui.loginUI
 
 import AuthenticationScreen
 import android.content.Intent
+import android.content.res.Resources.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import de.hhn.softwarelab.raspy.backend.dataclasses.User
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
+import de.hhn.softwarelab.raspy.ui.theme.LightColorScheme
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,7 @@ class RegisterActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
+                    color = LightColorScheme.background,
                 ) {
                     AuthenticationScreen(
                         formType = FormType.REGISTER,

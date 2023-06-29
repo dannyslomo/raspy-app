@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -78,6 +79,7 @@ fun AuthenticationScreen(
 fun AuthenticationTopAppBar() {
     TopAppBar(
         title = { Text(stringResource(id = R.string.app_name)) },
+        backgroundColor = Color.White
     )
 }
 
@@ -177,6 +179,10 @@ fun AuthenticationInputForm(
                 }
             }
         },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.White,
+            contentColor = Color.Black
+        ),
         modifier = Modifier
             .size(200.dp, 48.dp)
             .testTag("loginButton")
@@ -220,10 +226,16 @@ fun AuthenticationSwitchButton(formType: FormType, switchAuthentication: () -> U
     Spacer(modifier = Modifier.padding(8.dp))
     Button(
         modifier = Modifier.testTag("switchButton"),
-        onClick = { switchAuthentication() }) {
+        onClick = { switchAuthentication() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.White,
+            contentColor = Color.Black
+        )
+    ) {
         Text(text = stringResource(id = formType.getID()))
     }
 }
+
 
 @Preview(showBackground = true, device = Devices.DEFAULT)
 @Composable
