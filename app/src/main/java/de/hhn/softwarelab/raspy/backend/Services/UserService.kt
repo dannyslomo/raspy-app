@@ -31,6 +31,7 @@ class UserService {
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
 
+                    globalValues.login_successful = httpStatusCode!!
                     globalValues.settingsId = postBody?.settingsId?.toInt()!!
                 }
                 //Error while connecting to REST API
@@ -70,10 +71,10 @@ class UserService {
 
                 //Successfully connected to REST API
                 if (successful == true) {
-                    globalValues.login_successful = httpStatusCode!!
-
                     println("postMessage: " + httpStatusMessage)
                     println("postCode: " + httpStatusCode)
+
+                    globalValues.login_successful = httpStatusCode!!
                     globalValues.settingsId = getBody?.settingsId?.toInt()!!
                 } else {
                     globalValues.login_successful = httpStatusCode!!

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.loginUI.LoginActivity
 import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
@@ -137,7 +138,7 @@ fun AuthenticationInputForm(
                 authenticateAction(username, password)
 
                 while(globalValues.login_successful == 0){
-                    Log.i("Login", "Waiting Server...")
+                    Log.i("Login", "Waiting for Server...")
                     Thread.sleep(500)
                 }
 
@@ -146,8 +147,18 @@ fun AuthenticationInputForm(
                 }
 
                 if (globalValues.login_successful == 200) {
-                    val intent = Intent(context, LivestreamActivity::class.java)
-                    context.startActivity(intent)
+                    Log.i("succesfull", "succesfull")
+                    if(formType == FormType.LOGIN) {
+                        Log.i("loginsuccesfull", "succesfull")
+                        Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, LivestreamActivity::class.java)
+                        context.startActivity(intent)
+                    } else {
+                        Log.i("registersuccesfull", "succesfull")
+                        Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, LoginActivity::class.java)
+                        context.startActivity(intent)
+                    }
                 }
                 globalValues.login_successful = 0
             } else {

@@ -2,12 +2,14 @@
 
 package de.hhn.softwarelab.raspy.ui.livestreamUI.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -16,16 +18,19 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.rtsp.RtspMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy
+import com.google.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceException
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
-import retrofit2.http.Url
+import java.io.IOException
+import java.net.UnknownHostException
+
 
 @Composable
 fun MediaScreen() {
 
     //Video src
     //val rtspUri by remember { mutableStateOf(globalValues.livestreamUrl) }
-    val rtspUri by remember { mutableStateOf("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") }
+    val rtspUri by remember { mutableStateOf(globalValues.livestreamUrl) }
 
     val mediaSource: MediaSource = RtspMediaSource.Factory().setDebugLoggingEnabled(true).setTimeoutMs(10000).createMediaSource(MediaItem.fromUri(rtspUri))
     val context = LocalContext.current
@@ -33,9 +38,21 @@ fun MediaScreen() {
     //Error handling
     val loadErrorHandlingPolicy: LoadErrorHandlingPolicy =
         object : DefaultLoadErrorHandlingPolicy() {
-            override fun getRetryDelayMsFor(loadErrorInfo: LoadErrorHandlingPolicy.LoadErrorInfo): Long {
-                // Implement custom back-off logic here.
-                return 0
+            fun getRetryDelayMsFor(
+                dataType: Int,
+                loadDurationMs: Long,
+                exception: IOException?,
+                errorCount: Int
+            ): Long {
+                Log.i("MediaStream", "getRetryDelayMsFor: Test1")
+                // checking if it is a connectivity issue
+                return if (exception is UnknownHostException) {
+                    Log.i("MediaStream", "getRetryDelayMsFor: Failed to connect to server retrying...")
+                    2000 // Retry every 5 seconds.
+                } else {
+                    Log.i("MediaStream", "getRetryDelayMsFor: Test2")
+                    C.TIME_UNSET // Anything else is surfaced.
+                }
             }
         }
 
@@ -67,6 +84,5 @@ fun MediaScreen() {
         playerView
     },
         modifier = Modifier.fillMaxWidth(1f)
-
     )
 }
