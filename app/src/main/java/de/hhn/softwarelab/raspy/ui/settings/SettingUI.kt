@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -41,6 +40,8 @@ class SettingUI : ComponentActivity() {
      */
     companion object {
         var currentDarkModeState = mutableStateOf(false)
+        var currentCameraActive = mutableStateOf(false)
+        var currentSystemActive = mutableStateOf(false)
         var selectedLanguage: String = ""
     }
 
@@ -86,27 +87,25 @@ class SettingUI : ComponentActivity() {
      * The function includes UI components such as language selection,
      * card with switch for security system activation, card with switch for camera activation, card
      * with switch for dark mode, and a number picker for delete interval.
-     * @param context The context in which the function is called.
      * @param body The list of settings to initialize the UI state variables.
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun SettingsScreen( body: List<Settings>) {
+    fun SettingsScreen(body: List<Settings>) {
         val settingService = SettingsService()
         val settingID = globalValues.settingsId
 
         val currentDeleteInterval = remember { mutableStateOf(0) }
-        val currentCameraActive = remember { mutableStateOf(false) }
-        val currentSystemActive = remember { mutableStateOf(false) }
         val currentPolicyState = remember { mutableStateOf(false) }
         val currentLanguageState = remember { mutableStateOf("en") }
+        val dMode = remember { mutableStateOf(false) }
 
         body.forEach {
             currentDeleteInterval.value = it.deleteInterval!!
             currentSystemActive.value = it.systemActive!!
             currentCameraActive.value = it.cameraActive!!
-            currentDarkModeState.value = it.darkMode!!
+            dMode.value = it.darkMode!!
             currentLanguageState.value = it.language!!
             currentPolicyState.value = it.policy!!
         }
@@ -131,7 +130,7 @@ class SettingUI : ComponentActivity() {
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     //Change Language option with a combo box
-                    LanguageSelectionScreen(currentDarkModeState.value, ::switchLocale)
+                    LanguageSelectionScreen(::switchLocale)
                     //Option to turn on/off the security system with a switcj
                     CardWithSwitch(
                         icon = R.drawable.system,
@@ -145,7 +144,7 @@ class SettingUI : ComponentActivity() {
                                         currentDeleteInterval.value,
                                         true,
                                         currentCameraActive.value,
-                                        currentDarkModeState.value,
+                                        dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
                                     ), settingID
@@ -158,7 +157,7 @@ class SettingUI : ComponentActivity() {
                                         currentDeleteInterval.value,
                                         false,
                                         currentCameraActive.value,
-                                        currentDarkModeState.value,
+                                        dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
                                     ), settingID
@@ -182,7 +181,7 @@ class SettingUI : ComponentActivity() {
                                         currentDeleteInterval.value,
                                         currentSystemActive.value,
                                         true,
-                                        currentDarkModeState.value,
+                                        dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
                                     ), settingID
@@ -194,7 +193,7 @@ class SettingUI : ComponentActivity() {
                                         currentDeleteInterval.value,
                                         currentSystemActive.value,
                                         false,
-                                        currentDarkModeState.value,
+                                        dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
                                     ), settingID
@@ -209,7 +208,8 @@ class SettingUI : ComponentActivity() {
                     CardWithSwitch(
                         icon = if (currentDarkModeState.value) R.drawable.darkmode else R.drawable.lightmode,
                         mainText = if (currentDarkModeState.value) stringResource(R.string.dark_mode) else stringResource(
-                                                    R.string.light_mode),
+                            R.string.light_mode
+                        ),
                         switchState = currentDarkModeState.value,
                         onSwitchStateChanged = { isEnabled ->
                             currentDarkModeState.value = isEnabled
@@ -227,12 +227,12 @@ class SettingUI : ComponentActivity() {
                                     newNumber,
                                     currentSystemActive.value,
                                     currentCameraActive.value,
-                                    currentDarkModeState.value,
+                                    dMode.value,
                                     currentLanguageState.value,
                                     currentPolicyState.value
                                 ), settingID
                             )
-                            currentDarkModeState.value = true
+                            currentDeleteInterval.value = newNumber
                         })
                 }
             }

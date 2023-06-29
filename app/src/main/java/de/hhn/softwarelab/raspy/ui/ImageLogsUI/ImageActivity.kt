@@ -75,7 +75,7 @@ class ImageActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = stringResource(R.string.settings)) },
+                            title = { Text(text = stringResource(R.string.gallery)) },
                             navigationIcon = {
                                 IconButton(onClick = { onBackPressed(this) }) {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -104,7 +104,7 @@ class ImageActivity : ComponentActivity() {
                                     if (!isConnected) {
                                         // Display error text if no connection
                                         Text(
-                                            text = "No Connection",
+                                            text = getString(R.string.no_connection),
                                             modifier = Modifier
                                                 .size(120.dp)
                                                 .padding(16.dp),

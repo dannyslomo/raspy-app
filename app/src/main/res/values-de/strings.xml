@@ -7,7 +7,7 @@
     <string name="info_title">RasSpy Infos</string>
     <string name="about_us_header">Über uns</string>
     <string name="about_us_text">Willkommen bei unserer innovativen Überwachungs-App! Nutzen Sie unsere hochwertigen Kameras mit Gesichts- und Objekterkennung, um maximale Sicherheit zu gewährleisten. Überwachen Sie Ihre Umgebung in Echtzeit und reagieren Sie schnell auf potenzielle Bedrohungen. Laden Sie die App jetzt herunter und erleben Sie ein neues Maß an Sicherheit!</string>
-    <string name="security_system">Sicherheitssystem</string>
+    <string name="security_system">Objekterkennung</string>
     <string name="app_name">RaSpy</string>
     <string name="title_activity_image">Bildergalerie</string>
     <string name="notRegistered">nicht registriert!</string>
@@ -22,8 +22,8 @@
     <string name="password">Passwort</string>
     <string name="settings">Einstellungen</string>
     <string name="security_info_note">Deaktivieren Sie die Gesichts-/Objekterkennung und Push-Benachrichtigungen.\n(Die Kamera bleibt aktiviert.)</string>
-    <string name="camera">Kamera</string>
-    <string name="deactivate_camera">Kamera deaktivieren</string>
+    <string name="camera">Livestream</string>
+    <string name="deactivate_camera">Livestream deaktivieren</string>
     <string name="darkmode_info_note">Dark-Modus: Ein optisch ansprechendes Design mit dunkler Farbgestaltung.\n Hell-Modus: Ein Standard-Design mit heller Farbgestaltung.</string>
     <string name="privacy_policy_title">Datenschutzerklärung</string>
     <!-- Info Activity -->
@@ -76,4 +76,5 @@
     <string name="info">Info</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="light_mode">Light Mode</string>
+    <string name="no_connection">Keine Verbindung</string>
 </resources>

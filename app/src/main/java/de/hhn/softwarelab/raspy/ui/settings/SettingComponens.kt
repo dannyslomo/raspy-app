@@ -144,7 +144,6 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
         elevation = CardDefaults.cardElevation(0.dp),
         shape = ShapeDefaults.Large,
     ) {
-        var number by remember { mutableStateOf(currentVal.value) }
         var originalNumber by remember { mutableStateOf(currentVal.value) }
         Column(
             modifier = Modifier.padding(16.dp)
@@ -175,8 +174,8 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextButton(
-                    onClick = { number-- },
-                    enabled = number > 0,
+                    onClick = { currentVal.value-- },
+                    enabled = currentVal.value > 0,
                     modifier = Modifier.padding(end = 8.dp),
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
                         contentColor = Purple40
@@ -185,13 +184,13 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                     Text(text = "-", fontSize = 20.sp)
                 }
                 Text(
-                    text = number.toString(),
+                    text = currentVal.value.toString(),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = if (darkMode) Color.White else Color.Black
                 )
                 TextButton(
-                    onClick = { number++ },
+                    onClick = { currentVal.value++ },
                     modifier = Modifier.padding(start = 8.dp),
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
                         contentColor = Purple40
@@ -206,8 +205,8 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
             ) {
                 TextButton(
                     onClick = {
-                        onSave(number)
-                        originalNumber = number
+                        onSave(currentVal.value)
+                        originalNumber = currentVal.value
                     },
                     modifier = Modifier.padding(top = 16.dp, end = 8.dp),
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
@@ -218,7 +217,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                 }
                 TextButton(
                     onClick = {
-                        number = originalNumber
+                        currentVal.value = originalNumber
                     },
                     colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.Red) else ButtonDefaults.textButtonColors(
                         contentColor = Purple40
@@ -242,7 +241,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
  * @param switchLocale Function to switch the application's locale based on the selected language code.
  */
 @Composable
-fun LanguageSelectionScreen(darkMode: Boolean, switchLocale: (String) -> Unit) {
+fun LanguageSelectionScreen( switchLocale: (String) -> Unit) {
     val supportedLanguages = listOf("English", "German", "Spanish")
     val languageFlags = mapOf(
         "English" to R.drawable.english_flag,
@@ -295,7 +294,6 @@ fun LanguageSelectionScreen(darkMode: Boolean, switchLocale: (String) -> Unit) {
                     Text(
                         text = selectedLanguage,
                         fontSize = 20.sp,
-                        color = if (darkMode) Color.White else Color.Black
                     )
                 }
                 if (expanded) {
@@ -317,6 +315,7 @@ fun LanguageSelectionScreen(darkMode: Boolean, switchLocale: (String) -> Unit) {
                                     selectedLanguage = language
                                     if (languageCode.isNotEmpty()) {
                                         switchLocale(languageCode)
+
                                     }
                                     expanded = false
                                 }

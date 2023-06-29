@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
+import de.hhn.softwarelab.raspy.policy.PrivacyPolicy.Companion.currentPolicyState
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import kotlinx.coroutines.delay
 
 class PrivacyPolicy {
     companion object {
-        var policyAccept = mutableStateOf(false)
+        var currentPolicyState = mutableStateOf(false)
     }
 }
 
@@ -48,7 +49,6 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
     var currentCameraActive = remember { mutableStateOf(false) }
     var currentSystemActive = remember { mutableStateOf(false) }
     var currentLanguageState = remember { mutableStateOf("en") }
-    var currentPolicyState = remember { mutableStateOf(false) }
     var settingID = globalValues.settingsId
 
     body.forEach {
@@ -105,7 +105,8 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
                     ) {
                         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                             Button(onClick = {
-                                onPolicyAccepted(true) // Call the callback with "true" when "Accept" is clicked
+                                currentPolicyState.value = true
+                                onPolicyAccepted(true)
                                 settingService.putSettings(
                                     Settings(
                                         currentDeleteInterval.value,
@@ -120,6 +121,7 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
                                 Text("Accept")
                             }
                             Button(onClick = {
+                                currentPolicyState.value = false
                                 onPolicyAccepted(false) // Call the callback with "false" when "Decline" is clicked
                             }) {
                                 Text("Decline")
@@ -132,23 +134,6 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
     }
 }
 
-@Composable
-fun ShowAlertDialog() {
-    val showDialog = remember { mutableStateOf(true) }
-
-    if (showDialog.value) {
-        AlertDialog(
-            onDismissRequest = { showDialog.value = false },
-            title = { Text(text = "Alert") },
-            text = { Text(text = "This is an alert dialog.") },
-            confirmButton = {
-                Button(onClick = { showDialog.value = false }) {
-                    Text(text = "OK")
-                }
-            }
-        )
-    }
-}
 
 
 

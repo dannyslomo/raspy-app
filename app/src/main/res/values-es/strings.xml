@@ -21,10 +21,10 @@
     <string name="register">Registrar</string>
     <!-- Settings Activity -->
     <string name="settings">Configuración</string>
-    <string name="security_system">Sistema de seguridad</string>
+    <string name="security_system">Detección de objetos</string>
     <string name="security_info_note">Desactivar detección facial/objetos y notificaciones push.\n(La cámara seguirá activa)</string>
-    <string name="camera">Cámara</string>
-    <string name="deactivate_camera">Desactivar cámara</string>
+    <string name="camera">Transmisión en vivo</string>
+    <string name="deactivate_camera">Desactivar Transmisión en vivo</string>
     <string name="darkmode_info_note">Modo oscuro: Un tema visualmente atractivo con un esquema de colores oscuros.\nModo claro: Un tema predeterminado con un esquema de colores claros.</string>
     <string name="delete_interval">Intervalo de eliminación en días</string>
     <string name="save_button">Guardar</string>
@@ -81,4 +81,5 @@
     <string name="info">Info</string>
     <string name="dark_mode">Modo oscuro</string>
     <string name="light_mode">Modo claro</string>
+    <string name="no_connection">Sin Conexión</string>
 </resources>

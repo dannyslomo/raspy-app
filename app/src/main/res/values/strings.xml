@@ -7,7 +7,7 @@
     <string name="info_title">RasSpy Info</string>
     <string name="about_us_header">About Us</string>
     <string name="about_us_text">Welcome to our innovative surveillance app! Use our high-quality cameras with face and object detection to ensure maximum security. Monitor your surroundings in real-time and respond quickly to potential threats. Download the app now and experience a new level of security!</string>
-    <string name="security_system">Security System</string>
+    <string name="security_system">Object detection</string>
     <string name="app_name">RaSpy</string>
     <string name="title_activity_image">Image Gallery</string>
     <string name="notRegistered">Not registered!</string>
@@ -22,8 +22,8 @@
     <string name="password">Password</string>
     <string name="settings">Settings</string>
     <string name="security_info_note">Disable face/object detection and push notifications.\n(Camera remains active.)</string>
-    <string name="camera">Camera</string>
-    <string name="deactivate_camera">Deactivate Camera</string>
+    <string name="camera">Livestream</string>
+    <string name="deactivate_camera">Deactivate Livestream</string>
     <string name="darkmode_info_note">Dark Mode: A visually appealing design with a dark color scheme.\nLight Mode: A standard design with a light color scheme.</string>
     <string name="privacy_policy_title">Privacy Policy</string>
     <!-- Info Activity -->
@@ -76,4 +76,5 @@
     <string name="info">Info</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="light_mode">Light Mode</string>
+    <string name="no_connection">No Connection</string>
 </resources>

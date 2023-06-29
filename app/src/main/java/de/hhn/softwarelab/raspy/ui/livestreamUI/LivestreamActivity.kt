@@ -28,10 +28,10 @@ class LivestreamActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         setContent {
-            if (!PrivacyPolicy.policyAccept.value) {
+            if (!PrivacyPolicy.currentPolicyState.value) {
                 PrivacyPolicyScreen { policyAccepted ->
                     if (policyAccepted) {
-                        PrivacyPolicy.policyAccept.value = true
+                        PrivacyPolicy.currentPolicyState.value = true
                         PushNotificationService.subscribePushNotifications("log", applicationContext)
                         setContent {
                             RaspSPYTheme(
