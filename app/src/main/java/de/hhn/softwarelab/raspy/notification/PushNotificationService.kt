@@ -236,7 +236,6 @@ class PushNotificationService : FirebaseMessagingService() {
                         msg = "Subscribe failed"
                     }
                     Log.d(TAG, msg)
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                 }
         }
     }

@@ -27,25 +27,10 @@ import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
 
 class ImageComposables {
-    val BASE_URL = "http://"
-
     @Composable
     fun ScrollableLogs(logs: List<ImageLog>) {
         val scrollState = rememberScrollState()
         val context = LocalContext.current
-        androidx.compose.material.TopAppBar(
-            title = { androidx.compose.material.Text(text = "Gallery") },
-            navigationIcon = {
-                androidx.compose.material.IconButton(onClick = {
-                    val intent = Intent(context, LivestreamActivity::class.java)
-                    context.startActivity(intent)
-                }) {
-                    androidx.compose.material.Icon(
-                        Icons.Filled.ArrowBack, contentDescription = "Back"
-                    )
-                }
-            },
-        )
         Column(
             Modifier
                 .fillMaxSize()

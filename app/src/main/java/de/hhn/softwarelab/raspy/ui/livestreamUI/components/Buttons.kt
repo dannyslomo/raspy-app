@@ -72,7 +72,7 @@ fun InitButton() {
             Spacer(modifier = Modifier.width(30.dp))
             ElevatedButtons(
                 onClick = {
-                    Toast.makeText(contextForToast, "Voice activated!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(contextForToast, "Not working at the moment coming soon!", Toast.LENGTH_SHORT).show()
                 },
                 imageVector = Icons.Default.KeyboardVoice,
                 contentDescriptor = "Activate voice"

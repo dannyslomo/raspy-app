@@ -1,5 +1,6 @@
 package de.hhn.softwarelab.raspy.policy
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,10 +38,12 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
     LaunchedEffect(Unit) {
         settingService.getSettings()
         while (settingService.getBody == null) {
-            delay(100)
+            Log.i("PrivacyPolicy", "Waiting for server...")
+            delay(500)
         }
         body = settingService.getBody!!
     }
+
     var currentDeleteInterval = remember { mutableStateOf(0) }
     var currentCameraActive = remember { mutableStateOf(false) }
     var currentSystemActive = remember { mutableStateOf(false) }
