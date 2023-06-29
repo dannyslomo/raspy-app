@@ -1,7 +1,5 @@
-package de.hhn.softwarelab.raspy.data
+package de.hhn.softwarelab.raspy.policy
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,18 +18,22 @@ import androidx.compose.ui.unit.sp
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
-import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
-import de.hhn.softwarelab.raspy.ui.loginUI.LoginActivity
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import kotlinx.coroutines.delay
 
+class PrivacyPolicy {
+    companion object {
+        var policyAccept = mutableStateOf(false)
+    }
+}
+
 @Composable
-fun PrivacyPolicyScreen(context: Context) {
+fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
     val settingService = SettingsService()
     var body by remember {
         mutableStateOf(emptyList<Settings>())
     }
-    //getting Backend values
+    // Getting Backend values
     LaunchedEffect(Unit) {
         settingService.getSettings()
         while (settingService.getBody == null) {
@@ -53,16 +55,9 @@ fun PrivacyPolicyScreen(context: Context) {
         SettingUI.currentDarkModeState.value = it.darkMode!!
         currentLanguageState.value = it.language!!
         currentPolicyState.value = it.policy!!
-
-        println(currentDeleteInterval)
-        println(currentSystemActive)
-        println(currentCameraActive)
-        println(SettingUI.currentDarkModeState)
-        println(currentLanguageState)
-        println(currentPolicyState)
     }
 
-    if(!currentPolicyState.value){
+    if (!currentPolicyState.value) {
         val scrollState = rememberScrollState()
 
         Card(modifier = Modifier.padding(30.dp), shape = RoundedCornerShape(30.dp)) {
@@ -107,27 +102,23 @@ fun PrivacyPolicyScreen(context: Context) {
                     ) {
                         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                             Button(onClick = {
-                                val intent = Intent(context, LivestreamActivity::class.java)
-                                context.startActivity(intent)
-                            }) {
-                                Text("Accept")
-                                currentPolicyState.value = true
+                                onPolicyAccepted(true) // Call the callback with "true" when "Accept" is clicked
                                 settingService.putSettings(
                                     Settings(
                                         currentDeleteInterval.value,
-                                        true,
+                                        currentSystemActive.value,
                                         currentCameraActive.value,
                                         SettingUI.currentDarkModeState.value,
                                         currentLanguageState.value,
                                         true
                                     ), settingID
                                 )
+                            }) {
+                                Text("Accept")
                             }
                             Button(onClick = {
-                                val intent = Intent(context, LoginActivity::class.java)
-                                context.startActivity(intent)
-                            })
-                            {
+                                onPolicyAccepted(false) // Call the callback with "false" when "Decline" is clicked
+                            }) {
                                 Text("Decline")
                             }
                         }

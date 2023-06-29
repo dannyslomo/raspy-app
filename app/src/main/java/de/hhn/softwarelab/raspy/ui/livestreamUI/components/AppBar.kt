@@ -1,4 +1,4 @@
-package de.hhn.softwarelab.raspy.livestreamUI
+package de.hhn.softwarelab.raspy.ui.livestreamUI.components
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
@@ -11,12 +11,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.livestreamUI.InitButton
 import de.hhn.softwarelab.raspy.ui.ImageLogsUI.ImageActivity
 import de.hhn.softwarelab.raspy.ui.infoUI.InfoActivity
-import de.hhn.softwarelab.raspy.ui.languageUI.LanguageActivity
-import de.hhn.softwarelab.raspy.ui.livestreamUI.components.DrawerBody
-import de.hhn.softwarelab.raspy.ui.livestreamUI.components.DrawerHeader
-import de.hhn.softwarelab.raspy.ui.livestreamUI.components.MenuItem
 import de.hhn.softwarelab.raspy.ui.loginUI.LoginActivity
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import kotlinx.coroutines.launch
@@ -35,7 +32,7 @@ fun AppBar() {
                 DrawerBody(items = listOf(
                     MenuItem(
                         id = "home",
-                        title = "Home",
+                        title = stringResource(R.string.home),
                         contentDescription = "Go to home screen",
                         icon = Icons.Outlined.Home
                     ),
@@ -53,15 +50,9 @@ fun AppBar() {
                     ),
                     MenuItem(
                         id = "info",
-                        title = "Info",
+                        title = stringResource(R.string.info),
                         contentDescription = "Get info",
                         icon = Icons.Outlined.HelpOutline
-                    ),
-                    MenuItem(
-                        id = "language",
-                        title = stringResource(R.string.language),
-                        contentDescription = "change language",
-                        icon = Icons.Outlined.Language
                     ),
                     MenuItem(
                         id = "logout",
@@ -80,10 +71,6 @@ fun AppBar() {
                             }
                             "info" -> {
                                 val intent = Intent(context, InfoActivity()::class.java)
-                                context.startActivity(intent)
-                            }
-                            "language" -> {
-                                val intent = Intent(context, LanguageActivity()::class.java)
                                 context.startActivity(intent)
                             }
                             "logout" -> {

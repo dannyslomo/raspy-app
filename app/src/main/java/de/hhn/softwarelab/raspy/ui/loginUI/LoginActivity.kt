@@ -2,7 +2,6 @@ package de.hhn.softwarelab.raspy.ui.loginUI
 
 import AuthenticationScreen
 import android.content.Intent
-import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,10 +18,10 @@ import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 
 class LoginActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onStart() {
+        super.onStart()
         setContent {
-            // A surface container using the 'background' color from the theme
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background,
@@ -48,8 +47,8 @@ class LoginActivity : ComponentActivity() {
      * @param password password of the user
      */
     private fun loginUser(username: String, password: String) {
-        val service =  UserService()
-        service.login(User(null,null, username, password, null, null))
+        val service = UserService()
+        service.login(User(null, null, username, password, null, null))
     }
 
     /**

@@ -1,5 +1,7 @@
 package de.hhn.softwarelab.raspy.ui.settings
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,11 +25,16 @@ import de.hhn.softwarelab.raspy.ui.theme.Purple40
 
 
 /**
- * Card that contains switch that can be triggered
- * @param icon:
- * @param mainText:
- * @param switchState:
- * @param onSwitchStateChanged:
+ *
+ * Composable function for a card with a switch.
+ * This function displays a card with an icon, main text, and a switch.
+ * The switch state can be toggled by the user, and a dialog with additional information can be shown.
+ * @param icon The resource ID of the icon to display.
+ * @param mainText The main text to display.
+ * @param switchState The current state of the switch.
+ * @param onSwitchStateChanged The callback function to be called when the switch state changes.
+ * @param darkMode Indicates if the dark mode is enabled.
+ * @param infoNote Additional information to display in the dialog.
  */
 @Composable
 fun CardWithSwitch(
@@ -118,9 +126,13 @@ fun CardWithSwitch(
 
 /**
  *
- * @param darkMode: check if DarkMode
- * @param currentVal: Current Value from Backend
- * @param onSave: save picked Number
+ * Composable function for the number picker.
+ * This function displays a card with a number picker UI.
+ * The user can increment or decrement the number to choose the
+ * interval to delete the images in days
+ * @param darkMode Indicates if the dark mode is enabled.
+ * @param currentVal The current value of the number picker.
+ * @param onSave The callback function to be called when the changes are saved.
  */
 @Composable
 fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int) -> Unit) {
@@ -197,7 +209,10 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                         onSave(number)
                         originalNumber = number
                     },
-                    modifier = Modifier.padding(top = 16.dp, end = 8.dp)
+                    modifier = Modifier.padding(top = 16.dp, end = 8.dp),
+                    colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.White) else ButtonDefaults.textButtonColors(
+                        contentColor = Purple40
+                    )
                 ) {
                     Text(text = stringResource(R.string.save_button))
                 }
@@ -205,6 +220,9 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
                     onClick = {
                         number = originalNumber
                     },
+                    colors = if (darkMode) ButtonDefaults.textButtonColors(contentColor = Color.Red) else ButtonDefaults.textButtonColors(
+                        contentColor = Purple40
+                    ),
                     modifier = Modifier.padding(top = 16.dp, start = 8.dp)
                 ) {
                     Text(text = stringResource(R.string.cancel_button))
@@ -213,3 +231,116 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
         }
     }
 }
+
+/**
+ *
+ * Composable function that displays the language selection screen.
+ * It allows the user to choose the language for the application.
+ * The function utilizes a dropdown menu to show the available languages and their corresponding flags.
+ * When a language is selected, the switchLocale function is called to switch the application's locale.
+ * @param darkMode Boolean value indicating whether the dark mode is enabled or not.
+ * @param switchLocale Function to switch the application's locale based on the selected language code.
+ */
+@Composable
+fun LanguageSelectionScreen(darkMode: Boolean, switchLocale: (String) -> Unit) {
+    val supportedLanguages = listOf("English", "German", "Spanish")
+    val languageFlags = mapOf(
+        "English" to R.drawable.english_flag,
+        "German" to R.drawable.german_flag,
+        "Spanish" to R.drawable.spanish_flag
+    )
+    var expanded by remember { mutableStateOf(false) }
+    var selectedLanguage by remember { mutableStateOf("") }
+
+    // Retrieve the initially selected language
+    if (selectedLanguage.isBlank()) {
+        selectedLanguage = LocalConfiguration.current.locales[0].language
+    }
+    Card(
+        elevation = 7.dp,
+        shape = ShapeDefaults.Large,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded }
+            .padding(10.dp)
+            .fillMaxWidth()
+            .height(80.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(34.dp)
+                        .clip(shape = ShapeDefaults.Medium)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.german_flag),
+                        contentDescription = "",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+                Text(
+                    text = stringResource(id = R.string.language_selection_text),
+                    style = MaterialTheme.typography.h6
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable { expanded = !expanded }
+                ) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = selectedLanguage,
+                        fontSize = 20.sp,
+                        color = if (darkMode) Color.White else Color.Black
+                    )
+                }
+                if (expanded) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.width(IntrinsicSize.Max)
+                    ) {
+                        supportedLanguages.forEach { language ->
+                            val languageCode = when (language) {
+                                "English" -> "en"
+                                "German" -> "de"
+                                "Spanish" -> "es"
+                                else -> ""
+                            }
+                            DropdownMenuItem(
+                                onClick = {
+                                    selectedLanguage = language
+                                    if (languageCode.isNotEmpty()) {
+                                        switchLocale(languageCode)
+                                    }
+                                    expanded = false
+                                }
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Image(
+                                        painter = painterResource(
+                                            id = languageFlags[language] ?: 0
+                                        ),
+                                        contentDescription = "Language Flag",
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = language,
+                                        fontSize = 20.sp,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -72,4 +72,8 @@
     <string name="email_valid_text">Please enter a valid email address</string>
     <string name="edit">Edit</string>
     <string name="edit_username">Edit your username</string>
+    <string name="home">Home</string>
+    <string name="info">Info</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
 </resources>

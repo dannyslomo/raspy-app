@@ -63,11 +63,6 @@
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.RaspSPY" />
-        <activity
-            android:name="de.hhn.softwarelab.raspy.ui.languageUI.LanguageActivity"
-            android:exported="false"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.RaspSPY" />
 
         <service
             android:name="de.hhn.softwarelab.raspy.notification.PushNotificationService"
