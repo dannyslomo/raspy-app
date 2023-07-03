@@ -241,7 +241,7 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
  * @param switchLocale Function to switch the application's locale based on the selected language code.
  */
 @Composable
-fun LanguageSelectionScreen( switchLocale: (String) -> Unit, onItemClick: () -> Unit, currentLang: MutableState<String>) {
+fun LanguageSelectionScreen( switchLocale: (String) -> Unit, onItemClick: (String) -> Unit) {
     val supportedLanguages = listOf("English", "German", "Spanish")
     val languageFlags = mapOf(
         "English" to R.drawable.english_flag,
@@ -315,7 +315,7 @@ fun LanguageSelectionScreen( switchLocale: (String) -> Unit, onItemClick: () -> 
                                     selectedLanguage = language
                                     if (languageCode.isNotEmpty()) {
                                         switchLocale(languageCode)
-
+                                        onItemClick(languageCode)
                                     }
                                     expanded = false
                                 }

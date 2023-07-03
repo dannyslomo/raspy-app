@@ -135,18 +135,18 @@ class SettingUI : ComponentActivity() {
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     //Change Language option with a combo box
-                    LanguageSelectionScreen(::switchLocale, onItemClick =  {
+                    LanguageSelectionScreen(::switchLocale, onItemClick =  {language ->
                         settingService.putSettings(
                             Settings(
                                 currentDeleteInterval.value,
                                 currentSystemActive.value,
                                 currentCameraActive.value,
                                 dMode.value,
-                                currentLanguageState.value,
+                                language,
                                 currentPolicyState.value
                             ), settingID
                         )
-                    },currentLanguageState)
+                    currentLanguageState.value = language})
                     //Option to turn on/off the security system with a switch
                     CardWithSwitch(
                         icon = R.drawable.system,
