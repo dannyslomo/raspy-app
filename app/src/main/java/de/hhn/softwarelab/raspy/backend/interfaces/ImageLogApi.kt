@@ -12,5 +12,5 @@ interface ImageLogApi {
     fun postLog(@Body log: ImageLog): Call<ImageLog>
 
     @DELETE("image/delete/{imageName}/")
-    fun deleteLog(@Path("imageName") imageName: String): Call<ImageLog>
+    fun deleteLog(@Path("imageName") imageName: Int): Call<ImageLog>
 }

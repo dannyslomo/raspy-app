@@ -10,5 +10,6 @@ data class ImageLog(
     @JsonDeserialize(using = LocalDateTimeDeserializer::class)
     @JsonProperty("timeStamp") var timeStamp: LocalDateTime?,
     @JsonProperty("triggerType") var triggerType: Int?,
-    @JsonProperty("image") var image: String?
+    @JsonProperty("image") var image: String?,
+    @JsonProperty("id") var id: Int?
 )

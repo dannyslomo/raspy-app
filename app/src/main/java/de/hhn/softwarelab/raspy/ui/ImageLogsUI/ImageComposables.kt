@@ -45,7 +45,8 @@ class ImageComposables {
                 ImageCard(
                     text = log.timeStamp!!.toString(),
                     triggerType = log.triggerType!!,
-                    imageUrl = globalValues.serverUrl + "media/" + log.image!!
+                    id = log.id!!,
+                    imageUrl = globalValues.serverUrl + "media/" + log.image!!,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }
@@ -59,6 +60,7 @@ class ImageComposables {
         imageUrl: String,
         text: String,
         triggerType: Int,
+        id: Int,
         modifier: Modifier = Modifier,
     ) {
         var showDialog by remember { mutableStateOf(false) }
@@ -114,7 +116,7 @@ class ImageComposables {
             }
             if (showDialog) {
                 FullScreenDialog(
-                    imageUrl = imageUrl, text = text, triggerType = triggerType
+                    imageUrl = imageUrl, text = text, triggerType = triggerType, id = id
                 ) { showDialog = false }
             }
         }
@@ -125,6 +127,7 @@ class ImageComposables {
         imageUrl: String,
         text: String,
         triggerType: Int,
+        id: Int,
         modifier: Modifier = Modifier,
         onClose: () -> Unit
     ) {
@@ -215,7 +218,7 @@ class ImageComposables {
                             showDialog = showDeleteDialog.value,
                             onConfirm = {
                                 val service = ImageLogService()
-                                service.deleteImage(text)
+                                service.deleteImage(id)
                                 showDeleteDialog.value = false
                             },
                             onCancel = {

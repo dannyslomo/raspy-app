@@ -95,7 +95,7 @@ class ImageLogService {
     }
 
     //TODO: fix response deserialization error
-    fun deleteImage(imageName: String) {
+    fun deleteImage(imageName: Int) {
         Thread(Runnable {
             try{
                 val settingsResponse = logApi.deleteLog(imageName).execute()
