@@ -19,9 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.rememberAsyncImagePainter
+import de.hhn.softwarelab.raspy.R
+import de.hhn.softwarelab.raspy.backend.Services.ImageLogService
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
@@ -194,9 +197,10 @@ class ImageComposables {
                             modifier = Modifier.padding(start = 16.dp),
                             color = Color.White
                         )
+                        val showDeleteDialog = remember { mutableStateOf(false) }
                         IconButton(
                             onClick = {
-
+                                showDeleteDialog.value = true
                             },
                             modifier = Modifier
                                 .padding(start = 50.dp)
@@ -207,11 +211,57 @@ class ImageComposables {
                                 tint = Color.White
                             )
                         }
+                        ConfirmDeleteDialog(
+                            showDialog = showDeleteDialog.value,
+                            onConfirm = {
+                                val service = ImageLogService()
+                                service.deleteImage(text)
+                                showDeleteDialog.value = false
+                            },
+                            onCancel = {
+                                showDeleteDialog.value = false
+                            }
+                        )
                     }
                 }
             }
         }
     }
 
-
+    @Composable
+    fun ConfirmDeleteDialog(
+        showDialog: Boolean,
+        onConfirm: () -> Unit,
+        onCancel: () -> Unit
+    ) {
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = onCancel,
+                title = {
+                    Text(text = stringResource(R.string.confirm_delete))
+                },
+                text = {
+                    Text(text = stringResource(R.string.delete_text))
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            onConfirm()
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.delete))
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            onCancel()
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
+                }
+            )
+        }
+    }
 }

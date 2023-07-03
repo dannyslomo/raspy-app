@@ -5,8 +5,11 @@ import de.hhn.softwarelab.raspy.backend.RetrofitClient
 import de.hhn.softwarelab.raspy.backend.dataclasses.ImageLog
 import de.hhn.softwarelab.raspy.backend.interfaces.ImageLogApi
 import java.net.ConnectException
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-    class ImageLogService {
+class ImageLogService {
         private val retrofit = RetrofitClient.getClient()
         private val logApi = retrofit.create(ImageLogApi::class.java)
 
@@ -94,8 +97,7 @@ import java.net.ConnectException
     //TODO: fix response deserialization error
     fun deleteImage(imageName: String) {
         Thread(Runnable {
-            try {
-
+            try{
                 val settingsResponse = logApi.deleteLog(imageName).execute()
                 successful = settingsResponse.isSuccessful
                 //Successfully connected to REST API

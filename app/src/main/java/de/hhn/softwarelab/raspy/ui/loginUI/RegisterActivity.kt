@@ -19,6 +19,9 @@ import de.hhn.softwarelab.raspy.ui.loginUI.components.FormType
 import de.hhn.softwarelab.raspy.ui.settings.SettingUI
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import de.hhn.softwarelab.raspy.ui.theme.LightColorScheme
+import android.app.ActivityManager
+import android.content.Context
+
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +45,7 @@ class RegisterActivity : ComponentActivity() {
                 }
         }
     }
+
 
     /**
      * Handles Registration of a new user

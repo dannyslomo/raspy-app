@@ -9,10 +9,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.exoplayer2.C
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.rtsp.RtspMediaSource
@@ -23,13 +20,13 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import java.io.IOException
 import java.net.UnknownHostException
+import com.google.android.exoplayer2.ExoPlaybackException
 
 //TODO
 @Composable
 fun MediaScreen() {
 
     //Video src
-    //val rtspUri by remember { mutableStateOf(globalValues.livestreamUrl) }
     val rtspUri by remember { mutableStateOf(globalValues.livestreamUrl) }
 
     val mediaSource: MediaSource = RtspMediaSource.Factory().setDebugLoggingEnabled(true).setTimeoutMs(10000).createMediaSource(MediaItem.fromUri(rtspUri))
@@ -74,6 +71,7 @@ fun MediaScreen() {
     player.setMediaItem(mediaItem)
     playerView.player = player
     playerView.useController = false
+
     LaunchedEffect(player) {
         player.prepare()
         player.playWhenReady = playWhenReady
