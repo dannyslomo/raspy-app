@@ -77,4 +77,8 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="light_mode">Light Mode</string>
     <string name="no_connection">Keine Verbindung</string>
+    <string name="confirm_delete">Löschen bestätigen</string>
+    <string name="delete_text">Möchten Sie dieses Bild wirklich löschen?</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
 </resources>

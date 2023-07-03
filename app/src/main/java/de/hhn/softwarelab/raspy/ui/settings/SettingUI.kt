@@ -147,7 +147,7 @@ class SettingUI : ComponentActivity() {
                             ), settingID
                         )
                     },currentLanguageState)
-                    //Option to turn on/off the security system with a switcj
+                    //Option to turn on/off the security system with a switch
                     CardWithSwitch(
                         icon = R.drawable.system,
                         mainText = stringResource(R.string.security_system),
@@ -259,12 +259,13 @@ class SettingUI : ComponentActivity() {
      * Switches the locale of the application to the specified language code.
      * @param languageCode The language code to switch to.
      **/
-    fun switchLocale(languageCode: String) {
+    fun switchLocale(languageCode: String): String {
         val configuration = Configuration(resources.configuration)
         configuration.setLocale(java.util.Locale(languageCode))
         createConfigurationContext(configuration)
         resources.updateConfiguration(configuration, resources.displayMetrics)
         ActivityCompat.recreate(this)
+        return languageCode
     }
 
     /**

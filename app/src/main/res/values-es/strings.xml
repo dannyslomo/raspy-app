@@ -82,4 +82,8 @@
     <string name="dark_mode">Modo oscuro</string>
     <string name="light_mode">Modo claro</string>
     <string name="no_connection">Sin Conexión</string>
+    <string name="confirm_delete">Confirmar eliminación</string>
+    <string name="delete_text">¿Está seguro de que desea eliminar esta imagen?</string>
+    <string name="delete">Extinguir</string>
+    <string name="cancel">Cancelar</string>
 </resources>
