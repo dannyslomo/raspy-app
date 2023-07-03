@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -25,7 +26,9 @@ import de.hhn.softwarelab.raspy.R
 import de.hhn.softwarelab.raspy.backend.Services.SettingsService
 import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
+import de.hhn.softwarelab.raspy.policy.PrivacyPolicy.Companion.currentPolicyState
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
+import de.hhn.softwarelab.raspy.ui.settings.SettingUI.Companion.currentLanguageState
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.delay
 
@@ -42,7 +45,7 @@ class SettingUI : ComponentActivity() {
         var currentDarkModeState = mutableStateOf(false)
         var currentCameraActive = mutableStateOf(false)
         var currentSystemActive = mutableStateOf(false)
-        var selectedLanguage: String = ""
+        val currentLanguageState =  mutableStateOf("en")
     }
 
     /**
@@ -53,6 +56,9 @@ class SettingUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        if(currentLanguageState.value != "en"){
+            switchLocale(currentLanguageState.value)
+        }
         setContent {
             val settingService = SettingsService()
             var body by remember {
@@ -97,7 +103,6 @@ class SettingUI : ComponentActivity() {
         val settingID = globalValues.settingsId
 
         val currentDeleteInterval = remember { mutableStateOf(0) }
-        val currentPolicyState = remember { mutableStateOf(false) }
         val currentLanguageState = remember { mutableStateOf("en") }
         val dMode = remember { mutableStateOf(false) }
 
@@ -130,7 +135,18 @@ class SettingUI : ComponentActivity() {
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     //Change Language option with a combo box
-                    LanguageSelectionScreen(::switchLocale)
+                    LanguageSelectionScreen(::switchLocale, onItemClick =  {
+                        settingService.putSettings(
+                            Settings(
+                                currentDeleteInterval.value,
+                                currentSystemActive.value,
+                                currentCameraActive.value,
+                                dMode.value,
+                                currentLanguageState.value,
+                                currentPolicyState.value
+                            ), settingID
+                        )
+                    },currentLanguageState)
                     //Option to turn on/off the security system with a switcj
                     CardWithSwitch(
                         icon = R.drawable.system,
@@ -149,14 +165,14 @@ class SettingUI : ComponentActivity() {
                                         currentPolicyState.value
                                     ), settingID
                                 )
-                                currentCameraActive.value = true
+                                currentSystemActive.value = true
 
                             } else {
                                 settingService.putSettings(
                                     Settings(
                                         currentDeleteInterval.value,
+                                        currentSystemActive.value,
                                         false,
-                                        currentCameraActive.value,
                                         dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
@@ -243,8 +259,7 @@ class SettingUI : ComponentActivity() {
      * Switches the locale of the application to the specified language code.
      * @param languageCode The language code to switch to.
      **/
-    private fun switchLocale(languageCode: String) {
-        selectedLanguage = languageCode
+    fun switchLocale(languageCode: String) {
         val configuration = Configuration(resources.configuration)
         configuration.setLocale(java.util.Locale(languageCode))
         createConfigurationContext(configuration)
