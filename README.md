@@ -11,10 +11,10 @@ Kümmert sich um die Kommunikation mittels RestApi mit dem Server. Hier werden a
 Beinhaltet die Oberfläche der App. Hier werden die einzelnen Seiten definiert.
 Dazu gehört:
 - ImageLogsUi: kümmert sich um das Anzeigen der Bilder.
-- LivestreamUi: kümmert sich um das Anzeigen des Livestreams.
-- SettingsUi: kümmert sich um das Anzeigen der Einstellungen.
-- loginUi: kümmert sich um das Anzeigen des Logins und Registrieren.
-- infoUi: kümmert sich um das Anzeigen der Informationen.
+- LivestreamUi: kümmert sich um das Anzeigen des Livestreams und das aufnehmen der Bilder.
+- SettingsUi: kümmert sich um das Anzeigen der Einstellungen und das abspecihern dieser auf den Server.
+- loginUi: kümmert sich um das einloggen und registrieren.
+- infoUi: kümmert sich um das Anzeigen von Informationen über die App.
 - theme: definiert die Themes der App.
 
 
