@@ -4,10 +4,10 @@ Einstellungen zu ändern und die Bilder anzuzeigen.
 
 ## Bestandteile
 
-### backend
+### Backend
 Kümmert sich um die Kommunikation mittels RestApi mit dem Server. Hier werden auch die Urls festgelegt.
 
-### ui
+### UI
 Beinhaltet die Oberfläche der App. Hier werden die einzelnen Seiten definiert.
 Dazu gehört: - ImageLogsUi welche sich um das Anzeigen der Bilder kümmert.
              - LivestreamUi welche sich um das Anzeigen des Livestreams kümmert.
@@ -16,12 +16,13 @@ Dazu gehört: - ImageLogsUi welche sich um das Anzeigen der Bilder kümmert.
              - infoUi welche sich um das Anzeigen der Informationen kümmert.
              - theme in dem die Themes der App definiert sind.
 
-### notifcation
+### Notifcation
 Kümmert sich um die Benachrichtigungen der App. Hier werden die Benachrichtigungen von Firebase
 erhalten und angezeigt.
 
-### policiy
+### Policiy
 Beinhaltet die Policy der App.
 
 ## Anpassungen
-Falls sich die Urls des Servers ändern, müssen diese in der Datei `backend/dataclasses/globalValues` angepasst werden.
+Falls sich die Url des Servers oder des Livestreams ändern, 
+müssen diese in der Datei `backend/dataclasses/globalValues` angepasst werden.
