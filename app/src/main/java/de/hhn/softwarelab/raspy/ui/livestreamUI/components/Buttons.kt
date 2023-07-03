@@ -65,7 +65,7 @@ fun InitButton() {
                 "Save picture",
                 onClick = {
                     val imageLogService = ImageLogService()
-                    imageLogService.postImage(ImageLog(LocalDateTime.now(), 0, null))
+                    imageLogService.postImage(ImageLog(LocalDateTime.now(), 0, null, null))
                     Toast.makeText(contextForToast, "Picture saved!", Toast.LENGTH_SHORT).show()
                 }
             )

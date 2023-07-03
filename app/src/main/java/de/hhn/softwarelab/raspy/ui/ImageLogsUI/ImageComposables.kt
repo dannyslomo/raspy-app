@@ -1,6 +1,7 @@
 package de.hhn.softwarelab.raspy.ui.ImageLogsUI
 
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
