@@ -79,7 +79,7 @@ class SettingUI : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 )
                 {
-                    SettingsScreen(body)
+                    SettingsScreen(body,this)
                 }
             }
         }
@@ -98,7 +98,7 @@ class SettingUI : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun SettingsScreen(body: List<Settings>) {
+    fun SettingsScreen(body: List<Settings>, context: Context) {
         val settingService = SettingsService()
         val settingID = globalValues.settingsId
 
@@ -166,6 +166,7 @@ class SettingUI : ComponentActivity() {
                                     ), settingID
                                 )
                                 currentSystemActive.value = true
+                                Toast.makeText(context, R.string.object_detection_Toast_on, Toast.LENGTH_SHORT).show()
 
                             } else {
                                 settingService.putSettings(
@@ -179,10 +180,11 @@ class SettingUI : ComponentActivity() {
                                     ), settingID
                                 )
                                 currentSystemActive.value = false
+                                Toast.makeText(context, R.string.object_detection_Toast_off, Toast.LENGTH_SHORT).show()
                             }
                         },
                         darkMode = currentDarkModeState.value,
-                        "Deactivate face/object detection AND Push-Notifications. \n(Camera is still on)"
+                        stringResource(id = R.string.system_note)
                     )
                     //Option to turn on/off the security system with a switch
                     CardWithSwitch(
@@ -203,6 +205,7 @@ class SettingUI : ComponentActivity() {
                                     ), settingID
                                 )
                                 currentCameraActive.value = true
+                                Toast.makeText(context, R.string.livestream_Toast_on, Toast.LENGTH_SHORT).show()
                             } else {
                                 settingService.putSettings(
                                     Settings(
@@ -215,6 +218,7 @@ class SettingUI : ComponentActivity() {
                                     ), settingID
                                 )
                                 currentCameraActive.value = false
+                                Toast.makeText(context, R.string.livestream_Toast_off, Toast.LENGTH_SHORT).show()
                             }
                         },
                         darkMode = currentDarkModeState.value,

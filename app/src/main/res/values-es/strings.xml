@@ -86,4 +86,9 @@
     <string name="delete_text">¿Está seguro de que desea eliminar esta imagen?</string>
     <string name="delete">Extinguir</string>
     <string name="cancel">Cancelar</string>
+    <string name="object_detection_Toast_on">Detección de objetos activa / próximamente</string>
+    <string name="object_detection_Toast_off">Detección de objetos inactiva /disponible próximamente</string>
+    <string name="livestream_Toast_on">Transmisión en vivo activa /disponible pronto</string>
+    <string name="livestream_Toast_off">Transmisión en vivo inactiva /disponible pronto</string>
+    <string name="system_note">Desactive la detección de rostros/objetos Y las notificaciones automáticas. (La cámara sigue encendida)</string>
 </resources>
