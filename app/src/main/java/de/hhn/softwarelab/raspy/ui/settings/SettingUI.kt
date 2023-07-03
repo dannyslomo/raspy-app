@@ -171,14 +171,14 @@ class SettingUI : ComponentActivity() {
                                 settingService.putSettings(
                                     Settings(
                                         currentDeleteInterval.value,
-                                        currentSystemActive.value,
                                         false,
+                                        currentCameraActive.value,
                                         dMode.value,
                                         currentLanguageState.value,
                                         currentPolicyState.value
                                     ), settingID
                                 )
-                                currentCameraActive.value = false
+                                currentSystemActive.value = false
                             }
                         },
                         darkMode = currentDarkModeState.value,
@@ -202,7 +202,7 @@ class SettingUI : ComponentActivity() {
                                         currentPolicyState.value
                                     ), settingID
                                 )
-                                currentSystemActive.value = true
+                                currentCameraActive.value = true
                             } else {
                                 settingService.putSettings(
                                     Settings(
@@ -214,7 +214,7 @@ class SettingUI : ComponentActivity() {
                                         currentPolicyState.value
                                     ), settingID
                                 )
-                                currentSystemActive.value = false
+                                currentCameraActive.value = false
                             }
                         },
                         darkMode = currentDarkModeState.value,
