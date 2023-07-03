@@ -224,6 +224,7 @@ class ImageComposables {
                             },
                             onCancel = {
                                 showDeleteDialog.value = false
+
                             }
                         )
                     }
