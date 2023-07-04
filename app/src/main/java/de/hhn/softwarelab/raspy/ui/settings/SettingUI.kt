@@ -56,9 +56,6 @@ class SettingUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        if(currentLanguageState.value != "en"){
-            switchLocale(currentLanguageState.value)
-        }
         setContent {
             val settingService = SettingsService()
             var body by remember {
@@ -101,9 +98,8 @@ class SettingUI : ComponentActivity() {
     fun SettingsScreen(body: List<Settings>, context: Context) {
         val settingService = SettingsService()
         val settingID = globalValues.settingsId
-
+        val currentLanguageState =  remember {mutableStateOf("en")}
         val currentDeleteInterval = remember { mutableStateOf(0) }
-        val currentLanguageState = remember { mutableStateOf("en") }
         val dMode = remember { mutableStateOf(false) }
 
         body.forEach {
@@ -115,8 +111,8 @@ class SettingUI : ComponentActivity() {
             currentPolicyState.value = it.policy!!
         }
 
-        val isSwitchEnabled1 by remember { mutableStateOf(currentCameraActive) }
-        val isSwitchEnabled2 by remember { mutableStateOf(currentSystemActive) }
+        val isSwitchEnabled1 by remember { mutableStateOf(currentSystemActive) }
+        val isSwitchEnabled2 by remember { mutableStateOf(currentCameraActive) }
 
         Scaffold(
             topBar = {
@@ -147,7 +143,7 @@ class SettingUI : ComponentActivity() {
                             ), settingID
                         )
                     currentLanguageState.value = language})
-                    //Option to turn on/off the security system with a switch
+                    //System Switch
                     CardWithSwitch(
                         icon = R.drawable.system,
                         mainText = stringResource(R.string.security_system),
@@ -186,7 +182,7 @@ class SettingUI : ComponentActivity() {
                         darkMode = currentDarkModeState.value,
                         stringResource(id = R.string.system_note)
                     )
-                    //Option to turn on/off the security system with a switch
+                    //Camera Switch
                     CardWithSwitch(
                         icon = R.drawable.camera_ras,
                         mainText = stringResource(R.string.camera),
@@ -263,13 +259,16 @@ class SettingUI : ComponentActivity() {
      * Switches the locale of the application to the specified language code.
      * @param languageCode The language code to switch to.
      **/
-    fun switchLocale(languageCode: String): String {
-        val configuration = Configuration(resources.configuration)
-        configuration.setLocale(java.util.Locale(languageCode))
-        createConfigurationContext(configuration)
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        ActivityCompat.recreate(this)
-        return languageCode
+    fun switchLocale(languageCode: String){
+        try {
+            val configuration = Configuration(resources.configuration)
+            configuration.setLocale(java.util.Locale(languageCode))
+            createConfigurationContext(configuration)
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+            ActivityCompat.recreate(this)
+        }catch (e : Exception ){
+            e.printStackTrace()
+        }
     }
 
     /**

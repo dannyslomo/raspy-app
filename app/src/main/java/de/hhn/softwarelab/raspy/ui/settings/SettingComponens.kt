@@ -77,7 +77,7 @@ fun CardWithSwitch(
                 Column(
                     modifier = Modifier
                         .offset(y = (2).dp)
-                        .width(100.dp)
+                        .width(110.dp)
                 ) {
                     Text(
                         text = mainText,
