@@ -237,11 +237,11 @@ fun NumberPicker(darkMode: Boolean, currentVal: MutableState<Int>, onSave: (Int)
  * It allows the user to choose the language for the application.
  * The function utilizes a dropdown menu to show the available languages and their corresponding flags.
  * When a language is selected, the switchLocale function is called to switch the application's locale.
- * @param darkMode Boolean value indicating whether the dark mode is enabled or not.
  * @param switchLocale Function to switch the application's locale based on the selected language code.
+ * @param onItemClick A callback function to be called when a language is selected. It receives the language code as a parameter.
  */
 @Composable
-fun LanguageSelectionScreen( switchLocale: (String) -> Unit, onItemClick: (String) -> Unit) {
+fun LanguageSelectionScreen(switchLocale: (String) -> Unit, onItemClick: (String) -> Unit) {
     val supportedLanguages = listOf("English", "German", "Spanish")
     val languageFlags = mapOf(
         "English" to R.drawable.english_flag,

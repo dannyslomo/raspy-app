@@ -28,7 +28,6 @@ import de.hhn.softwarelab.raspy.backend.dataclasses.Settings
 import de.hhn.softwarelab.raspy.backend.dataclasses.globalValues
 import de.hhn.softwarelab.raspy.policy.PrivacyPolicy.Companion.currentPolicyState
 import de.hhn.softwarelab.raspy.ui.livestreamUI.LivestreamActivity
-import de.hhn.softwarelab.raspy.ui.settings.SettingUI.Companion.currentLanguageState
 import de.hhn.softwarelab.raspy.ui.theme.RaspSPYTheme
 import kotlinx.coroutines.delay
 
@@ -45,7 +44,6 @@ class SettingUI : ComponentActivity() {
         var currentDarkModeState = mutableStateOf(false)
         var currentCameraActive = mutableStateOf(false)
         var currentSystemActive = mutableStateOf(false)
-        val currentLanguageState =  mutableStateOf("en")
     }
 
     /**
@@ -259,7 +257,7 @@ class SettingUI : ComponentActivity() {
      * Switches the locale of the application to the specified language code.
      * @param languageCode The language code to switch to.
      **/
-    fun switchLocale(languageCode: String){
+    private fun switchLocale(languageCode: String){
         try {
             val configuration = Configuration(resources.configuration)
             configuration.setLocale(java.util.Locale(languageCode))

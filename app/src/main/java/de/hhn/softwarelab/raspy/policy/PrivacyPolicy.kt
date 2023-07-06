@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -45,11 +44,11 @@ fun PrivacyPolicyScreen(onPolicyAccepted: (Boolean) -> Unit) {
         body = settingService.getBody!!
     }
 
-    var currentDeleteInterval = remember { mutableStateOf(0) }
-    var currentCameraActive = remember { mutableStateOf(false) }
-    var currentSystemActive = remember { mutableStateOf(false) }
-    var currentLanguageState = remember { mutableStateOf("en") }
-    var settingID = globalValues.settingsId
+    val currentDeleteInterval = remember { mutableStateOf(0) }
+    val currentCameraActive = remember { mutableStateOf(false) }
+    val currentSystemActive = remember { mutableStateOf(false) }
+    val currentLanguageState = remember { mutableStateOf("en") }
+    val settingID = globalValues.settingsId
 
     body.forEach {
         currentDeleteInterval.value = it.deleteInterval!!
