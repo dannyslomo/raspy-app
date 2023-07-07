@@ -1,3 +1,6 @@
+##IP - Adressen##
+In der Klasse globalValues können die ip adressen angepasst werden für die Django API (serverUrl) und für den Livestream (livestreamUrl)
+
 
 ##Informationsseite##
 

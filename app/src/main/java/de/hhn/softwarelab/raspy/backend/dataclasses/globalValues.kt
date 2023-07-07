@@ -2,8 +2,7 @@ package de.hhn.softwarelab.raspy.backend.dataclasses
 
 class globalValues {
     companion object{
-        const val  livestreamUrl = "rtsp://193.196.55.18:8554/raspy"
-        //const val  livestreamUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        val livestreamUrl = "rtsp://192.168.109.88:8554/video_stream"
         const val serverUrl = "http://193.196.55.18:8888/"
         const val login_failed = 600
         var login_successful = 0
